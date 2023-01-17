@@ -77,6 +77,7 @@ def getInput():
 
 # Gets the value from the key/value pairs of the data file
 def parseDataValue(str):
+    print("[" + str + "]")
     start = str.index(": \"") + 3
     if str[-2] == ',':
         end = len(str) - 3
@@ -85,8 +86,67 @@ def parseDataValue(str):
     return str[start:end]
 
 
+def countInstructorClasses(instructor):
+    """
+    Counts the number of classes an instructor/professor
+    teaches in a singular subject
+
+    Parameters:
+        instructor (Str) - Name of instructor - Ex: "Hornof, Anthony"
+
+    Returns:
+        numCourses (int) - # of courses instructor teaches
+    """
+    # Open dataset file
+    f = open(dataFile, "r")
+
+    read = True
+    numCourses = 0
+
+    # Search file for instructor
+    while read == True:
+        line = f.readline()
+
+        # End of data check
+        if line.find("};") != -1:
+            read = False
+
+        if line.find(instructor) != -1:
+            numCourses += 1
+
+    # Close dataset file
+    f.close()
+    return numCourses
+
+
 # Gets data from data file based on string parameters 'year', 'subject', and 'course'
 def getData(year, subject, course):
+    """
+    Looks in global 'datafile' = "GradeData.txt", for data
+    given a course, subject, and year. Returns a dictionary of that specfic class
+    found. 
+
+    CURRENTLY ONLY RETURNS INFORMATION ON ONE CLASS 
+        (if multiple classes found w/ same year, subject, and course #, only 1 will be returned)
+
+    Parameters:
+        year (str) - Year class was offered - Ex: "2015"
+        subject (str) - Department it's in - Ex: "MTH"
+        course (str) - Level of course - Ex: "111"
+
+    Returns a dictionary:
+        resultData = {
+                    "TERM_DESC": term,
+                    "aprec": "",
+                    "bprec": "",
+                    "cprec": "",
+                    "crn": "",
+                    "dprec": "",
+                    "fprec": "",
+                    "instructor": ""
+                    "isProfessor": ""
+                }
+    """
     print("Year:", year, "   Subject Code", subject, "   Course Number", course)
 
     # Open dataset file
@@ -109,6 +169,10 @@ def getData(year, subject, course):
     # Read data in from file
     while read == True:
         line = f.readline()
+
+        # End of data check
+        if line.find("};") != -1:
+            read = False
 
         # - Traverse dataset -
 
@@ -157,6 +221,9 @@ def getData(year, subject, course):
 
         # Layer == 3 --- Within a specific term that may or may not be the requested year
         if layer == 3:
+            if foundKey == False:
+                continue
+
             line = f.readline()
             term = parseDataValue(line)
             if term.find(year) != -1:
@@ -171,7 +238,9 @@ def getData(year, subject, course):
                     "crn": "",
                     "dprec": "",
                     "fprec": "",
-                    "instructor": ""
+                    "instructor": "",
+                    "isProfessor": "",
+                    "numCourses": ""
                 }
 
                 # Load the rest of the data in
@@ -183,6 +252,7 @@ def getData(year, subject, course):
                 resultData["dprec"] = parseDataValue(line); line = f.readline()
                 resultData["fprec"] = parseDataValue(line); line = f.readline()
                 resultData["instructor"] = parseDataValue(line)
+                resultData["numCourses"] = countInstructorClasses(resultData["instructor"])
 
                 # This is a check to see if the courses was offered more than one term per year,
                 # because I don't know if there are any that were
@@ -196,9 +266,9 @@ def getData(year, subject, course):
     return resultData
 
 
+
 # Draws a graph from the usser requested data with matplotlib functions
 def drawGraph(data):
-
     print("drawGraph() unfinished")
     print("Current graph style will likely be changed in the future")
 
@@ -218,8 +288,18 @@ def drawGraph(data):
     plt.show()
 
 
+
+
+
 # This function is called when the program starts and manages the other functions
 def main():
+    """
+    Main funciton for Easy A Program.
+    
+    Prompt users for input, then spits out a graph based on user input
+    
+    Returns none
+    """
 
     parser = argparse.ArgumentParser()
 
@@ -238,6 +318,7 @@ def main():
     debugPrint("optional class argument: ", clss)
     debugPrint("optional level argument: ", level)
 
+    
     print("- EasyA Program -")
     print("Created by Group 1\n")
 
@@ -245,7 +326,7 @@ def main():
 
     # Fixed parameters for now --- will eventually be set based on user input
     year = "2014"       # Can range from 2013 to 2016
-    subject = "AAA"     # I considered making an array of all possible subject codes (see top of doc),
+    subject = "AAAP"     # I considered making an array of all possible subject codes (see top of doc),
                         # but there are just os many that I don't think it's worth it
     course = "510"
 
@@ -264,6 +345,7 @@ def main():
         debugPrint("    dprec:", data["dprec"])
         debugPrint("    fprec:", data["fprec"])
         debugPrint("    instructor:", data["instructor"])
+        debugPrint("    numCourses:", data["numCourses"])
         debugPrint("--------\n")
 
         drawGraph(data)
