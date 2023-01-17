@@ -83,6 +83,32 @@ def parseDataValue(str):
 
 # Gets data from data file based on string parameters 'year', 'subject', and 'course'
 def getData(year, subject, course):
+    """
+    Looks in global 'datafile' = "GradeData.txt", for data
+    given a course, subject, and year. Returns a dictionary of that specfic class
+    found. 
+
+    CURRENTLY ONLY RETURNS INFORMATION ON ONE CLASS 
+        (if multiple classes found w/ same year, subject, and course #, only 1 will be returned)
+
+    Parameters:
+        year (str) - Year class was offered - Ex: "2015"
+        subject (str) - Department it's in - Ex: "MTH"
+        course (str) - Level of course - Ex: "111"
+
+    Returns a dictionary:
+        resultData = {
+                    "TERM_DESC": term,
+                    "aprec": "",
+                    "bprec": "",
+                    "cprec": "",
+                    "crn": "",
+                    "dprec": "",
+                    "fprec": "",
+                    "instructor": ""
+                    "isProfessor": ""
+                }
+    """
     print("Year:", year, "   Subject Code", subject, "   Course Number", course)
 
     # Open dataset file
@@ -196,8 +222,30 @@ def getData(year, subject, course):
     return resultData
 
 
+
 # Draws a graph from the usser requested data with matplotlib functions
 def drawGraph(data):
+    """
+    Draw a graph given a a dictionary of a singular class data
+    using matplotlib functions
+    #FIXME Will revisit then when we got to take data from multiple classes
+
+    Parameters: A dictionary
+        resultData = {
+                        "TERM_DESC": term,
+                        "aprec": "",
+                        "bprec": "",
+                        "cprec": "",
+                        "crn": "",
+                        "dprec": "",
+                        "fprec": "",
+                        "instructor": ""
+                        "isProfessor": ""
+                    }
+
+    Return:
+        None
+    """
     print("drawGraph() unfinished")
     print("Current graph style will likely be changed in the future")
 
@@ -217,8 +265,18 @@ def drawGraph(data):
     plt.show()
 
 
+
+
+
 # This function is called when the program starts and manages the other functions
 def main():
+    """
+    Main funciton for Easy A Program.
+    
+    Prompt users for input, then spits out a graph based on user input
+    
+    Returns none
+    """
     print("- EasyA Program -")
     print("Created by Group 1\n")
 
