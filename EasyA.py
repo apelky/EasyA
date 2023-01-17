@@ -269,6 +269,27 @@ def getData(year, subject, course):
 
 # Draws a graph from the usser requested data with matplotlib functions
 def drawGraph(data):
+    """
+     Draw a graph given a a dictionary of a singular class data
+     using matplotlib functions
+     #FIXME Will revisit then when we got to take data from multiple classes
+
+     Parameters: A dictionary
+         resultData = {
+                         "TERM_DESC": term,
+                         "aprec": "",
+                         "bprec": "",
+                         "cprec": "",
+                         "crn": "",
+                         "dprec": "",
+                         "fprec": "",
+                         "instructor": ""
+                         "isProfessor": ""
+                     }
+
+     Return:
+         None
+     """
     print("drawGraph() unfinished")
     print("Current graph style will likely be changed in the future")
 
