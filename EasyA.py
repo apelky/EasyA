@@ -72,6 +72,7 @@ def getInput():
 
 # Gets the value from the key/value pairs of the data file
 def parseDataValue(str):
+    print("[" + str + "]")
     start = str.index(": \"") + 3
     if str[-2] == ',':
         end = len(str) - 3
@@ -152,6 +153,9 @@ def getData(year, subject, course):
 
         # Layer == 3 --- Within a specific term that may or may not be the requested year
         if layer == 3:
+            if foundKey == False:
+                continue
+
             line = f.readline()
             term = parseDataValue(line)
             if term.find(year) != -1:
@@ -167,6 +171,7 @@ def getData(year, subject, course):
                     "dprec": "",
                     "fprec": "",
                     "instructor": ""
+                    "isProfessor": ""
                 }
 
                 # Load the rest of the data in
