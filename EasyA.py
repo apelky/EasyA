@@ -28,6 +28,11 @@ Matplotlib is a visaul fucntion library for python: https://matplotlib.org/
 """
 import matplotlib.pyplot as plt
 
+"""
+argparse is a module from the Python Standard Library which parses command line options 
+"""
+import argparse
+
 
 """
 This variable is for the file containing all of the grade data from the EGT.
@@ -193,6 +198,7 @@ def getData(year, subject, course):
 
 # Draws a graph from the usser requested data with matplotlib functions
 def drawGraph(data):
+
     print("drawGraph() unfinished")
     print("Current graph style will likely be changed in the future")
 
@@ -214,6 +220,24 @@ def drawGraph(data):
 
 # This function is called when the program starts and manages the other functions
 def main():
+
+    parser = argparse.ArgumentParser()
+
+    # required argument (optional arguments have '-')
+    parser.add_argument('dep', help='a single department such as "Math"')
+    parser.add_argument('-c', help='a single class such as "Math111"')
+    # parser.add_argument('-c', nargs=2, help='class')
+    parser.add_argument('-l', type=int, help='all classes of a particular level such as "100"')
+
+    args = parser.parse_args()
+    department = args.dep
+    clss = args.c
+    level = args.l
+    
+    debugPrint("department argument: ", department)
+    debugPrint("optional class argument: ", clss)
+    debugPrint("optional level argument: ", level)
+
     print("- EasyA Program -")
     print("Created by Group 1\n")
 
