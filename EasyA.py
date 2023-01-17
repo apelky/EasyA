@@ -81,6 +81,29 @@ def parseDataValue(str):
     return str[start:end]
 
 
+def countInstructorClasses(instructor):
+    # Open dataset file
+    f = open(dataFile, "r")
+
+    read = True
+    numCourses = 0
+
+    # Search file for instructor
+    while read == True:
+        line = f.readline()
+
+        # End of data check
+        if line.find("};") != -1:
+            read = False
+
+        if line.find(instructor) != -1:
+            numCourses += 1
+
+    # Close dataset file
+    f.close()
+    return numCourses
+
+
 # Gets data from data file based on string parameters 'year', 'subject', and 'course'
 def getData(year, subject, course):
     print("Year:", year, "   Subject Code", subject, "   Course Number", course)
@@ -105,6 +128,10 @@ def getData(year, subject, course):
     # Read data in from file
     while read == True:
         line = f.readline()
+
+        # End of data check
+        if line.find("};") != -1:
+            read = False
 
         # - Traverse dataset -
 
@@ -170,8 +197,9 @@ def getData(year, subject, course):
                     "crn": "",
                     "dprec": "",
                     "fprec": "",
-                    "instructor": ""
-                    "isProfessor": ""
+                    "instructor": "",
+                    "isProfessor": "",
+                    "numCourses": ""
                 }
 
                 # Load the rest of the data in
@@ -183,6 +211,7 @@ def getData(year, subject, course):
                 resultData["dprec"] = parseDataValue(line); line = f.readline()
                 resultData["fprec"] = parseDataValue(line); line = f.readline()
                 resultData["instructor"] = parseDataValue(line)
+                resultData["numCourses"] = countInstructorClasses(resultData["instructor"])
 
                 # This is a check to see if the courses was offered more than one term per year,
                 # because I don't know if there are any that were
@@ -226,7 +255,7 @@ def main():
 
     # Fixed parameters for now --- will eventually be set based on user input
     year = "2014"       # Can range from 2013 to 2016
-    subject = "AAA"     # I considered making an array of all possible subject codes (see top of doc),
+    subject = "AAAP"     # I considered making an array of all possible subject codes (see top of doc),
                         # but there are just os many that I don't think it's worth it
     course = "510"
 
@@ -245,6 +274,7 @@ def main():
         debugPrint("    dprec:", data["dprec"])
         debugPrint("    fprec:", data["fprec"])
         debugPrint("    instructor:", data["instructor"])
+        debugPrint("    numCourses:", data["numCourses"])
         debugPrint("--------\n")
 
         drawGraph(data)
