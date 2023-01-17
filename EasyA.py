@@ -33,6 +33,8 @@ argparse is a module from the Python Standard Library which parses command line 
 """
 import argparse
 
+from Faculty_Parser import *
+
 
 """
 This variable is for the file containing all of the grade data from the EGT.
@@ -85,6 +87,29 @@ def parseDataValue(str):
         end = len(str) - 2
     return str[start:end]
 
+def checkIfRegularFaculty(str):
+    """
+    Compares list of Regular Faculty to list of data of all 
+    instuctors
+    
+    Parameters:
+        instructor (str) - Name of instructor/professor - Ex: "Hornof, Anthony"
+        
+    Returns:
+        isRegularFaculty (bool) - Whether a given name is Regular Faculty
+    """
+    # Get list of Regular Faculty
+    regularFaculty = sortDataValue()
+    
+    isRegularFaculty = false
+    
+    # Search list of Regular Faculty for given name
+    for name in regularFaculty:
+        if str == name:
+            isRegularFaculty = true
+    
+    return isRegularFaculty
+    
 
 def countInstructorClasses(instructor):
     """
@@ -252,6 +277,7 @@ def getData(year, subject, course):
                 resultData["dprec"] = parseDataValue(line); line = f.readline()
                 resultData["fprec"] = parseDataValue(line); line = f.readline()
                 resultData["instructor"] = parseDataValue(line)
+                resultData["isProfessor"] = checkIfRegularFaculty(resultData["instructor"])
                 resultData["numCourses"] = countInstructorClasses(resultData["instructor"])
 
                 # This is a check to see if the courses was offered more than one term per year,
