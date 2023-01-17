@@ -82,6 +82,16 @@ def parseDataValue(str):
 
 
 def countInstructorClasses(instructor):
+    """
+    Counts the number of classes an instructor/professor
+    teaches in a singular subject
+
+    Parameters:
+        instructor (Str) - Name of instructor - Ex: "Hornof, Anthony"
+
+    Returns:
+        numCourses (int) - # of courses instructor teaches
+    """
     # Open dataset file
     f = open(dataFile, "r")
 
