@@ -1,0 +1,203 @@
+var groups =
+{
+    "AA508": [
+        {
+            "TERM_DESC": "Spring 2014",
+            "aprec": "83.3",
+            "bprec": "16.7",
+            "cprec": "0.0",
+            "crn": "32641",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Leahy, John F."
+        },
+        {
+            "TERM_DESC": "Fall 2015",
+            "aprec": "62.5",
+            "bprec": "37.5",
+            "cprec": "0.0",
+            "crn": "10015",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Leahy, John F."
+        }
+    ],
+    "AAA321": [
+        {
+            "TERM_DESC": "Winter 2016",
+            "aprec": "54.2",
+            "bprec": "41.7",
+            "cprec": "4.2",
+            "crn": "27061",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Davis, Howard P."
+        }
+    ],
+    "AAA510": [
+        {
+            "TERM_DESC": "Winter 2014",
+            "aprec": "85.7",
+            "bprec": "14.3",
+            "cprec": "0.0",
+            "crn": "28485",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Lachman, Charles"
+        }
+    ],
+    "AAAP510": [
+        {
+            "TERM_DESC": "Fall 2014",
+            "aprec": "88.9",
+            "bprec": "11.1",
+            "cprec": "0.0",
+            "crn": "16987",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Sardell, Shannon Mical"
+        },
+        {
+            "TERM_DESC": "Winter 2015",
+            "aprec": "41.7",
+            "bprec": "58.3",
+            "cprec": "0.0",
+            "crn": "26098",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Miller Dowell, Amy Jeanette"
+        },
+        {
+            "TERM_DESC": "Winter 2015",
+            "aprec": "70.0",
+            "bprec": "30.0",
+            "cprec": "0.0",
+            "crn": "26476",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Eisemann, Eric Lee"
+        },
+        {
+            "TERM_DESC": "Fall 2015",
+            "aprec": "86.7",
+            "bprec": "13.3",
+            "cprec": "0.0",
+            "crn": "10033",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Sardell, Shannon Mical"
+        },
+        {
+            "TERM_DESC": "Winter 2016",
+            "aprec": "58.3",
+            "bprec": "41.7",
+            "cprec": "0.0",
+            "crn": "26689",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Heath, Kingston W."
+        }
+    ],
+    "AAAP511": [
+        {
+            "TERM_DESC": "Fall 2013",
+            "aprec": "50.0",
+            "bprec": "50.0",
+            "cprec": "0.0",
+            "crn": "10949",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Sardell, Shannon Mical"
+        },
+        {
+            "TERM_DESC": "Fall 2014",
+            "aprec": "70.0",
+            "bprec": "30.0",
+            "cprec": "0.0",
+            "crn": "10125",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Carter, Elizabeth Jean"
+        },
+        {
+            "TERM_DESC": "Fall 2015",
+            "aprec": "66.7",
+            "bprec": "16.7",
+            "cprec": "16.7",
+            "crn": "10034",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Carter, Elizabeth Jean"
+        }
+    ],
+    "AAAP515": [
+        {
+            "TERM_DESC": "Fall 2014",
+            "aprec": "81.8",
+            "bprec": "18.2",
+            "cprec": "0.0",
+            "crn": "16516",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Bell, Christopher Squibb"
+        }
+    ],
+    "AAAP522": [
+        {
+            "TERM_DESC": "Winter 2014",
+            "aprec": "40.0",
+            "bprec": "60.0",
+            "cprec": "0.0",
+            "crn": "27855",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Heath, Kingston W."
+        }
+    ],
+    "AAAP523": [
+        {
+            "TERM_DESC": "Spring 2015",
+            "aprec": "75.0",
+            "bprec": "25.0",
+            "cprec": "0.0",
+            "crn": "36400",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Bell, Christopher Squibb"
+        }
+    ],
+    "AAAP531": [
+        {
+            "TERM_DESC": "Spring 2014",
+            "aprec": "70.0",
+            "bprec": "20.0",
+            "cprec": "10.0",
+            "crn": "32657",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Carter, Elizabeth Jean"
+        },
+        {
+            "TERM_DESC": "Spring 2016",
+            "aprec": "63.6",
+            "bprec": "27.3",
+            "cprec": "9.1",
+            "crn": "30047",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Carter, Elizabeth Jean"
+        }
+    ],
+    "AAAP541": [
+        {
+            "TERM_DESC": "Spring 2014",
+            "aprec": "66.7",
+            "bprec": "33.3",
+            "cprec": "0.0",
+            "crn": "38873",
+            "dprec": "0.0",
+            "fprec": "0.0",
+            "instructor": "Eisemann, Eric Lee"
+        }
+    ]
+};
