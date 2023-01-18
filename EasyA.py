@@ -101,12 +101,12 @@ def checkIfRegularFaculty(str):
     # Get list of Regular Faculty
     regularFaculty = sortDataValue()
     
-    isRegularFaculty = false
+    isRegularFaculty = False
     
     # Search list of Regular Faculty for given name
     for name in regularFaculty:
         if str == name:
-            isRegularFaculty = true
+            isRegularFaculty = True
     
     return isRegularFaculty
     
