@@ -30,8 +30,10 @@ import matplotlib.pyplot as plt
 
 """
 argparse is a module from the Python Standard Library which parses command line options 
+sys is a module from the Python Standard Library which handles system - specific parameters and functions
 """
 import argparse
+import sys
 
 from Faculty_Parser import *
 
@@ -71,10 +73,50 @@ def helperFunction():
 
 
 # Gets input parameters from user via a command line interface
-# Returns strings 'year', 'subject', and 'course'
+# Returns 'subject' (string), 'course' (int or None), 'level' (int or None), and 'year' (int or None)
 def getInput():
     print("getInput() unfinished")
-    return year, subject, course
+    
+    parser = argparse.ArgumentParser()
+
+    # required argument (optional arguments have '-')
+    parser.add_argument('-s', help='a single subject such as "Math"')
+    parser.add_argument('-c', type=int, help='a single class level such as "111"')
+    parser.add_argument('-l', type=int, help='all classes of a particular level such as "100"')
+    parser.add_argument('-y', type=int, help='a year')
+    
+
+
+    args = parser.parse_args()
+    subject = args.s
+    course = args.c
+    level = args.l
+    year = args.y
+
+    if subject is None:
+        subject = input("enter the subject: ")
+
+    if (course is None) and (level is None):
+        view_course = input("Do you want view a specific course number? [y or n]: ")
+        if view_course:
+            course = input("Enter the course number: ")
+        else:
+            view_level = input("Do you want view all classes of a particular level? [y or n]: ")
+            if view_level:
+                level = input("Enter the course level: ")
+
+    if year is None:
+        view_year = input("Do you want view a year? [y or n]: ")
+        if view_year:
+            course = input("Enter the year: ")
+
+
+    debugPrint("subject argument: ", subject)
+    debugPrint("optional class argument: ", course)
+    debugPrint("optional level argument: ", level)
+    debugPrint("optional year argument: ", year)
+    
+    return subject, course, level, year
 
 
 # Gets the value from the key/value pairs of the data file
@@ -101,12 +143,12 @@ def checkIfRegularFaculty(str):
     # Get list of Regular Faculty
     regularFaculty = sortDataValue()
     
-    isRegularFaculty = false
+    isRegularFaculty = False
     
     # Search list of Regular Faculty for given name
     for name in regularFaculty:
         if str == name:
-            isRegularFaculty = true
+            isRegularFaculty = True
     
     return isRegularFaculty
     
@@ -348,26 +390,12 @@ def main():
     Returns none
     """
 
-    parser = argparse.ArgumentParser()
-
-    # required argument (optional arguments have '-')
-    parser.add_argument('dep', help='a single department such as "Math"')
-    parser.add_argument('-c', help='a single class such as "Math111"')
-    # parser.add_argument('-c', nargs=2, help='class')
-    parser.add_argument('-l', type=int, help='all classes of a particular level such as "100"')
-
-    args = parser.parse_args()
-    department = args.dep
-    clss = args.c
-    level = args.l
-    
-    debugPrint("department argument: ", department)
-    debugPrint("optional class argument: ", clss)
-    debugPrint("optional level argument: ", level)
-
-    
     print("- EasyA Program -")
     print("Created by Group 1\n")
+
+    getInput()
+
+    
 
     #year, subject, course = getInput()
 
