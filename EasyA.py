@@ -73,8 +73,8 @@ def getInput():
     
     args = parser.parse_args()
 
-    if args.dev:
-        return ["Math", 111, None, None]
+    """ if args.dev:
+        return ["Math", 111, None, None] """
 
     subject = args.subject
     course = args.course
@@ -156,16 +156,14 @@ def checkIfRegularFaculty(instructor):
     isRegularFaculty = False
 
     # Search list of Regular Faculty for given name
-    debugPrint("Given name: ", instructor)
     for name in regularFaculty:
         if instructor == name:
-            debugPrint(instructor, " is regular faculty")
             isRegularFaculty = True
 
     return isRegularFaculty
 
 
-# Count the number of courses an instructor has taught
+# Count the number of courses an instructor teaches
 def countInstructorCourses(instructor):
     """
     Counts the number of courses an instructor/professor
@@ -192,7 +190,7 @@ def countInstructorCourses(instructor):
         if line.find("};") != -1:
             read = False
 
-        # Number of courses instructor has taught
+        # Number of courses instructor teaches
         if line.find(instructor) != -1:
             numCourses += 1
 
@@ -204,12 +202,8 @@ def countInstructorCourses(instructor):
 # Gets data from data file based on string parameters 'year', 'subject', and 'course'
 def getData(subject, course, year):
     """
-    Looks in global 'datafile' = "GradeData.txt", for data
-    given a course, subject, and year. Returns a dictionary of that specfic class
-    found.
-
-    CURRENTLY ONLY RETURNS INFORMATION ON ONE OFFERING OF A COURSE
-        (if multiple classes found w/ same year, subject, and course #, only 1 will be returned)
+    Looks in global 'datafile' = "GradeData.txt", for data given a course, subject, and year.
+    Returns a dictionary of every course found that matches the request.
 
     Parameters:
         year (str) - Year course was offered - Ex: "2015"
@@ -392,7 +386,7 @@ def drawGraph(data, showGraph):
     # Set and plot points of graph
     x = [1, 2, 3, 4, 5]
     y = [data["aprec"], data["bprec"], data["cprec"], data["dprec"], data["fprec"]]
-    plt.bar(x, y)
+    plt.plot(x, y)
 
     # Axis labels
     plt.xlabel("Letter Grades")
@@ -419,21 +413,7 @@ def main():
     print("- EasyA Program -")
     print("Created by Group 1\n")
 
-<<<<<<< HEAD
-    print(getInput())
-
-    
-
-    #year, subject, course = getInput()
-
-    # Fixed parameters for now --- will eventually be set based on user input
-    year = "2014"       # Can range from 2013 to 2016
-    subject = "AAAP"     # I considered making an array of all possible subject codes (see top of doc),
-                        # but there are just os many that I don't think it's worth it
-    course = "510"
-=======
     subject, course, level, year, showGraph = getInput()
->>>>>>> a06f48d8e79d5197a5fe2deb8d17437e5f62c9d0
 
     # Get data from data file based on input parameters
     dataList = getData(subject, course, year)
