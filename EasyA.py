@@ -49,6 +49,14 @@ Commented out for now since I don't know if files can be global variables
 
 dataFile = "GradeData_SmallTest.txt" # "GradeData.txt"
 
+
+# List of all subject code, but there are just so many that I think checking probably is not would be worthy it right now
+subjectCodes = ["AA", "AAA", "AAAP", "AAD", "ACTG", "AEIS", "AFR", "AIM", "ANTH", "ARB", "ARCH", "ARH", "ART", "ARTC", "ARTD",
+                "ARTF", "ARTM", "ARTO", "ARTP", "ARTR", "ARTS", "ASIA", "ASL", "ASTR", "BA", "BE", "BI", "CAS", "CDS", "CFT", "CH",
+                "CHN", "CINE", "CIS", "CIT", "CLAS", 'COLT', "CPSY", "CRES", "CRWR", 'DAN', "DANC", "DSC", "EALL", "EC", "EDLD", "EDST",
+                ]
+
+
 # --- Set to False before submit
 DEBUG = True
 
