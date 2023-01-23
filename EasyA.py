@@ -146,14 +146,16 @@ def checkIfRegularFaculty(instructor):
     isRegularFaculty = False
 
     # Search list of Regular Faculty for given name
+    debugPrint("Given name: ", instructor)
     for name in regularFaculty:
         if instructor == name:
+            debugPrint(instructor, " is regular faculty")
             isRegularFaculty = True
 
     return isRegularFaculty
 
 
-# Count the number of courses an instructor teaches
+# Count the number of courses an instructor has taught
 def countInstructorCourses(instructor):
     """
     Counts the number of courses an instructor/professor
@@ -180,7 +182,7 @@ def countInstructorCourses(instructor):
         if line.find("};") != -1:
             read = False
 
-        # Number of courses instructor teaches
+        # Number of courses instructor has taught
         if line.find(instructor) != -1:
             numCourses += 1
 
@@ -192,8 +194,12 @@ def countInstructorCourses(instructor):
 # Gets data from data file based on string parameters 'year', 'subject', and 'course'
 def getData(subject, course, year):
     """
-    Looks in global 'datafile' = "GradeData.txt", for data given a course, subject, and year.
-    Returns a dictionary of every course found that matches the request.
+    Looks in global 'datafile' = "GradeData.txt", for data
+    given a course, subject, and year. Returns a dictionary of that specfic class
+    found.
+
+    CURRENTLY ONLY RETURNS INFORMATION ON ONE OFFERING OF A COURSE
+        (if multiple classes found w/ same year, subject, and course #, only 1 will be returned)
 
     Parameters:
         year (str) - Year course was offered - Ex: "2015"
@@ -376,7 +382,7 @@ def drawGraph(data, showGraph):
     # Set and plot points of graph
     x = [1, 2, 3, 4, 5]
     y = [data["aprec"], data["bprec"], data["cprec"], data["dprec"], data["fprec"]]
-    plt.plot(x, y)
+    plt.bar(x, y)
 
     # Axis labels
     plt.xlabel("Letter Grades")
