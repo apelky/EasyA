@@ -88,32 +88,36 @@ def getInput():
     showGraph   = args.g == None or (args.g != 0 and args.g != False)
 
     # Make sure that a subject code is provided if it wasn't a command line argument
-    if subject is None:
+    if args.s is None:
         subject = input("Enter subject code: ")
 
     # Make sure that a course number is provided if it wasn't a command line argument
-    if (course is None) and (level is None):
+    if args.c is None:
         view_course = input("Do you want view a specific course? [y or n]: ")
         if view_course:
             course = input("Enter course number: ")
         else:
-            view_level = input("Do you want view all courses of a specific level? [y or n]: ")
+            view_level = None
+            if (args.l is None):
+                view_level = input("Do you want view all courses of a specific level? [y or n]: ")
+            else:
+                view_level = input("Do you want view all courses of level", level + "? [y or n]: ")
             if view_level:
                 level = input("Enter course level: ")
 
     # Make sure that a year provided if it wasn't a command line argument
-    if year is None:
+    if args.y is None:
         view_year = input("Do you want view a specific year? [y or n]: ")
         if view_year:
-            course = input("Enter a year from 2013 to 2016: ")
+            year = input("Enter a year from 2013 to 2016: ")
 
-    """
+    #"""
     debugPrint("Optional subject code argument: ", subject)
     debugPrint("Optional course argument: ", course)
     debugPrint("Optional level argument: ", level)
     debugPrint("Optional year argument: ", year)
     debugPrint("Optional graph argument: ", showGraph)
-    """
+    #"""
 
     return subject, course, level, year, showGraph
 
