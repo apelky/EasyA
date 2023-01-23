@@ -22,9 +22,10 @@ EasyA.py uses Python 3.10
 
 # File containing regular faculty for all Natural Sciences
 # Data pulled from https://web.archive.org/web/20141107201343/http://catalog.uoregon.edu/arts_sciences/
-dataFile = "Regular_Faculty.txt" 
+dataFile = "Regular_Faculty.txt"
 
-def parseDataValue():
+
+def getFacultyNames():
     """
     Reads the file and puts the names into a list.
 
@@ -34,31 +35,36 @@ def parseDataValue():
     Returns:
         without_dups (str) - A list of names ex: ['Gregory M. Williams', 'Zena M. Ariola']
     """
-    
+
     # Open dataset file
     f = open(dataFile, "r")
     lines = f.readlines()
+
     # Initalized list for names to be appended to
     names_list = []
 
     # Read data in from file
-    for line in lines:         
+    for line in lines:
          # - Traverse dataset -
 
-        # Find the first instance of a comma 
+        # Find the first instance of a comma
         name_position = line.find(",")
         if name_position != -1:
             # Grab everything before the comma
             name = line[:name_position]
             # Append the name into the list
             names_list.append(name)
-    
-    # Remove duplicates 
+
+    # Remove duplicates
     without_dups = list(set(names_list))
+
+    # Close dataset file
+    f.close()
 
     return without_dups
 
-def sortDataValue():
+
+def parseFacultyNames():
     """
     Sort the list to get it in Last Name, First Name Middle Name order to match data in EasyA
 
@@ -68,7 +74,7 @@ def sortDataValue():
     Returns:
         new_names_list (str) - A list of names ex: ['Williams, Gregory M.', 'Ariola, Zena M.']
     """
-    names_list = parseDataValue()
+    names_list = getFacultyNames()
     new_names_list = []
 
     for name in names_list:
@@ -82,12 +88,14 @@ def sortDataValue():
         l_comma_f = last + ", " + first
         # Append the formatted name to a list
         new_names_list.append(l_comma_f)
-    
+
     return new_names_list
+
 
 # Intializes the program
 def main():
-    sortDataValue()
+    parseFacultyNames()
+
 
 # This calls the 'main' function when this script is executed
 if __name__ == "__main__":
