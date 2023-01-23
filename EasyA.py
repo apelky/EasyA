@@ -369,7 +369,7 @@ def drawGraph(data):
     # Set and plot points of graph
     x = [1, 2, 3, 4, 5]
     y = [data["aprec"], data["bprec"], data["cprec"], data["dprec"], data["fprec"]]
-    plt.plot(x, y)
+    plt.bar(x, y)
 
     # Axis labels
     plt.xlabel("Letter Grades")
