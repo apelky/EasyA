@@ -193,7 +193,7 @@ def getData(year, subject, course):
     given a course, subject, and year. Returns a dictionary of that specfic class
     found. 
 
-    CURRENTLY ONLY RETURNS INFORMATION ON ONE CLASS 
+    CURRENTLY ONLY RETURNS INFORMATION ON ONE OFFERING OF A COURSE 
         (if multiple classes found w/ same year, subject, and course #, only 1 will be returned)
 
     Parameters:
