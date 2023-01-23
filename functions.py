@@ -118,7 +118,7 @@ def calc_instr_avg(data: list, isEasyA: bool=True):
 
 
 
-#################################3
+#################################
 
 def get_course(dept: str, level: int):
     """
