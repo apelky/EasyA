@@ -146,8 +146,10 @@ def checkIfRegularFaculty(str):
     isRegularFaculty = False
     
     # Search list of Regular Faculty for given name
+    debugPrint("Given name: ", str)
     for name in regularFaculty:
         if str == name:
+            debugPrint(str, " is regular faculty")
             isRegularFaculty = True
     
     return isRegularFaculty
