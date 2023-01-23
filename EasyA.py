@@ -64,22 +64,19 @@ def debugPrint(*args):
 def getInput():
     parser = argparse.ArgumentParser()
 
-    # required argument (optional arguments have '-')
-    parser.add_argument('-s', '--subject', help='a single subject such as "Math"')
-    parser.add_argument('-c', '--course', type=int, help='a single course level such as "111"')
-    parser.add_argument('-l', '--level', type=int, help='all classes of a particular level such as "100"')
-    parser.add_argument('-y', '--year', type=int, help='a year')
-    parser.add_argument('-d', '--dev', help='bypass input')
-    
-    args = parser.parse_args()
+    # Optional arguments
+    parser.add_argument('-s', help='A single subject code, such as "Math"')
+    parser.add_argument('-c', type=int, help='A single course level, such as "111"')
+    parser.add_argument('-l', type=int, help='All courses of a particular level, such as "100"')
+    parser.add_argument('-y', type=int, help='A year from 2013 to 2016')
+    parser.add_argument('-g', type=int, help='Whether to show the graph')
 
-    """ if args.dev:
-        return ["Math", 111, None, None] """
-
-    subject = args.subject
-    course = args.course
-    level = args.level
-    year = args.year
+    # Parameter variables
+    args        = parser.parse_args()
+    subject     = args.s
+    course      = str(args.c)
+    level       = str(args.l)
+    year        = str(args.y)
     showGraph   = args.g == None or (args.g != 0 and args.g != False)
 
     # Make sure that a subject code is provided if it wasn't a command line argument
@@ -88,19 +85,19 @@ def getInput():
 
     # Make sure that a course number is provided if it wasn't a command line argument
     if (course is None) and (level is None):
-        view_course = input("Do you want view a specific course number? [y or n]: ")
-        if (view_course == 'y') or (view_course == 'yes'):
-            course = input("Enter the course number: ")
+        view_course = input("Do you want view a specific course? [y or n]: ")
+        if view_course:
+            course = input("Enter course number: ")
         else:
-            view_level = input("Do you want view all classes of a particular level? [y or n]: ")
-            if (view_level == 'y') or (view_level == 'yes'):
-                level = input("Enter the course level: ")
+            view_level = input("Do you want view all courses of a specific level? [y or n]: ")
+            if view_level:
+                level = input("Enter course level: ")
 
     # Make sure that a year provided if it wasn't a command line argument
     if year is None:
-        view_year = input("Do you want view a year? [y or n]: ")
-        if (view_year == 'y') or (view_year == 'yes'):
-            year = input("Enter the year: ")
+        view_year = input("Do you want view a specific year? [y or n]: ")
+        if view_year:
+            course = input("Enter a year from 2013 to 2016: ")
 
     """
     debugPrint("Optional subject code argument: ", subject)
@@ -110,13 +107,6 @@ def getInput():
     debugPrint("Optional graph argument: ", showGraph)
     """
 
-    debugPrint("subject argument: ", subject)
-    debugPrint("optional class argument: ", course)
-    debugPrint("optional level argument: ", level)
-    debugPrint("optional year argument: ", year)
-
-    print(args)
-    
     return subject, course, level, year, showGraph
 
 
@@ -156,14 +146,16 @@ def checkIfRegularFaculty(instructor):
     isRegularFaculty = False
 
     # Search list of Regular Faculty for given name
+    #debugPrint("Given name: ", instructor)
     for name in regularFaculty:
         if instructor == name:
+            #debugPrint(instructor, " is regular faculty")
             isRegularFaculty = True
 
     return isRegularFaculty
 
 
-# Count the number of courses an instructor teaches
+# Count the number of courses an instructor has taught
 def countInstructorCourses(instructor):
     """
     Counts the number of courses an instructor/professor
@@ -190,7 +182,7 @@ def countInstructorCourses(instructor):
         if line.find("};") != -1:
             read = False
 
-        # Number of courses instructor teaches
+        # Number of courses instructor has taught
         if line.find(instructor) != -1:
             numCourses += 1
 
@@ -202,8 +194,12 @@ def countInstructorCourses(instructor):
 # Gets data from data file based on string parameters 'year', 'subject', and 'course'
 def getData(subject, course, year):
     """
-    Looks in global 'datafile' = "GradeData.txt", for data given a course, subject, and year.
-    Returns a dictionary of every course found that matches the request.
+    Looks in global 'datafile' = "GradeData.txt", for data
+    given a course, subject, and year. Returns a dictionary of that specfic class
+    found.
+
+    CURRENTLY ONLY RETURNS INFORMATION ON ONE OFFERING OF A COURSE
+        (if multiple classes found w/ same year, subject, and course #, only 1 will be returned)
 
     Parameters:
         year (str) - Year course was offered - Ex: "2015"
@@ -267,7 +263,7 @@ def getData(subject, course, year):
             # Check line from data file for subject code and course number
             if line.find(key) != -1:
                 foundKey = True
-                debugPrint("Found course", subject, course)
+                #debugPrint("Found course", subject, course)
             layer += 1
 
         # Go up a layer in the dataset, exiting a course
@@ -275,10 +271,10 @@ def getData(subject, course, year):
             # If finished searching requested subject and course
             if foundKey == True:
                 # If found year
-                if foundYear == True:
-                    debugPrint("Found course", subject, course, "in", year, count, "time(s)")
+                #if foundYear == True:
+                    #debugPrint("Found course", subject, course, "in", year, count, "time(s)")
                 # If could not find year
-                else:
+                if not foundYear:
                     debugPrint("Course", subject, course, "not found for", year, count, "time(s)")
                 read = False
             layer -= 1
@@ -386,7 +382,7 @@ def drawGraph(data, showGraph):
     # Set and plot points of graph
     x = [1, 2, 3, 4, 5]
     y = [data["aprec"], data["bprec"], data["cprec"], data["dprec"], data["fprec"]]
-    plt.plot(x, y)
+    plt.bar(x, y)
 
     # Axis labels
     plt.xlabel("Letter Grades")
