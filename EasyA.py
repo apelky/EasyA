@@ -80,41 +80,46 @@ def getInput():
     parser = argparse.ArgumentParser()
 
     # required argument (optional arguments have '-')
-    parser.add_argument('-s', help='a single subject such as "Math"')
-    parser.add_argument('-c', type=int, help='a single class level such as "111"')
-    parser.add_argument('-l', type=int, help='all classes of a particular level such as "100"')
-    parser.add_argument('-y', type=int, help='a year')
+    parser.add_argument('-s', '--subject', help='a single subject such as "Math"')
+    parser.add_argument('-c', '--course', type=int, help='a single course level such as "111"')
+    parser.add_argument('-l', '--level', type=int, help='all classes of a particular level such as "100"')
+    parser.add_argument('-y', '--year', type=int, help='a year')
+    parser.add_argument('-d', '--dev', help='bypass input')
     
-
-
     args = parser.parse_args()
-    subject = args.s
-    course = args.c
-    level = args.l
-    year = args.y
+
+    if args.dev:
+        return ["Math", 111, None, None]
+
+    subject = args.subject
+    course = args.course
+    level = args.level
+    year = args.year
 
     if subject is None:
         subject = input("enter the subject: ")
 
     if (course is None) and (level is None):
         view_course = input("Do you want view a specific course number? [y or n]: ")
-        if view_course:
+        if (view_course == 'y') or (view_course == 'yes'):
             course = input("Enter the course number: ")
         else:
             view_level = input("Do you want view all classes of a particular level? [y or n]: ")
-            if view_level:
+            if (view_level == 'y') or (view_level == 'yes'):
                 level = input("Enter the course level: ")
 
     if year is None:
         view_year = input("Do you want view a year? [y or n]: ")
-        if view_year:
-            course = input("Enter the year: ")
+        if (view_year == 'y') or (view_year == 'yes'):
+            year = input("Enter the year: ")
 
 
     debugPrint("subject argument: ", subject)
     debugPrint("optional class argument: ", course)
     debugPrint("optional level argument: ", level)
     debugPrint("optional year argument: ", year)
+
+    print(args)
     
     return subject, course, level, year
 
@@ -393,7 +398,7 @@ def main():
     print("- EasyA Program -")
     print("Created by Group 1\n")
 
-    getInput()
+    print(getInput())
 
     
 
