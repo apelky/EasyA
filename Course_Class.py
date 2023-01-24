@@ -1,28 +1,48 @@
 """
-Course Class.py
-
-Created: 1/22/23
+Course_Class.py created on Jan 22, 2023.
 """
 
 
 class Course():
 
-    def __init__(self, department: str, 
-                        classLevel: int, 
-                        termDesc: str, 
-                        a: float, 
-                        b: float, 
-                        c: float, 
-                        d: float, 
-                        f: float, 
-                        instr: str):
-        self.dept = department  # include this just for ease of access
-        self.level = classLevel 
-        self.term_desc = termDesc
-        self.a_perc = a
-        self.b_perc = b
-        self.c_perc = c
-        self.d_perc = d
-        self.f_perc = f
-        self.df_perc = (d + f) / 2
-        self.instructor = instr
+    def __init__(self, department: str,
+                        courseLevel: str,
+                        crn: str,
+                        termDesc: str,
+                        a: float,
+                        b: float,
+                        c: float,
+                        d: float,
+                        f: float,
+                        instr: str,
+                        isProf: bool,
+                        n: int):
+
+        self.dept        = department  # include this just for ease of access
+        self.level       = courseLevel
+        self.crn         = crn
+        self.term_desc   = termDesc
+        self.a_perc      = a
+        self.b_perc      = b
+        self.c_perc      = c
+        self.d_perc      = d
+        self.f_perc      = f
+        self.df_perc     = d + f
+        self.instructor  = instr
+        self.isProfessor = isProf
+        self.numCourses  = n
+
+    def __str__(self):
+        #result =     f'    Dep: {self.dept}\n'
+        result =  "    Dep:  {0}\n".format(self.dept)
+        result += "    LVL:  {0}\n".format(self.level)
+        result += "    CRN:  {0}\n".format(self.crn)
+        result += "    A%:   {0}\n".format(str(self.a_perc))
+        result += "    D+F%: {0}\n".format(str(self.df_perc))
+        result += "    instructor: {0} - ".format(self.instructor)
+
+        if (self.isProfessor):
+            result += "is faculty and "
+        result += "taught " + str(self.numCourses) + " courses\n"
+
+        return result

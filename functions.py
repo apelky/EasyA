@@ -7,6 +7,8 @@ Created 1/22/23
 from Graph_Class import Graph
 from Course_Class import Course
 
+from GradeData import groups
+
 
 ##### Helper functions #####
 # Feel free to add on your own functions you can think of if it helps you
@@ -15,10 +17,10 @@ from Course_Class import Course
 def sort_dict(d: dict):
     """
     Desc:
-        Returns a sorted dicitonary from Hi to Lo by values
+        Returns a sorted dicitonary of numbers from Hi to Lo by values
         Ex:
             {"X": 1, "Y": 2, "Z": 3} -> {"Z": 3, "Y": 2, "X": 1}
-        
+
         Useful for sorting Graph.plotting_data
 
     Parameters:
@@ -30,21 +32,21 @@ def sort_dict(d: dict):
     # should probably check if values are all same type so it can
     # genuinely distinguish which values are > and < others
     pass
-    
 
-def split_dept_and_level(course: str):
+
+def split_dept_and_level(courseKey: str):
     """
     Desc:
         Returns a tuple of course split into (dept, level):
 
         Use split_dept_and_level()[0] to get dept
             split_dept_and_level()[1] to get level
-    
+
         Example:
             "MTH111" -> (MTH, 111)
 
     Parameters:
-        course (str) - Course to be split
+        courseKey (str) - Key to be split
 
     Returns:
         Tuple   (dept: str, level: int)
@@ -59,7 +61,7 @@ def combine_dept_and_level(dept: str, level:int):
     """
     Desc:
         Returns a string of combines dept and level
-    
+
         Example:
            combine_dept_and_level(MTH, 111) -> "MTH111"
 
@@ -73,18 +75,16 @@ def combine_dept_and_level(dept: str, level:int):
     pass
 
 
-
-def find_instr_count(data: list):
+def find_instr_count(courses: list):
     """
     Desc:
-        Counts the number of times all instructors in data taught 
-        a class in data.
+        Counts the number of times all instructors taught a course in the given data list.
         Returns a dictionary of {"Professor":teach_count} pairs
 
         Useful for when parsing data in update_plotting_data()
 
-    Parameters: 
-        data    (List of Course objects) - Courses count instructor's teach counts
+    Parameters:
+        courses    (List of Course objects) - Courses count instructor's teach counts
 
     Returns:
         Dictionary   - {"Instructor":teach_count, ...}
@@ -94,7 +94,6 @@ def find_instr_count(data: list):
     # but up to you if you want to have it sorted or not.
     # If you do, just specify it in the header above
     pass
-
 
 
 def calc_instr_avg(data: list, isEasyA: bool=True):
@@ -108,7 +107,7 @@ def calc_instr_avg(data: list, isEasyA: bool=True):
     Parameters:
         data    (List of Course objects) - Courses count instructor's teach counts
         isEasyA (bool) - Search function option. A% if True, D/F% if False
-    
+
     Returns:
         Dictionary - {"Instructor": _%avg}
     """
@@ -128,121 +127,132 @@ def get_course(dept: str, level: int):
           that match the given criteria
 
     Parameters:
-        dept (str)  -  Department of class   Ex: "MTH" 
+        dept (str)  -  Department of class   Ex: "MTH"
         level (int) -  Course Level          Ex: 111
 
     Returns:
-        A Dictionary of w/ 1 key, mapping to a list individual course dictionaries
-        retVal = {"MTH111": [
-                            {offering 1}, 
-                            {offering 2}, 
-                            {offering 3}
-                            ]
-                }
+        A list of Course objects
     """
-    pass
+
+    rawData = groups[dept + level]
+    courseList = []
+
+    for i in range(len(rawData)):
+        offer = rawData[i]
+        instructor = offer["instructor"]
+
+        # Create new course object
+        course = Course(dept, level, offer["crn"], offer["TERM_DESC"],
+                        offer["aprec"], offer["bprec"], offer["cprec"], offer["dprec"], offer["fprec"],
+                        instructor, False, 1)
+        #checkIfRegularFaculty(instructor)
+        #countInstructorCourses(instructor)
+
+        # Add course to list
+        courseList.append(course);
+
+    return courseList
+
 
 def get_department_courses(dept: str):
     """
     Desc:
         Searches the database for courses given in a department
-        Returns a dictionary consisting of a list of course 
+        Returns a dictionary consisting of a list of course
             offering dictionaries within the department
 
     Parameters:
         dept    (str) - Department to retrieve classes in
 
     Returns:
-        Dictionary  - With multiple courses within
+        Dictionary  - With multiple Course objects within
         retVal = {"MTH111": [
-                            {offering 1}, 
-                            {offering 2}, 
+                            {offering 1},
+                            {offering 2},
                             {offering 3}
                             ]
                 ,
                 "MTH212":  [
-                            {offering 1}, 
-                            {offering 2}, 
+                            {offering 1},
+                            {offering 2},
                             {offering 3}
                             ]
                 ,
                     ...
                 }
     """
-    pass
+
+    # Get all course keys
+    keysList = list(groups.keys())
+    courseList = {}
+
+    # Find matching department
+    for key in keysList:
+        lvl = key[len(key)-3:]
+        if (dept == key[:-3]):
+            # Add all courses in that particular level
+            courseList[key] = get_course(dept, lvl)
+
+    return courseList
 
 
 def get_department_x00_level(dept: str, level: int):
     """
     Desc:
         Searches the database for courses at x00 level in a department
-        Returns a dictionary consisting of a list of course 
+        Returns a dictionary consisting of a list of course
             offering dictionaries of x00 level within the department
         Any level will be rounded down to nearest hundred (422 -> 400)
-        
+
     Parameters:
-        dept (str)  -  Department of class   Ex: "MTH" 
+        dept (str)  -  Department of class   Ex: "MTH"
         level (int) -  Course Level          Ex: 111    (this'll be rounded down to 100)
-        
+
     Returns:
         Dictionary  - With multiple courses within
         retVal = {"MTH111": [
-                            {offering 1}, 
-                            {offering 2}, 
+                            {offering 1},
+                            {offering 2},
                             {offering 3}
                             ]
                 ,
                 "MTH115":  [
-                            {offering 1}, 
-                            {offering 2}, 
+                            {offering 1},
+                            {offering 2},
                             {offering 3}
                             ]
                 ,
                     ...
                 }
     """
-    # could be cheesed be calling get_department_courses() then cutting out 
-    # all non x00 level classes. (just an idea >.>)
 
-    #also could make sure number isn't too big >1000? hah
-    pass
+    # Get all course keys
+    keysList = list(groups.keys())
+    courseDict = {}
 
+    # Find matching department
+    for key in keysList:
+        lvl = key[len(key)-3:]
+        if dept == key[:-3]:
+            if int(lvl) >= level and int(lvl) < level + 100:
+                rawData = groups[key]
+                courseList = []
+                for i in range(len(rawData)):
+                    offer = rawData[i]
+                    instructor = offer["instructor"]
 
-def convert_to_Courses(classes_dict: dict):
-    """ 
-    Desc:
-        Takes a class dictionary and converts all the offerings
-        of courses into Course objects in a list 
-        Then returns that list of Courses
+                    # Create new course object
+                    course = Course(dept, lvl, offer["crn"], offer["TERM_DESC"],
+                                    offer["aprec"], offer["bprec"], offer["cprec"], offer["dprec"], offer["fprec"],
+                                    instructor, False, 1)
+                    #checkIfRegularFaculty(instructor)
+                    #countInstructorCourses(instructor)
 
-        (Useful for getting list of dictionaries prepped
-            before adding to Graph)
+                    # Add course to list
+                    courseList.append(course);
+                courseDict[key] = courseList
 
-    Parameters:
-        classes_dict (dict) - Classes to be converted
-            Ex: {"MTH111": [
-                            {offering 1}, 
-                            {offering 2}, 
-                            {offering 3}
-                            ]
-                ,
-                "MTH115":  [
-                            {offering 1}, 
-                            {offering 2}, 
-                            {offering 3}
-                            ]
-                ,
-                    ...
-                }
-    
-    Returns:
-        List (of Course objects)
-    """
-    # don't forget to add Dept and level to the Course classes
-    # will need to account for possibility of multiple courses
-    # Ex: MTH111, MTH112, etc
-    pass
-
+    return courseDict
 
 
 def update_plotting_data(graph: Graph):
@@ -252,7 +262,7 @@ def update_plotting_data(graph: Graph):
     Desc:
         Recalculates plotting data
         (Useful if graph.data gets updated)
-        
+
 
     Parameters:
         graph (Graph) - Graph to update plotting data in
@@ -267,7 +277,7 @@ def update_plotting_data(graph: Graph):
         functions to do this as well instead of having the Graph.py
         class 1) import the main file? and 2) assume functional functions from another file
 
-    
+
     """
     # Filter out Faculty
     processing_data = graph.data
@@ -276,7 +286,7 @@ def update_plotting_data(graph: Graph):
         pass
 
 
-    if (graph.type == 0): # Single Class 
+    if (graph.type == 0): # Single Class
         # This type will assume self.data is a List of Course objects
         pass
 
@@ -326,7 +336,7 @@ def save_as_pdf(filename: str, graphs: list):
     """
     Desc:
         Save Graphs to .PDF file of <filename>.pdf
-    
+
     Parameters:
         filename (str) - Name of file to save as
         graphs (list of Graphs) - Graphs to plot and save onto .PDF
