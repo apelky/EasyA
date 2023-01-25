@@ -127,9 +127,13 @@ def split_dept_and_level(courseKey: str):
         Tuple   (dept: str, level: int)
 
     """
-    # might want to check if this can be split. "MTH " or "111"
-    # but I also hope our user_input() function would catch that
-    pass
+    string = courseKey.strip()
+    index = 0
+    for i in range(len(string)):
+        if string[i] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            index = i
+            break
+    return (string[0:index], string[index:len(string)])
 
 
 def combine_dept_and_level(dept: str, level:int):
@@ -147,7 +151,7 @@ def combine_dept_and_level(dept: str, level:int):
     Returns:
         String
     """
-    pass
+    return dept + str(level)
 
 
 def find_instr_count(courses: list):
@@ -165,10 +169,15 @@ def find_instr_count(courses: list):
         Dictionary   - {"Instructor":teach_count, ...}
 
     """
-    # I left this unspecified if its a sorted dictionary or not
-    # but up to you if you want to have it sorted or not.
-    # If you do, just specify it in the header above
-    pass
+    instr_count = dict()
+    for i in range(len(courses)):
+        instr_name = courses[i].instructor
+        if instr_name in instr_count:  # if already in dictionary
+            instr_count[instr_name] += 1
+        else:   # add to dictionary
+            instr_count[instr_name] = 1
+    
+    return instr_count
 
 
 def find_class_count(courses: list):
@@ -213,8 +222,31 @@ def calc_instr_avg(data: list, isEasyA: bool=True):
     Returns:
         Dictionary - {"Instructor": _%avg}
     """
-    # Could double check if given data is truly only Course objects
-    pass
+    sums_dict = dict()
+    count_dict = dict()
+    for i in range(len(data)):
+        instr_name = data[i].instructor
+        if isEasyA:
+            if instr_name in count_dict:
+                sums_dict[instr_name] += data[i].a_perc 
+                count_dict[instr_name] += 1
+            else:
+                sums_dict[instr_name] = data[i].a_perc 
+                count_dict[instr_name] = 1
+        else:
+            if instr_name in count_dict:
+                sums_dict[instr_name] += data[i].df_perc 
+                count_dict[instr_name] += 1
+            else:
+                sums_dict[instr_name] = data[i].df_perc
+                count_dict[instr_name] = 1
+
+    instructors = list(sums_dict.keys())
+    instr_avg = dict()
+    for i in range(len(instructors)):
+        instr_avg[instructors[i]] = (sums_dict[instructors[i]] / count_dict[instructors[i]])
+
+    return instr_avg
 
 
 def calc_class_avg(data: list, isEasyA: bool=True):
@@ -434,6 +466,7 @@ def update_plotting_data(graph: Graph):
             return False    # Found an element that's not a Course object 
     
 
+    # Filter out all Non-faculty if needed
     if not graph.isAllInstructors: # If FacultyOnly
         #remove all instructors from processing_data
         for i in reversed(range(len(graph.data))):
@@ -445,13 +478,11 @@ def update_plotting_data(graph: Graph):
         # This type will assume self.data is a List of Course objects
         new_data = calc_instr_avg(processing_data, graph.isEasyA)
         new_data = sort_dict(new_data)
-        graph.plotting_data = new_data
 
 
     elif (graph.type == 3): # <Dept> x00 level Classes (by class)
         new_data = calc_class_avg(processing_data, graph.isEasyA)
         new_data = sort_dict(new_data)
-        graph.plotting_data = new_data
 
 
 
@@ -459,21 +490,20 @@ def update_plotting_data(graph: Graph):
         # edit x axis names to add instructor count
             # do this by taking the keys
         
-
+        data_keys = list(new_data.keys())
         if (graph.type == 3):
-            class_count = find_class_count(processing_data) # get a dict of counts
+            xaxis_count = find_class_count(processing_data) # get a dict of counts 
 
         else: # The other types of graph that's now by class
-            instr_count = find_instr_count(processing_data) # get a dict of counts
+            xaxis_count = find_instr_count(processing_data) # get a dict of counts
 
+        for i in range(len(new_data)):
+            pass
 
-
-
-
-
-
-
+    graph.plotting_data = new_data
     graph.update_labels() # should be last thing in this function hopefuly
+
+
 
 
 def plot_graphs(graphs : list):
@@ -531,6 +561,7 @@ def main():
     """Main function to run
     FOR TESTING PURPOSES ONLY
     """
+
     pass
 
 
