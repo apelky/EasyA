@@ -8,6 +8,81 @@ from Graph_Class import Graph
 from Course_Class import Course
 
 from GradeData import groups
+##### Test dictionaries #####
+single_course_test = {"MTH111": [
+                                    {
+                                        "TERM_DESC": "Winter 2015",
+                                        "aprec": "10.0",
+                                        "bprec": "20.0",
+                                        "cprec": "30.0",
+                                        "crn": "123456",
+                                        "dprec": "20.0",
+                                        "fprec": "20.0",
+                                        "instructor": "John Smith"
+                                    },
+                                    {
+                                        "TERM_DESC": "Fall 2016",
+                                        "aprec": "30.0",
+                                        "bprec": "10.0",
+                                        "cprec": "10.0",
+                                        "crn": "123456",
+                                        "dprec": "10.0",
+                                        "fprec": "40.0",
+                                        "instructor": "Matt Le Blanc"
+                                    }
+                                ]
+                    }
+
+
+multiple_course_test = {"MTH111": [
+                                    {
+                                        "TERM_DESC": "Winter 2015",
+                                        "aprec": "10.0",
+                                        "bprec": "20.0",
+                                        "cprec": "30.0",
+                                        "crn": "123456",
+                                        "dprec": "20.0",
+                                        "fprec": "20.0",
+                                        "instructor": "John Smith"
+                                    },
+                                    {
+                                        "TERM_DESC": "Fall 2016",
+                                        "aprec": "30.0",
+                                        "bprec": "10.0",
+                                        "cprec": "10.0",
+                                        "crn": "123456",
+                                        "dprec": "10.0",
+                                        "fprec": "40.0",
+                                        "instructor": "Matt Le Blanc"
+                                    }
+                                ],
+                        "MTH212": [
+                                    {
+                                        "TERM_DESC": "Winter 2015",
+                                        "aprec": "20.0",
+                                        "bprec": "30.0",
+                                        "cprec": "40.0",
+                                        "crn": "567894",
+                                        "dprec": "20.0",
+                                        "fprec": "10.0",
+                                        "instructor": "Arthur Pendragon"
+                                    },
+                                    {
+                                        "TERM_DESC": "Fall 2015",
+                                        "aprec": "5.0",
+                                        "bprec": "15.0",
+                                        "cprec": "40.0",
+                                        "crn": "645642",
+                                        "dprec": "10.0",
+                                        "fprec": "30.0",
+                                        "instructor": "Robert Henry"
+                                    }
+                                ]
+                    }
+
+
+#############################
+
 
 
 ##### Helper functions #####
@@ -52,7 +127,7 @@ def split_dept_and_level(courseKey: str):
         Tuple   (dept: str, level: int)
 
     """
-    # might want to check if this can be split. "MTH" I don't think
+    # might want to check if this can be split. "MTH " or "111"
     # but I also hope our user_input() function would catch that
     pass
 
@@ -354,3 +429,19 @@ def save_as_pdf(filename: str, graphs: list):
         parameter.
     """
     pass
+
+
+
+
+
+########### TESTING / DEBUGGING ##########
+def main():
+    """Main function to run
+    FOR TESTING PURPOSES ONLY
+    """
+    pass
+
+
+
+if __name__ == "__main__":
+    main()

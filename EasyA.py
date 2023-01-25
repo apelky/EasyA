@@ -419,21 +419,7 @@ def main():
     print("- EasyA Program -")
     print("Created by Group 1\n")
 
-<<<<<<< HEAD
-    print(getInput())
-
-    
-
-    #year, subject, course = getInput()
-
-    # Fixed parameters for now --- will eventually be set based on user input
-    year = "2014"       # Can range from 2013 to 2016
-    subject = "AAAP"     # I considered making an array of all possible subject codes (see top of doc),
-                        # but there are just os many that I don't think it's worth it
-    course = "510"
-=======
     subject, course, level, year, showGraph = getInput()
->>>>>>> a06f48d8e79d5197a5fe2deb8d17437e5f62c9d0
 
     # Get data from data file based on input parameters
     dataList = getData(subject, course, year)
