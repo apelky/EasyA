@@ -171,6 +171,33 @@ def find_instr_count(courses: list):
     pass
 
 
+def find_class_count(courses: list):
+    """
+    Desc:
+        Counts the number of times all classes were offered in the given data list.
+        Returns a dictionary of {"Class": times_offered} pairs
+
+        Useful for when parsing data in update_plotting_data()
+
+    Parameters:
+        courses    (List of Course objects) - Courses of classes taught
+
+    Returns:
+        Dictionary   - {"Class":times_offered, ...}
+
+    """
+    class_offerings = dict()
+    for i in range(len(courses)):
+        course_name = combine_dept_and_level(courses[i].dept, courses[i].level)
+        if course_name in class_offerings:  # if already in dictionary
+            class_offerings[course_name] += 1
+        else:   # add to dictionary
+            class_offerings[course_name] = 1
+    
+    return class_offerings
+
+
+
 def calc_instr_avg(data: list, isEasyA: bool=True):
     """
     Desc:
@@ -188,6 +215,48 @@ def calc_instr_avg(data: list, isEasyA: bool=True):
     """
     # Could double check if given data is truly only Course objects
     pass
+
+
+def calc_class_avg(data: list, isEasyA: bool=True):
+    """
+    Desc:
+        Searches list of Course objects for class' a% avg (or df% if isEasyA is False)
+        Returns a dictionary of {"Class": _%avg} pairs of the data
+
+        Useful for updating plotting data
+
+    Parameters:
+        data    (List of Course objects) - Courses count class' teach counts
+        isEasyA (bool) - Search function option. A% if True, D/F% if False
+
+    Returns:
+        Dictionary - {"Class": _%avg}
+    """
+    sums_dict = dict()
+    count_dict = dict()
+    for i in range(len(data)):
+        course_name = combine_dept_and_level(data[i].dept, data[i].level)
+        if isEasyA:
+            if course_name in count_dict:
+                sums_dict[course_name] += data[i].a_perc 
+                count_dict[course_name] += 1
+            else:
+                sums_dict[course_name] = data[i].a_perc 
+                count_dict[course_name] = 1
+        else:
+            if course_name in count_dict:
+                sums_dict[course_name] += data[i].df_perc 
+                count_dict[course_name] += 1
+            else:
+                sums_dict[course_name] = data[i].df_perc
+                count_dict[course_name] = 1
+
+    classes = list(sums_dict.keys())
+    class_avg = dict()
+    for i in range(len(classes)):
+        class_avg[classes[i]] = (sums_dict[classes[i]] / count_dict[classes[i]])
+
+    return class_avg
 
 
 
@@ -343,7 +412,8 @@ def update_plotting_data(graph: Graph):
         graph (Graph) - Graph to update plotting data in
 
     Returns:
-        None
+        True    - successful
+        False   - unsuccessful
 
 
 
@@ -354,34 +424,56 @@ def update_plotting_data(graph: Graph):
 
 
     """
+
     # Filter out Faculty
     processing_data = graph.data
+
+    # Check that processing data is all Course objects
+    for i in range(len(processing_data)):
+        if type(processing_data[i]) != Course:
+            return False    # Found an element that's not a Course object 
+    
+
     if not graph.isAllInstructors: # If FacultyOnly
         #remove all instructors from processing_data
-        pass
+        for i in reversed(range(len(graph.data))):
+            if processing_data[i].isProfessor:  # we remove the professors, right?
+                processing_data.pop(i)
 
-
-    if (graph.type == 0): # Single Class
+    new_data = dict()
+    if (graph.type in [0, 1, 2]): # Single Class
         # This type will assume self.data is a List of Course objects
-        pass
+        new_data = calc_instr_avg(processing_data, graph.isEasyA)
+        new_data = sort_dict(new_data)
+        graph.plotting_data = new_data
 
-    elif (graph.type == 1): # Single Department
-        # This type will assume self.data is a List of Course objects
-        pass
-
-    elif (graph.type == 2): # <Dept> x00 level Classes (by instructor)
-        # This type will assume self.data is a List of Course objects
-        pass
 
     elif (graph.type == 3): # <Dept> x00 level Classes (by class)
-        pass
+        new_data = calc_class_avg(processing_data, graph.isEasyA)
+        new_data = sort_dict(new_data)
+        graph.plotting_data = new_data
+
+
 
     if graph.show_count:
         # edit x axis names to add instructor count
             # do this by taking the keys
-        pass
+        
+
+        if (graph.type == 3):
+            class_count = find_class_count(processing_data) # get a dict of counts
+
+        else: # The other types of graph that's now by class
+            instr_count = find_instr_count(processing_data) # get a dict of counts
+
+
+
+
+
+
+
+
     graph.update_labels() # should be last thing in this function hopefuly
-    pass
 
 
 def plot_graphs(graphs : list):
