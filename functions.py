@@ -590,17 +590,17 @@ def main():
     # showCount = 1
 
 
-    # get user input
-    test_case3 = get_department_x00_level("MATH", 100)
-    test_case3 = convert_to_Courses(test_case3)
-    test_graph3 = Graph(3, isEasyA, allInstructors, showCount)
-    test_graph3.add_data(test_case3)
-    update_plotting_data(test_graph3)
-    #plot graph
-    #save to pdf
+    # # get user input
+    # test_case3 = get_department_x00_level("MATH", 100)
+    # test_case3 = convert_to_Courses(test_case3)
+    # test_graph3 = Graph(3, isEasyA, allInstructors, showCount)
+    # test_graph3.add_data(test_case3)
+    # update_plotting_data(test_graph3)
+    # #plot graph
+    # #save to pdf
 
 
-    print(test_graph3.plotting_data)
+    # print(test_graph3.plotting_data)
 
 
 
