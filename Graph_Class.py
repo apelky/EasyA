@@ -105,15 +105,29 @@ class Graph():
 
         # Each graph.type will vary slightly. account for that
         if self.type == 0:
+            # Title: MATH 111
+            # X axs: Instructor
+            # Y axs: % As        (if isEasyA, % D/Fs otherwise)
             pass
 
         if self.type == 1:
+            # Title: All <dept> classes
+            # X axs: Instructor
+            # Y axs: % As        (if isEasyA, % D/Fs otherwise)
+
             pass
 
         if self.type == 2:
+            # Title: All <dept>-x00 level
+            # X axs: Instructor
+            # Y axs: % As        (if isEasyA, % D/Fs otherwise)
+
             pass
 
         if self.type == 3:
+            # Title: All <dept>-x00 level
+            # X axs: Class
+            # Y axs: % As        (if isEasyA, % D/Fs otherwise)
             pass
 
         
