@@ -8,77 +8,6 @@ from Graph_Class import Graph
 from Course_Class import Course
 
 from GradeData import groups
-##### Test dictionaries #####
-single_course_test = {"MTH111": [
-                                    {
-                                        "TERM_DESC": "Winter 2015",
-                                        "aprec": "10.0",
-                                        "bprec": "20.0",
-                                        "cprec": "30.0",
-                                        "crn": "123456",
-                                        "dprec": "20.0",
-                                        "fprec": "20.0",
-                                        "instructor": "John Smith"
-                                    },
-                                    {
-                                        "TERM_DESC": "Fall 2016",
-                                        "aprec": "30.0",
-                                        "bprec": "10.0",
-                                        "cprec": "10.0",
-                                        "crn": "123456",
-                                        "dprec": "10.0",
-                                        "fprec": "40.0",
-                                        "instructor": "Matt Le Blanc"
-                                    }
-                                ]
-                    }
-
-
-multiple_course_test = {"MTH111": [
-                                    {
-                                        "TERM_DESC": "Winter 2015",
-                                        "aprec": "10.0",
-                                        "bprec": "20.0",
-                                        "cprec": "30.0",
-                                        "crn": "123456",
-                                        "dprec": "20.0",
-                                        "fprec": "20.0",
-                                        "instructor": "John Smith"
-                                    },
-                                    {
-                                        "TERM_DESC": "Fall 2016",
-                                        "aprec": "30.0",
-                                        "bprec": "10.0",
-                                        "cprec": "10.0",
-                                        "crn": "123456",
-                                        "dprec": "10.0",
-                                        "fprec": "40.0",
-                                        "instructor": "Matt Le Blanc"
-                                    }
-                                ],
-                        "MTH212": [
-                                    {
-                                        "TERM_DESC": "Winter 2015",
-                                        "aprec": "20.0",
-                                        "bprec": "30.0",
-                                        "cprec": "40.0",
-                                        "crn": "567894",
-                                        "dprec": "20.0",
-                                        "fprec": "10.0",
-                                        "instructor": "Arthur Pendragon"
-                                    },
-                                    {
-                                        "TERM_DESC": "Fall 2015",
-                                        "aprec": "5.0",
-                                        "bprec": "15.0",
-                                        "cprec": "40.0",
-                                        "crn": "645642",
-                                        "dprec": "10.0",
-                                        "fprec": "30.0",
-                                        "instructor": "Robert Henry"
-                                    }
-                                ]
-                    }
 
 
 #############################
@@ -88,25 +17,46 @@ multiple_course_test = {"MTH111": [
 ##### Helper functions #####
 # Feel free to add on your own functions you can think of if it helps you
 # Just document it well
+def tuple_list_flip(alist):
+	retList = []
+	for i in range(len(alist)):
+		retList.append((alist[i][1], alist[i][0]))
+	return retList
 
-def sort_dict(d: dict):
+
+def sort_dict(d: dict, hi2lo: bool=True):
     """
     Desc:
         Returns a sorted dicitonary of numbers from Hi to Lo by values
+        Or if hi2low is False, then will return lo to hi values
         Ex:
             {"X": 1, "Y": 2, "Z": 3} -> {"Z": 3, "Y": 2, "X": 1}
+
 
         Useful for sorting Graph.plotting_data
 
     Parameters:
         d   (dict) - Dictionary to be sorted by values
+        hi2lo (bool) - Optional flag to have values count low to high
 
     Return:
         Dictionary - Sorted dictionary
     """
     # should probably check if values are all same type so it can
     # genuinely distinguish which values are > and < others
-    pass
+    items = list(d.items())
+    items = tuple_list_flip(items)
+    items.sort()    # sort low to high
+    if hi2lo:  
+        items.reverse() # sort high to low
+    items = tuple_list_flip(items)
+
+    retDict = dict()
+    for i in range(len(items)):
+        retDict[items[i][0]] = items[i][1]
+    return retDict
+
+
 
 
 def split_dept_and_level(courseKey: str):
@@ -228,23 +178,23 @@ def calc_instr_avg(data: list, isEasyA: bool=True):
         instr_name = data[i].instructor
         if isEasyA:
             if instr_name in count_dict:
-                sums_dict[instr_name] += data[i].a_perc 
+                sums_dict[instr_name] += float(data[i].a_perc)
                 count_dict[instr_name] += 1
             else:
-                sums_dict[instr_name] = data[i].a_perc 
+                sums_dict[instr_name] = float(data[i].a_perc) 
                 count_dict[instr_name] = 1
         else:
             if instr_name in count_dict:
-                sums_dict[instr_name] += data[i].df_perc 
+                sums_dict[instr_name] += float(data[i].df_perc)
                 count_dict[instr_name] += 1
             else:
-                sums_dict[instr_name] = data[i].df_perc
+                sums_dict[instr_name] = float(data[i].df_perc)
                 count_dict[instr_name] = 1
 
     instructors = list(sums_dict.keys())
     instr_avg = dict()
     for i in range(len(instructors)):
-        instr_avg[instructors[i]] = (sums_dict[instructors[i]] / count_dict[instructors[i]])
+        instr_avg[instructors[i]] = round((sums_dict[instructors[i]] / count_dict[instructors[i]]), 2)
 
     return instr_avg
 
@@ -270,23 +220,23 @@ def calc_class_avg(data: list, isEasyA: bool=True):
         course_name = combine_dept_and_level(data[i].dept, data[i].level)
         if isEasyA:
             if course_name in count_dict:
-                sums_dict[course_name] += data[i].a_perc 
+                sums_dict[course_name] += float(data[i].a_perc)
                 count_dict[course_name] += 1
             else:
-                sums_dict[course_name] = data[i].a_perc 
+                sums_dict[course_name] = float(data[i].a_perc)
                 count_dict[course_name] = 1
         else:
             if course_name in count_dict:
-                sums_dict[course_name] += data[i].df_perc 
+                sums_dict[course_name] += float(data[i].df_perc)
                 count_dict[course_name] += 1
             else:
-                sums_dict[course_name] = data[i].df_perc
+                sums_dict[course_name] = float(data[i].df_perc)
                 count_dict[course_name] = 1
 
     classes = list(sums_dict.keys())
     class_avg = dict()
     for i in range(len(classes)):
-        class_avg[classes[i]] = (sums_dict[classes[i]] / count_dict[classes[i]])
+        class_avg[classes[i]] = round((sums_dict[classes[i]] / count_dict[classes[i]]),2)
 
     return class_avg
 
@@ -310,7 +260,7 @@ def get_course(dept: str, level: int):
         A list of Course objects
     """
 
-    rawData = groups[dept + level]
+    rawData = groups[dept + str(level)]
     courseList = []
 
     for i in range(len(rawData)):
@@ -431,6 +381,49 @@ def get_department_x00_level(dept: str, level: int):
     return courseDict
 
 
+def convert_to_Courses(classes_dict: dict):
+    """ 
+    Desc:
+        Takes a class dictionary and converts all the offerings
+        of courses into Course objects in a list 
+        Then returns that list of Courses
+
+        (Useful for getting list of dictionaries prepped
+            before adding to Graph)
+
+    Parameters:
+        classes_dict (dict) - Classes to be converted
+            Ex: {"MTH111": [
+                            {offering 1}, 
+                            {offering 2}, 
+                            {offering 3}
+                            ]
+                ,
+                "MTH115":  [
+                            {offering 1}, 
+                            {offering 2}, 
+                            {offering 3}
+                            ]
+                ,
+                    ...
+                }
+    
+    Returns:
+        List (of Course objects)
+    """
+    # Check if it's already a list
+    if (type(classes_dict) == list):
+        return  # quit if it is
+
+    courseList = [] # retVal
+    keys = list(classes_dict.keys())    # list of keys
+
+    for i in range(len(classes_dict)):  # For every key
+        for j in range(len(classes_dict[keys[i]])): # For every item in list of value
+            courseList.append(classes_dict[keys[i]][j]) # append to courseList
+    return courseList
+
+
 def update_plotting_data(graph: Graph):
     """
     MUST BE CALLED AFTER ADDING DATA TO GRAPH FOR NEW DATA TO APPEAR
@@ -485,6 +478,7 @@ def update_plotting_data(graph: Graph):
         new_data = sort_dict(new_data)
 
 
+    graph.plotting_data = new_data
 
     if graph.show_count:
         # edit x axis names to add instructor count
@@ -497,10 +491,18 @@ def update_plotting_data(graph: Graph):
         else: # The other types of graph that's now by class
             xaxis_count = find_instr_count(processing_data) # get a dict of counts
 
+        xaxis_count = sort_dict(xaxis_count)    # sort the dict
+        xaxis_count_items = list(xaxis_count.items())
+        shown_count_points = dict()
+        # print(xaxis_count_items)
         for i in range(len(new_data)):
-            pass
+            shown_count_points[xaxis_count_items[i][0] + " ("  + str(xaxis_count_items[i][1]) + ")"] = new_data[xaxis_count_items[i][0]]
+        graph.plotting_data = shown_count_points
 
-    graph.plotting_data = new_data
+        
+    
+    graph.plotting_data = sort_dict(graph.plotting_data, graph.isEasyA)
+
     graph.update_labels() # should be last thing in this function hopefuly
 
 
@@ -562,7 +564,43 @@ def main():
     FOR TESTING PURPOSES ONLY
     """
 
-    pass
+    # test_case = get_course("MATH", 111) # listo f course objects
+    # test_graph = Graph(0, True, True)
+
+    # test_case1 = get_department_courses("MATH")
+    # print(test_case1)
+    # test_case1 = convert_to_Courses(test_case1)
+    # # print(test_case1)
+    # test_graph1 = Graph(1, False, True, True)
+    # test_graph1.add_data(test_case1)
+    # update_plotting_data(test_graph1)
+
+    # test_case2 = get_department_x00_level("MATH", 100)
+    # # print(test_case2)
+    # test_case2 = convert_to_Courses(test_case2)
+    # # print(test_case2)
+    # test_graph2 = Graph(1, True, True, False)
+    # test_graph2.add_data(test_case2)
+    # update_plotting_data(test_graph2)
+    # # print(test_case)
+    # # print(test_graph.data)
+    # # print(test_graph2.plotting_data)
+    # isEasyA = 1
+    # allInstructors = 1
+    # showCount = 1
+
+
+    # get user input
+    test_case3 = get_department_x00_level("MATH", 100)
+    test_case3 = convert_to_Courses(test_case3)
+    test_graph3 = Graph(3, isEasyA, allInstructors, showCount)
+    test_graph3.add_data(test_case3)
+    update_plotting_data(test_graph3)
+    #plot graph
+    #save to pdf
+
+
+    print(test_graph3.plotting_data)
 
 
 

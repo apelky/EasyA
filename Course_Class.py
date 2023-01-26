@@ -42,7 +42,7 @@ class Course():
         self.c_perc      = c
         self.d_perc      = d
         self.f_perc      = f
-        self.df_perc     = d + f
+        self.df_perc     = float(d) + float(f)
         self.instructor  = instr
         self.isProfessor = isProf
         self.numCourses  = n
