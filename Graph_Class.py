@@ -104,37 +104,48 @@ class Graph():
         # for each type
 
         # Each graph.type will vary slightly. account for that
-        if self.type == 0:
-            # Title: MATH 111
-            # X axs: Instructor  (if showcount, Instructor (and number of classes taught))
-            # Y axs: % As        (if isEasyA, % D/Fs otherwise)
-            pass
-
-        if self.type == 1:
-            # Title: All <dept> classes
-            # X axs: Instructor  (if showcount, Instructor (and number of classes taught))
-            # Y axs: % As        (if isEasyA, % D/Fs otherwise)
-
-            pass
+          self.x_axis_label = "Instructor"
+            
+            if self.isEasyA == True:
+                self.y_axis_label = "% As"
+            else:
+                self.y_axis_label = "% D/Fs"
 
         if self.type == 2:
-            # Title: All <dept>-x00 level
+            # Title: All <dept> x00-level
             # X axs: Instructor  (if showcount, Instructor (and number of classes taught))
             # Y axs: % As        (if isEasyA, % D/Fs otherwise)
 
-            pass
+            self.title = "All " + self.data.dept + " " + self.data.courseLevel + "-level"
+            
+            if self.show_count == True:
+                self.x_axis_label = "Instructor (and number of classes taught)"
+            else:
+                self.x_axis_label = "Instructor"
+            
+            if self.isEasyA == True:
+                self.y_axis_label = "% As"
+            else:
+                self.y_axis_label = "% D/Fs"
 
         if self.type == 3:
-            # Title: All <dept>-x00 level
+            # Title: All <dept> x00-level
             # X axs: Class       (if showcount, Class (and number of classes taught))
             # Y axs: % As        (if isEasyA, % D/Fs otherwise)
-            pass
+            
+            self.title = "All " + self.data.dept + " " + self.data.courseLevel + "-level"
+            
+            if self.show_count == True:
+                self.x_axis_label = "Class (and number of classes taught)"
+            else:
+                self.x_axis_label = "Class"
+            
+            if self.isEasyA == True:
+                self.y_axis_label = "% As"
+            else:
+                self.y_axis_label = "% D/Fs"
 
-        
 
-    
-
-     
 ##### Old, brainstorming stuff. Can discuss why this is commented out #####
     # def update_plotting_data(self):
     #     """
