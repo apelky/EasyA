@@ -36,6 +36,7 @@ import argparse
 import sys
 
 from Faculty_Parser import *
+from User_Input import *
 
 
 """
@@ -70,55 +71,13 @@ def debugPrint(*args):
 # Gets input parameters from user via a command line interface
 # Returns 'subject' (string), 'course' (int or None), 'level' (int or None), and 'year' (int or None)
 def getInput():
-    parser = argparse.ArgumentParser()
-
-    # Optional arguments
-    parser.add_argument('-s', help='A single subject code, such as "Math"')
-    parser.add_argument('-c', type=int, help='A single course level, such as "111"')
-    parser.add_argument('-l', type=int, help='All courses of a particular level, such as "100"')
-    parser.add_argument('-y', type=int, help='A year from 2013 to 2016')
-    parser.add_argument('-g', type=int, help='Whether to show the graph')
-
-    # Parameter variables
-    args        = parser.parse_args()
-    subject     = args.s
-    course      = str(args.c)
-    level       = str(args.l)
-    year        = str(args.y)
-    showGraph   = args.g == None or (args.g != 0 and args.g != False)
-
-    # Make sure that a subject code is provided if it wasn't a command line argument
-    if args.s is None:
-        subject = input("Enter subject code: ")
-
-    # Make sure that a course number is provided if it wasn't a command line argument
-    if args.c is None:
-        view_course = input("Do you want view a specific course? [y or n]: ")
-        if view_course:
-            course = input("Enter course number: ")
-        else:
-            view_level = None
-            if (args.l is None):
-                view_level = input("Do you want view all courses of a specific level? [y or n]: ")
-            else:
-                view_level = input("Do you want view all courses of level", level + "? [y or n]: ")
-            if view_level:
-                level = input("Enter course level: ")
-
-    # Make sure that a year provided if it wasn't a command line argument
-    if args.y is None:
-        view_year = input("Do you want view a specific year? [y or n]: ")
-        if view_year:
-            year = input("Enter a year from 2013 to 2016: ")
-
-    #"""
+    subject, course, level, year, showGraph = window()
+    
     debugPrint("Optional subject code argument: ", subject)
     debugPrint("Optional course argument: ", course)
     debugPrint("Optional level argument: ", level)
     debugPrint("Optional year argument: ", year)
     debugPrint("Optional graph argument: ", showGraph)
-    #"""
-
     return subject, course, level, year, showGraph
 
 
