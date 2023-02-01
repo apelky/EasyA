@@ -71,14 +71,16 @@ def debugPrint(*args):
 # Gets input parameters from user via a command line interface
 # Returns 'subject' (string), 'course' (int or None), 'level' (int or None), and 'year' (int or None)
 def getInput():
-    subject, course, level, year, showGraph = window()
+    subject, course, level, all_instruct, graph = window()
     
-    debugPrint("Optional subject code argument: ", subject)
-    debugPrint("Optional course argument: ", course)
-    debugPrint("Optional level argument: ", level)
-    debugPrint("Optional year argument: ", year)
-    debugPrint("Optional graph argument: ", showGraph)
-    return subject, course, level, year, showGraph
+    year = "2014"
+    """ debugPrint("subject code: ", subject)
+    debugPrint("optional course argument: ", course)
+    debugPrint("optional level argument: ", level)
+    debugPrint("optional year argument: ", year)
+    debugPrint("all instructors: ", all_instruct) """
+    
+    return subject, course, level, year, graph
 
 
 # Gets the value from the key/value pairs of the data file
