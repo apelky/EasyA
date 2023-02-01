@@ -40,26 +40,26 @@ open on pdf
 
 
 ## Files
-**Main Files**
-`EasyA.py`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Main executable to run the program
-`Course_Class.py` -- Declaration of python class, "Course"
-`Graph_class.py` &nbsp;&nbsp;-- Declaration of python class, "Graph"
-`User_Input.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions for getting input from user
-`functions.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various functions to process data into a plottable format
+**Main Files**<br>
+`EasyA.py`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Main executable to run the program<br>
+`Course_Class.py` -- Declaration of python class, "Course"<br>
+`Graph_class.py` &nbsp;&nbsp;-- Declaration of python class, "Graph"<br>
+`User_Input.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions for getting input from user<br>
+`functions.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various functions to process data into a plottable format<br>
 
-**Parsing & Data Files**
-`GradeData.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- All data
-`GradeData.py`   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse `GradeData.txt` and convert into a list
-`Regular_Faculty.txt` -- List of Faculty members
-`Faculty_Parser.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse `Regular_Faculty.txt` and convert into a list
+**Parsing & Data Files**<br>
+`GradeData.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- All data<br>
+`GradeData.py`   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse `GradeData.txt` and convert into a list<br>
+`Regular_Faculty.txt` -- List of Faculty members<br>
+`Faculty_Parser.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse `Regular_Faculty.txt` and convert into a list<br>
 
 
-**Testing Files**
-`APTest.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Test file for editing
-`GradeData_SmallTest.py` &nbsp;&nbsp;-- Test file for testing `GradeData_SmallText.txt`
-`GradeData_SmallTest.txt` -- Small version of GradeData for testing
-`TestCases.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various Test cases for functions
-`tkinter_test.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- File for testing Tkinter
+**Testing Files**<br>
+`APTest.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Test file for editing<br>
+`GradeData_SmallTest.py` &nbsp;&nbsp;-- Test file for testing `GradeData_SmallText.txt`<br>
+`GradeData_SmallTest.txt` -- Small version of GradeData for testing<br>
+`TestCases.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various Test cases for functions<br>
+`tkinter_test.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- File for testing Tkinter<br>
 
 
 
