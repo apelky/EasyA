@@ -40,21 +40,21 @@ open on pdf
 
 
 ## Files
-**Main Files**
+**Main Files**<br>
 `EasyA.py`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Main executable to run the program<br>
 `Course_Class.py` -- Declaration of python class, "Course"<br>
 `Graph_class.py` &nbsp;&nbsp;-- Declaration of python class, "Graph"<br>
 `User_Input.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions for getting input from user<br>
 `functions.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various functions to process data into a plottable format<br>
 
-**Parsing & Data Files**
+**Parsing & Data Files**<br>
 `GradeData.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- All data<br>
 `GradeData.py`   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse `GradeData.txt` and convert into a list<br>
 `Regular_Faculty.txt` -- List of Faculty members<br>
 `Faculty_Parser.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse `Regular_Faculty.txt` and convert into a list<br>
 
 
-**Testing Files**
+**Testing Files**<br>
 `APTest.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Test file for editing<br>
 `GradeData_SmallTest.py` &nbsp;&nbsp;-- Test file for testing `GradeData_SmallText.txt`<br>
 `GradeData_SmallTest.txt` -- Small version of GradeData for testing<br>
