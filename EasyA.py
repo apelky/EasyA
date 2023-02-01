@@ -68,8 +68,29 @@ def debugPrint(*args):
         print(*args)
 
 
-# Gets input parameters from user via a command line interface
-# Returns 'subject' (string), 'course' (int or None), 'level' (int or None), and 'year' (int or None)
+def updateData():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f', help='a json file containing grade data')
+    args = parser.parse_args()
+    file = args.f
+
+    if not file.lower().endswith('.json'):
+        print("ERROR: file must be a JSON file (.json)")
+        return
+    
+    try:
+        fstream = open(file)
+    except:
+        print("ERROR: cannot open file", file)
+    else:
+        for line in fstream:
+            continue
+
+        print("system updated with new data")
+
+
+# Gets input parameters from user a graphical user interface (GUI)
+# Returns the strings: 'subject', 'course', level', and 'year'
 def getInput():
     subject, course, level, all_instruct, graph = window()
     
@@ -381,6 +402,10 @@ def main():
 
     print("- EasyA Program -")
     print("Created by Group 1\n")
+
+    if len(sys.argv) == 3:
+        updateData()
+        return
 
     subject, course, level, year, showGraph = getInput()
 
