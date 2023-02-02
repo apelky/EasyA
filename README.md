@@ -32,11 +32,11 @@ This program uses Python3 & a python library matplotlib.<br>
 
 ### EasyA Installation
 1)  **Download.** Click on the green "<> Code" button above the repo, then select the "Download ZIP" option. This will download the contents of the repo onto your local machine <br>
-<img src="images/step1.png"><br>
+<img src="images/step1.png" width="300" align="center" ><br><br>
 
 2)  **Unzip.** Open up to your Downloads in File Explorer/Finder and right-click on the zip folder you just downloaded. Then select the "Extract All" option, then press confirm by pressing "Extract". <br>
-<img src="images/step2.png"><br>
-This will decompress the contents of the file, and allow you to now view and execute the files.<br>
+<img src="images/step2.png" width="600"><br><br>
+This will decompress the contents of the file, and allow you to now view and execute the files.<br><br>
 
 At this point, EasyA is installed and ready to be run!
 
@@ -46,32 +46,38 @@ At this point, EasyA is installed and ready to be run!
 
 ## How to Use EasyA
 
+
 1) **Run EasyA.py.** Open up your command prompt (or terminal if on Mac), and navigate to your EasyA file you just unzipped.<br>
-`cd Downloads/EasyA-master/EasyA-master`<br>
-If you moved the EasyA folder out of of the Downloads folder, you'll need to find and type the correct path to the folder:<br>
-`cd insert/your/path/to/folder/EasyA-master`<br>
-Once you're in the correct folder, *(can check folder's contents by using `dir` (Windows) or `ls` (Mac))*, execute the `EasyA.py` file by typing the following command:<br>
-`python3 EasyA.py`<br>
-*(If you aren't using python 3 and have an older version of python, try typing the same command using `python` instead of `python3`)*<br>
-This will use python to execute the EasyA program. <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`cd Downloads/EasyA-master/EasyA-master`<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you moved the EasyA folder out of of the Downloads folder, you'll need to find and type the correct path to the folder:<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`cd insert/your/path/to/folder/EasyA-master`<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Once you're in the correct folder, *(can check folder's contents by using `dir` (Windows) or `ls` (Mac))*, execute the `EasyA.py` file by typing the following command:<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`python3 EasyA.py`<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(If you aren't using python 3 and have an older version of python, try typing the same command using `python` instead of `python3`)*<br>
+This will use python to execute the EasyA program. <br><br>
+
 
 2) **Provide Input.** Now that the program is running, a window will pop up with a few options. Here's what each option does:<br>
 
 
-button1 -- placeholder 
-button2 -- placeholder
+button1 -- placeholder<br>
+button2 -- placeholder<br>
 
-`Now waiting for UI to near completion to geta grasp of options provided insteado fhaving to redo this section #FIXME`
+`Now waiting for UI to near completion to geta grasp of options provided insteado fhaving to redo this section #FIXME`<br>
 
-3) **View Graph.** After you have inputted the specifics of what you would like to see, the EasyA program has saved the graph as a .PDF in the "pdfs" folder. Find the EasyA folder on your local device via file explorer/finder, and open the desired 
+3) **View Graph.** After you have inputted the specifics of what you would like to see, the EasyA program has saved the graph as a .PDF in the "pdfs" folder. Find the EasyA folder on your local device via file explorer/finder, and open the desired<br>
 
-`image to come later #FIXME`
-
-
+`image to come later #FIXME`<br>
 
 
-### Administrator Use
-What flags do we need here? #FIXME
+
+
+### Administrator Use<br>
+What flags do we need here? #FIXME<br>
 
 
 
@@ -79,11 +85,11 @@ What flags do we need here? #FIXME
 
 ## Files
 **Main Files**<br>
-`EasyA.py`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Main executable to run the program<br>
+`EasyA.py`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Main executable to run the program<br>
 `Course_Class.py` -- Declaration of python class, "Course"<br>
-`Graph_class.py` &nbsp;&nbsp;-- Declaration of python class, "Graph"<br>
-`User_Input.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions for getting input from user<br>
-`functions.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various functions to process data into a plottable format<br>
+`Graph_class.py` &nbsp;-- Declaration of python class, "Graph"<br>
+`User_Input.py` &nbsp;&nbsp;&nbsp;-- Functions for getting input from user<br>
+`functions.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various functions to process data into a plottable format<br>
 
 **Parsing & Data Files**<br>
 `GradeData.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- All data<br>
