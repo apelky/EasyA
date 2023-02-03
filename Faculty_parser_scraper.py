@@ -49,23 +49,26 @@ def explore_catalog(url):
     return school_link
 
 def explore_school(url):
-    soup = initalize_soup(url)
+    #cnt=0
+    faculty_list = scraper(url)
     course_links = []
-    faculty_list = []
+    if faculty_list == None:
+        soup = initalize_soup(url)
+        faculty_list = []
     
-    ul = soup.find('ul', attrs={'class': 'nav'})
-    #print(ul)
-    if ul != None:
-        ul = ul.select('li')
+        ul = soup.find('ul', attrs={'class': 'nav'})
         #print(ul)
-        for url in ul:
-            #print(url)
-            link = get_link(url)
-            course_links.append(link)
-    else:
-        # send ul straight to scraper
-        faculty = scraper(soup)
-        faculty.append(faculty_list)
+        if ul != None:
+            ul = ul.select('li')
+            #print(ul)
+            for url in ul:
+                #print(url)
+                link = get_link(url)
+                course_links.append(link)
+        #else:
+            # send ul straight to scraper
+            #faculty = scraper(url)
+            #faculty_list.extend(faculty)
 
     return course_links, faculty_list
 
@@ -73,15 +76,19 @@ def explore_school(url):
 def scraper(url):
 
     soup = initalize_soup(url)
+    faculty = []
 
     #print(soup)
     # optimize by looking through only the container we need
     container = soup.find('div', attrs={'id':'facultytextcontainer'})
-    # for some reason the first faculty member is not part of the same class
-    first_faculty = container.find('p')
-    # get all faculty
-    faculty = container.find_all('p', attrs={'class':'facultylist'})
-    faculty.append(first_faculty)
+    if container != None:
+        # for some reason the first faculty member is not part of the same class
+        first_faculty = container.find('p')
+        # get all faculty
+        faculty = container.find_all('p', attrs={'class':'facultylist'})
+        faculty.extend(first_faculty)
+    else:
+        return None
 
     return faculty
 
@@ -124,22 +131,20 @@ def main():
     # the only link you need to provide is the course catalog page
     faculty_list = []
     school_links = explore_catalog('https://web.archive.org/web/20141124084353/http://catalog.uoregon.edu/')
-    courses, faculty = explore_school(school_links[0])
-    print(courses)
 
-    '''for school in school_links:
-        print(school)
+    for school in school_links:
+        #print(school)
         courses, faculty = explore_school(school)
-        faculty_list.extend(faculty)
-        #for course in courses:
-            #more_faculty = scraper(course)
-            #faculty_list.extend(more_faculty)
-    print(courses)
-    print('------------------------------------------------------------------------')
+        if faculty != None:
+            faculty_list.extend(faculty)
+        for course in courses:
+            more_faculty = scraper(course)
+            if more_faculty != None:
+                faculty_list.extend(more_faculty)
+
     print(faculty_list)
     #print(school_links)
 
-    '''
     #names = get_name(faculty)
     #ready_to_compare = name_parser(names)
     #print(ready_to_compare)
