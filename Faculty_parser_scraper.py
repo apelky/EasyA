@@ -23,11 +23,58 @@ EasyA.py uses Python 3.10
 import requests as r
 from bs4 import BeautifulSoup as bs
 
-def scraper(url):
-
+def initalize_soup(url):
     site = r.get(url)
     soup = bs(site.content, 'html.parser')
+    return soup
 
+def get_link(html):
+    link = html.find('a')
+    #print(link)
+    link = link['href']
+    link = 'https://web.archive.org'+link
+    return link
+
+def explore_catalog(url):
+    soup = initalize_soup(url)
+    school_link = []
+    # optimize by looking through only the section we need
+    div = soup.find('div', attrs={'id':'cl-menu'})
+    cut_down = div.select('li', attrs={'class':'separator'}) 
+    cut_down = cut_down[7:15]
+    for school in cut_down:
+        link = get_link(school)
+        #print(link)
+        school_link.append(link)
+    return school_link
+
+def explore_school(url):
+    soup = initalize_soup(url)
+    course_links = []
+    faculty_list = []
+    
+    ul = soup.find('ul', attrs={'class': 'nav'})
+    #print(ul)
+    if ul != None:
+        ul = ul.select('li')
+        #print(ul)
+        for url in ul:
+            #print(url)
+            link = get_link(url)
+            course_links.append(link)
+    else:
+        # send ul straight to scraper
+        faculty = scraper(soup)
+        faculty.append(faculty_list)
+
+    return course_links, faculty_list
+
+
+def scraper(url):
+
+    soup = initalize_soup(url)
+
+    #print(soup)
     # optimize by looking through only the container we need
     container = soup.find('div', attrs={'id':'facultytextcontainer'})
     # for some reason the first faculty member is not part of the same class
@@ -74,11 +121,29 @@ def name_parser(names):
 
 
 def main():
-    faculty = scraper('https://web.archive.org/web/20141107201347/http://catalog.uoregon.edu/arts_sciences/africanstudies/')
-    names = get_name(faculty)
-    ready_to_compare = name_parser(names)
-    print(ready_to_compare)
-    return ready_to_compare
+    # the only link you need to provide is the course catalog page
+    faculty_list = []
+    school_links = explore_catalog('https://web.archive.org/web/20141124084353/http://catalog.uoregon.edu/')
+    courses, faculty = explore_school(school_links[0])
+    print(courses)
+
+    '''for school in school_links:
+        print(school)
+        courses, faculty = explore_school(school)
+        faculty_list.extend(faculty)
+        #for course in courses:
+            #more_faculty = scraper(course)
+            #faculty_list.extend(more_faculty)
+    print(courses)
+    print('------------------------------------------------------------------------')
+    print(faculty_list)
+    #print(school_links)
+
+    '''
+    #names = get_name(faculty)
+    #ready_to_compare = name_parser(names)
+    #print(ready_to_compare)
+    #return ready_to_compare
 
 # This calls the 'main' function when this script is executed
 if __name__ == "__main__":
