@@ -143,6 +143,7 @@ def checkIfRegularFaculty(instructor):
     #debugPrint("Given name: ", instructor)
     for name in regularFaculty:
         if instructor == name:
+            '''TODO: this doesn't address the issue of middle inital'''
             #debugPrint(instructor, " is regular faculty")
             isRegularFaculty = True
 

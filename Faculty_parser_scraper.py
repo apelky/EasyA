@@ -142,7 +142,10 @@ def main():
             if more_faculty != None:
                 faculty_list.extend(more_faculty)
 
-    print(faculty_list)
+    with open('Reg Faculty.txt', 'w') as f:
+        for line in faculty_list:
+            f.write(f"{line}\n")
+    
     #print(school_links)
 
     #names = get_name(faculty)
