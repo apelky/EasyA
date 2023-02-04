@@ -22,11 +22,11 @@ class Course():
         self.level       = courseLevel
         self.crn         = crn
         self.term_desc   = termDesc
-        self.a_perc      = a
-        self.b_perc      = b
-        self.c_perc      = c
-        self.d_perc      = d
-        self.f_perc      = f
+        self.a_perc      = float(a)
+        self.b_perc      = float(b)
+        self.c_perc      = float(c)
+        self.d_perc      = float(d)
+        self.f_perc      = float(f)
         self.df_perc     = d + f
         self.instructor  = instr
         self.isProfessor = isProf

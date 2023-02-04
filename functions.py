@@ -214,7 +214,7 @@ def get_department_x00_level(dept: str, level: int):
                             {offering 3}
                             ]
                 ,
-                "MTH115":  [
+                "MTH115":   [
                             {offering 1},
                             {offering 2},
                             {offering 3}
@@ -326,8 +326,61 @@ def plot_graphs(graphs : list):
     # the data it needs for it to have a title, label, etc
 
     # also double check to make sure every element in the list is a Graph type
-    pass
+    """
+    g = Graph(0, True, True, True)
+    for graph in graphs:
+        print(graph.graphType)
 
+    self.type = 0
+    self.isAllInstructors = is_AllInstructors   # JustFaculty if false
+    self.data = []                              # list of Course objects
+    self.plotting_data = {}                     # Dict of data w/ plot points
+    self.title = ""
+    self.x_axis_label = ""
+    self.y_axis_label = ""
+    """
+
+    # Arrange graph layout
+    num_graphs = len(graphs)
+    W = math.ceil(math.sqrt(num_graphs))
+    H = math.ceil(num_graphs / W)
+    figure, axis = plt.subplots(W, H)
+
+    # Plot each graph
+    x = 0
+    y = 0
+    for i in range(num_graphs):
+
+        # For Sine Function
+        axis[x, y].plot(X, Y)
+        axis[x, y].set_title(num_graphs[i].title)
+
+        # Logicstics
+        x += 1
+        if x >= W:
+            y += 1
+
+        """
+        # Graph title
+        default_offer = courseList[0][0]
+        plt.title(default_offer.dept + " " + default_offer.level + " " + default_offer.term_desc)
+
+        # Plot graph
+        plt.bar(range(len(names)), grades, tick_label=names)
+        plt.tick_params(axis ='x', rotation = -90)
+
+        # Axis labels
+        plt.xlabel(graph.x_axis_label)
+        plt.ylabel(graph.y_axis_label)
+
+        # Save graph as .pdf file
+        filename = "EasyA_result" if EasyA else "JustPass_result"
+        plt.savefig("./pdfs/" + + ".pdf")
+
+        # Show graph
+        if showGraph:
+            plt.show()
+        """
 
 
 def save_as_pdf(filename: str, graphs: list):

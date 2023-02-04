@@ -1,5 +1,5 @@
 """
-EasyA.py created by Ethan Aasheim on Fri Jan 13, 2023.
+EasyA.py created on Fri Jan 13, 2023.
 
 Group 1:
 Ethan Aasheim
@@ -35,8 +35,10 @@ sys is a module from the Python Standard Library which handles system - specific
 import argparse
 import sys
 
+from Course_Class import *
+from Graph_Class import *
 from Faculty_Parser import *
-
+from functions import *
 
 """
 This variable is for the file containing all of the grade data from the EGT.
@@ -47,7 +49,15 @@ Commented out for now since I don't know if files can be global variables
 """
 #f = None
 
-dataFile = "GradeData_SmallTest.txt" # "GradeData.txt"
+dataFile = "GradeData.txt" # "GradeData_SmallTest.txt"
+
+
+# List of all subject code, but there are just so many that I think checking probably is not would be worthy it right now
+subjectCodes = ["AA", "AAA", "AAAP", "AAD", "ACTG", "AEIS", "AFR", "AIM", "ANTH", "ARB", "ARCH", "ARH", "ART", "ARTC", "ARTD",
+                "ARTF", "ARTM", "ARTO", "ARTP", "ARTR", "ARTS", "ASIA", "ASL", "ASTR", "BA", "BE", "BI", "CAS", "CDS", "CFT", "CH",
+                "CHN", "CINE", "CIS", "CIT", "CLAS", 'COLT', "CPSY", "CRES", "CRWR", 'DAN', "DANC", "DSC", "EALL", "EC", "EDLD", "EDST",
+                ]
+
 
 # --- Set to False before submit
 DEBUG = True
@@ -60,7 +70,7 @@ def debugPrint(*args):
 
 
 # Gets input parameters from user via a command line interface
-# Returns 'subject' (string), 'course' (int or None), 'level' (int or None), and 'year' (int or None)
+# Returns 'subject' (string), 'courseLvl' (int or None), 'level' (int or None), and 'year' (int or None)
 def getInput():
     parser = argparse.ArgumentParser()
 
@@ -74,40 +84,44 @@ def getInput():
     # Parameter variables
     args        = parser.parse_args()
     subject     = args.s
-    course      = str(args.c)
-    level       = str(args.l)
-    year        = str(args.y)
+    courseLvl   = args.c
+    level       = args.l
+    year        = args.y
     showGraph   = args.g == None or (args.g != 0 and args.g != False)
 
     # Make sure that a subject code is provided if it wasn't a command line argument
-    if subject is None:
+    if args.s is None:
         subject = input("Enter subject code: ")
 
     # Make sure that a course number is provided if it wasn't a command line argument
-    if (course is None) and (level is None):
+    if args.c is None:
         view_course = input("Do you want view a specific course? [y or n]: ")
         if view_course:
-            course = input("Enter course number: ")
+            courseLvl = int(input("Enter course number: "))
         else:
-            view_level = input("Do you want view all courses of a specific level? [y or n]: ")
+            view_level = None
+            if (args.l is None):
+                view_level = input("Do you want view all courses of a specific level? [y or n]: ")
+            else:
+                view_level = input("Do you want view all courses of level", level + "? [y or n]: ")
             if view_level:
-                level = input("Enter course level: ")
+                level = int(input("Enter course level: "))
 
     # Make sure that a year provided if it wasn't a command line argument
-    if year is None:
+    if args.y is None:
         view_year = input("Do you want view a specific year? [y or n]: ")
         if view_year:
-            course = input("Enter a year from 2013 to 2016: ")
+            year = int(input("Enter a year from 2013 to 2016: "))
 
     """
     debugPrint("Optional subject code argument: ", subject)
-    debugPrint("Optional course argument: ", course)
+    debugPrint("Optional course argument: ", courseLvl)
     debugPrint("Optional level argument: ", level)
     debugPrint("Optional year argument: ", year)
     debugPrint("Optional graph argument: ", showGraph)
     """
 
-    return subject, course, level, year, showGraph
+    return subject, courseLvl, level, year, showGraph
 
 
 # Gets the value from the key/value pairs of the data file
@@ -146,10 +160,10 @@ def checkIfRegularFaculty(instructor):
     isRegularFaculty = False
 
     # Search list of Regular Faculty for given name
-    debugPrint("Given name: ", instructor)
+    #debugPrint("Given name: ", instructor)
     for name in regularFaculty:
         if instructor == name:
-            debugPrint(instructor, " is regular faculty")
+            #debugPrint(instructor, " is regular faculty")
             isRegularFaculty = True
 
     return isRegularFaculty
@@ -192,7 +206,7 @@ def countInstructorCourses(instructor):
 
 
 # Gets data from data file based on string parameters 'year', 'subject', and 'course'
-def getData(subject, course, year):
+def getData(subject, courseLvl, year):
     """
     Looks in global 'datafile' = "GradeData.txt", for data
     given a course, subject, and year. Returns a dictionary of that specfic class
@@ -206,27 +220,15 @@ def getData(subject, course, year):
         subject (str) - Department it's in - Ex: "MTH"
         course (str) - Level of course - Ex: "111"
 
-    Returns dictionaries in the form of:
-        resultData = {
-            "TERM_DESC": term,
-            "aprec": "",
-            "bprec": "",
-            "cprec": "",
-            "crn": "",
-            "dprec": "",
-            "fprec": "",
-            "instructor": ""
-            "isProfessor": T/F,
-            "numCourses": int
-        }
+    Returns list of Course objects
     """
-    print("Subject Code:", subject, "   Course Number:", course, "   Year:", year)
+    print("Subject Code:", subject, "   Course Number:", courseLvl, "   Year:", year)
 
     # Open dataset file
     f = open(dataFile, "r")
 
     # The key of the data we need is the subject code followed by the course number
-    key = subject + course
+    key = subject + courseLvl
 
     read        = True  # Whether to keep reading file --- is set to False when target data found or at end of data
     layer       = 0     # Current depth in dataset --- 0 = all data, 1 = specific course, 2 = all course terms, 3 = specific term
@@ -263,7 +265,7 @@ def getData(subject, course, year):
             # Check line from data file for subject code and course number
             if line.find(key) != -1:
                 foundKey = True
-                debugPrint("Found course", subject, course)
+                #debugPrint("Found course", subject, course)
             layer += 1
 
         # Go up a layer in the dataset, exiting a course
@@ -271,11 +273,11 @@ def getData(subject, course, year):
             # If finished searching requested subject and course
             if foundKey == True:
                 # If found year
-                if foundYear == True:
-                    debugPrint("Found course", subject, course, "in", year, count, "time(s)")
+                #if foundYear == True:
+                    #debugPrint("Found course", subject, courseLvl, "in", year, count, "time(s)")
                 # If could not find year
-                else:
-                    debugPrint("Course", subject, course, "not found for", year, count, "time(s)")
+                if not foundYear:
+                    debugPrint("Course", subject, courseLvl, "not found for", year, count, "time(s)")
                 read = False
             layer -= 1
 
@@ -283,7 +285,7 @@ def getData(subject, course, year):
 
         # Layer == 0 --- End of data file and request not found
         if layer == 0:
-            debugPrint("End of dataset - course", subject, course, "not found")
+            debugPrint("End of dataset - course", subject, courseLvl, "not found")
             read = False
 
         # Layer == 1 --- Searching for subject and course
@@ -308,36 +310,24 @@ def getData(subject, course, year):
 
                 # For all of the years requested course was offered
                 while line.find(year) != -1:
-                    term = parseDataValue(line)
-
-                    # Create data dictionary to return
-                    resultData = {
-                        "TERM_DESC": term,
-                        "aprec": "",
-                        "bprec": "",
-                        "cprec": "",
-                        "crn": "",
-                        "dprec": "",
-                        "fprec": "",
-                        "instructor": "",
-                        "isProfessor": False,
-                        "numCourses": 0
-                    }
 
                     # Load the rest of the data in
-                    line = f.readline()
-                    resultData["aprec"] = parseDataValue(line); line = f.readline()
-                    resultData["bprec"] = parseDataValue(line); line = f.readline()
-                    resultData["cprec"] = parseDataValue(line); line = f.readline()
-                    resultData["crn"]   = parseDataValue(line); line = f.readline()
-                    resultData["dprec"] = parseDataValue(line); line = f.readline()
-                    resultData["fprec"] = parseDataValue(line); line = f.readline()
-                    resultData["instructor"] = parseDataValue(line)
-                    resultData["isProfessor"] = checkIfRegularFaculty(resultData["instructor"])
-                    resultData["numCourses"] = countInstructorCourses(resultData["instructor"])
+                    termDesc = parseDataValue(line);        line = f.readline()
+                    aprec = float(parseDataValue(line));    line = f.readline()
+                    bprec = float(parseDataValue(line));    line = f.readline()
+                    cprec = float(parseDataValue(line));    line = f.readline()
+                    crn   = parseDataValue(line);           line = f.readline()
+                    dprec = float(parseDataValue(line));    line = f.readline()
+                    fprec = float(parseDataValue(line));    line = f.readline()
+                    instructor = parseDataValue(line)
+                    isProfessor = checkIfRegularFaculty(instructor)
+                    numCourses = countInstructorCourses(instructor)
+
+                    course = Course(subject, courseLvl, crn, termDesc, aprec, bprec, cprec,
+                                        dprec, fprec, instructor, isProfessor, numCourses)
 
                     # Add data to list and increase count of courses found
-                    dataList.append(resultData);
+                    dataList.append(course);
                     count += 1
 
                     # Skip to next course description
@@ -347,46 +337,78 @@ def getData(subject, course, year):
     # Close dataset file
     f.close()
 
-    debugPrint("Course", subject, course, "was offered", count, "times in", year, "\n")
+    debugPrint("Course", subject, courseLvl, "was offered", count, "times in", year, "\n")
     return dataList
 
 
 # Draws a graph from the usser requested data with matplotlib functions
-def drawGraph(data, showGraph):
+def drawGraph(course, EasyA=True, showGraph=False):
     """
-    Draw a graph given a a dictionary of a singular course data
+    Draw a graph given a list of course offers
     using matplotlib functions
-    #FIXME Will revisit then when we got to take data from multiple courses
 
-    Parameters: A dictionary
-        data = {
-            "TERM_DESC": term,
-            "aprec": "",
-            "bprec": "",
-            "cprec": "",
-            "crn": "",
-            "dprec": "",
-            "fprec": "",
-            "instructor": ""
-            "isProfessor": ""
-        }
+    Parameters: A list
+        course    = list of Course objects
+        EasyA     = bool
         showGraph = bool
 
     Return:
         None
     """
 
-    # Graph title
-    plt.title(data["instructor"] + "    " + data["TERM_DESC"])
+    # Get all instructors and check for duplicates
+    instructor_grades = {}
+    instructor_count  = {}
 
-    # Set and plot points of graph
-    x = [1, 2, 3, 4, 5]
-    y = [data["aprec"], data["bprec"], data["cprec"], data["dprec"], data["fprec"]]
-    plt.bar(x, y)
+    # Go through all offers of the course
+    for offer in course:
+        if offer.instructor not in instructor_grades:
+            instructor_grades[offer.instructor] = 0
+            instructor_count[offer.instructor] = 0
+
+        # Increment grade percentage
+        instructor_grades[offer.instructor] += offer.a_perc if EasyA else offer.df_perc
+        instructor_count[offer.instructor] += 1
+
+    # Second pass of instructors for average grade percentage
+    for name in instructor_grades.keys():
+        instructor_grades[name] /= instructor_count[name]
+
+    # Get list of instructor names
+    names = []
+    grades = []
+    min_thresh = 2
+    for name in instructor_grades.keys():
+        if instructor_count[name] > min_thresh:
+            names.append(name)
+            grades.append(instructor_grades[name])
+
+    print(instructor_grades)
+    print(instructor_count)
+
+    graph = Graph(0, EasyA, True, True)
+    graph.data = courseList
+    graph.plotting_data = grades
+
+    default_offer = courseList[0][0]
+    graph.title = default_offer.dept + " " + default_offer.level + " " + default_offer.term_desc
+
+    graph.x_axis_label = "Instructors"
+    graph.y_axis_label = "%"
+
+
+    """
+    # Graph title
+    default_offer = courseList[0][0]
+    plt.title(default_offer.dept + " " + default_offer.level + " " + default_offer.term_desc)
+
+    # Plot graph
+    plt.bar(range(len(names)), grades, tick_label=names)
+    plt.tick_params(axis ='x', rotation = -90)
 
     # Axis labels
-    plt.xlabel("Letter Grades")
-    plt.ylabel("Percentages")
+    plt.xlabel("Instructors")
+    plt.ylabel("%")
 
     # Save graph as .pdf file
     plt.savefig("EasyA_result.pdf")
@@ -394,6 +416,7 @@ def drawGraph(data, showGraph):
     # Show graph
     if showGraph:
         plt.show()
+    """
 
 
 # This function is called when the program starts and manages the other functions
@@ -409,31 +432,38 @@ def main():
     print("- EasyA Program -")
     print("Created by Group 1\n")
 
-    subject, course, level, year, showGraph = getInput()
+    dept, courseLvl, level, year, showGraph = getInput()
 
     # Get data from data file based on input parameters
-    dataList = getData(subject, course, year)
+    #dataList = getData(subject, courseLvl, year)
+
+    # Get course based on input
+    courseDict = get_department_x00_level(dept, courseLvl)
+
+    EasyA = True
 
     # If requested data was found
-    if dataList != None:
-        if len(dataList) > 0:
+    if courseDict != None:
+        courseList = list(courseDict.values())
+        if len(courseList) > 0:
             debugPrint("********\n")
-            for i in range(len(dataList)):
-                data = dataList[i]
-                debugPrint("- Course", i+1, "of", len(dataList), "-")
-                debugPrint("    TERM_DESC:", data["TERM_DESC"])
-                debugPrint("    CRN:", data["crn"])
-                debugPrint("    aprec:", data["aprec"])
-                #debugPrint("    bprec:", data["bprec"])
-                #debugPrint("    cprec:", data["cprec"])
-                debugPrint("    dprec:", data["dprec"])
-                debugPrint("    fprec:", data["fprec"])
-                debugPrint("    instructor:", data["instructor"])
-                debugPrint("    isProfessor:", data["isProfessor"])
-                debugPrint("    numCourses:", data["numCourses"], "\n")
+            #for i in range(len(courseList)):
+                #debugPrint("- Course", i+1, "of", len(courseList), "-")
+                #debugPrint(courseList[i])
 
-                # Generate graph
-                drawGraph(data, showGraph)
+            # Generate graph
+            for course in courseList:
+                for offer in course:
+                    debugPrint(offer)
+                    """
+                    if offer.instructor not in instructor_grades:
+                        instructor_grades[offer.instructor] = offer.a_perc
+                        instructor_count[offer.instructor] = 1
+                    else:
+                        instructor_grades[offer.instructor] += offer.a_perc
+                        instructor_count[offer.instructor] += 1
+                    """
+            #   drawGraph(course, EasyA, showGraph)
             debugPrint("********\n")
 
     # The requested data was not found

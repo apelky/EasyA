@@ -11,10 +11,10 @@ from Course_Class import Course
 
 class Graph():
 
-    def __init__(self, graphType: int, 
-                    is_EasyA: bool=True,
-                    is_AllInstructors=True,
-                    showCount: bool=False):
+    def __init__(self, graphType: int,
+                is_EasyA: bool=True,
+                is_AllInstructors=True,
+                showCount: bool=False):
         """
         ### VARIABLES FOR GRAPH CLASS ###
         self.type       (int) - Determines what type of graph it is. This variable doesn't change
@@ -22,7 +22,7 @@ class Graph():
                                     1 = Single department   ("MTH")
                                     2 = Dept x00 level      ("MTH", 100 level)
                                     3 = Dept x00 level by class ("MTH", 100 level)
-            
+
         self.show_count (bool) - Optional flag to show class count of professor (False by default)
         self.isEasyA    (bool) - Optional flag to calculate EasyAs vs JustPasses (True by default)
         self.isAllInstructors (bool) - Optional flag to include Professors & Faculty (True by default)
@@ -30,9 +30,9 @@ class Graph():
         self.data  (list of Courses) - List of all courses for which this graph will use data from
                                             Filters like self.isAllInstructors are not applied to this list
         self.plotting_data    (dict) - Dictionary of all plot points for graph. Key is X value, Value is Y value
-                                            Ex: {“Patel”: 60.0, 
-                                                 “Wang”: 40.0, 
-                                                 “Smith”: 30.0, 
+                                            Ex: {“Patel”: 60.0,
+                                                 “Wang”: 40.0,
+                                                 “Smith”: 30.0,
                                                  “Garcia”: 20.0}
         self.title         (str) - Title of graph. Needs to be updated by self.update_labels() after data has been
                                     added, and before the graph has been plotted (Empty str by default)
@@ -42,12 +42,12 @@ class Graph():
                                     added, and before the graph has been plotted (Empty str by default)
 
         """
-        self.type = graphType   
-        self.show_count = showCount
+        self.type = graphType
         self.isEasyA = is_EasyA
-        self.isAllInstructors = is_AllInstructors # JustFaculty if false
-        self.data = []  # list of Course objects
-        self.plotting_data = {}    # Dict of data w/ plot points
+        self.isAllInstructors = is_AllInstructors   # JustFaculty if false
+        self.show_count = showCount
+        self.data = []                              # list of Course objects
+        self.plotting_data = {}                     # Dict of data w/ plot points
         self.title = ""
         self.x_axis_label = ""
         self.y_axis_label = ""
@@ -60,7 +60,7 @@ class Graph():
         Desc:
             Takes a set of data to input into graph's data.
             Checks if the list consists of only Course objects
-            Returns T/F if successful/failure 
+            Returns T/F if successful/failure
 
         Parameters:
             new_data    (List of Course objects (not dicts)) - Data to replace self.data
@@ -87,7 +87,7 @@ class Graph():
                 only until after data has been added, can we
                 know specifically what these need to be.
                 Thus the reason for this function
-            
+
         Parameters:
             None
 
@@ -116,20 +116,20 @@ class Graph():
         if self.type == 3:
             pass
 
-        
 
-    
 
-     
+
+
+
 ##### Old, brainstorming stuff. Can discuss why this is commented out #####
     # def update_plotting_data(self):
     #     """
     #     Desc:
     #         Recalculates plotting data
     #         (Useful if self.data gets updated)
-            
+
     #     Don't change graph.data
-    #     Use the copy (processing_data) to parse through and update the 
+    #     Use the copy (processing_data) to parse through and update the
 
     #     Parameters:
     #         none
@@ -144,7 +144,7 @@ class Graph():
     #         pass
 
 
-    #     if (self.type == 0): # Single Class 
+    #     if (self.type == 0): # Single Class
     #         # This type will assume self.data is a List of Course objects
     #         pass
 
@@ -163,12 +163,12 @@ class Graph():
     #         # edit x axis names to add instructor count
     #             # do this by taking the keys
     #         pass
-    
 
-    
+
+
     # def drawGraph():
     #     """
-    #     draws the graph using self.plotting_data to 
+    #     draws the graph using self.plotting_data to
     #     draw a graph
     #     """
     #     pass
