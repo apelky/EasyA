@@ -39,6 +39,7 @@ from Course_Class import *
 from Graph_Class import *
 from Faculty_Parser import *
 from functions import *
+from User_Input import *
 
 """
 This variable is for the file containing all of the grade data from the EGT.
@@ -50,6 +51,14 @@ Commented out for now since I don't know if files can be global variables
 #f = None
 
 dataFile = "GradeData.txt" # "GradeData_SmallTest.txt"
+
+
+# List of all subject code, but there are just so many that I think checking probably is not would be worthy it right now
+subjectCodes = ["AA", "AAA", "AAAP", "AAD", "ACTG", "AEIS", "AFR", "AIM", "ANTH", "ARB", "ARCH", "ARH", "ART", "ARTC", "ARTD",
+                "ARTF", "ARTM", "ARTO", "ARTP", "ARTR", "ARTS", "ASIA", "ASL", "ASTR", "BA", "BE", "BI", "CAS", "CDS", "CFT", "CH",
+                "CHN", "CINE", "CIS", "CIT", "CLAS", 'COLT', "CPSY", "CRES", "CRWR", 'DAN', "DANC", "DSC", "EALL", "EC", "EDLD", "EDST",
+                ]
+
 
 
 # List of all subject code, but there are just so many that I think checking probably is not would be worthy it right now
@@ -71,9 +80,27 @@ def debugPrint(*args):
 
 # Gets input parameters from user via a command line interface
 # Returns 'subject' (string), 'courseLvl' (int or None), 'level' (int or None), and 'year' (int or None)
-def getInput():
+def getInput(): #def updateData():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-f', help='a json file containing grade data')
+    args = parser.parse_args()
+    file = args.f
 
+    if not file.lower().endswith('.json'):
+        print("ERROR: file must be a JSON file (.json)")
+        return
+
+    try:
+        fstream = open(file)
+    except:
+        print("ERROR: cannot open file", file)
+    else:
+        for line in fstream:
+            continue
+
+        print("system updated with new data")
+
+###
     # Optional arguments
     parser.add_argument('-s', help='A single subject code, such as "Math"')
     parser.add_argument('-c', type=int, help='A single course level, such as "111"')
@@ -112,7 +139,10 @@ def getInput():
         view_year = input("Do you want view a specific year? [y or n]: ")
         if view_year:
             year = int(input("Enter a year from 2013 to 2016: "))
+###
 
+def getInput():
+###
     """
     debugPrint("Optional subject code argument: ", subject)
     debugPrint("Optional course argument: ", courseLvl)
@@ -122,7 +152,7 @@ def getInput():
     """
 
     return subject, courseLvl, level, year, showGraph
-
+###
 
 # Gets the value from the key/value pairs of the data file
 def parseDataValue(str):
@@ -163,6 +193,7 @@ def checkIfRegularFaculty(instructor):
     #debugPrint("Given name: ", instructor)
     for name in regularFaculty:
         if instructor == name:
+            '''TODO: this doesn't address the issue of middle inital'''
             #debugPrint(instructor, " is regular faculty")
             isRegularFaculty = True
 

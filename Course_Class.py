@@ -1,5 +1,20 @@
 """
 Course_Class.py created on Jan 22, 2023.
+
+Created: 1/22/23
+
+
+A Class representation of This:
+        {
+            "TERM_DESC": term,
+            "aprec": "",
+            "bprec": "",
+            "cprec": "",
+            "crn": "",
+            "dprec": "",
+            "fprec": "",
+            "instructor": ""
+        }
 """
 
 
