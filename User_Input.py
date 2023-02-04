@@ -16,8 +16,9 @@ subject_options = ['AA', 'AAA', 'AAAP', 'AAD', 'ACTG', 'AEIS', 'AFR', 'AIM', 'AN
 'OXEU', 'OXFA', 'OXGL', 'OXLA', 'OYON', 'PD', 'PEAE', 'PEAQ', 'PEAS', 'PEF', 'PEI', 'PEIA', 'PEL', 'PEMA', 'PEMB', 'PEO', 
 'PEOL', 'PEOW', 'PERS', 'PERU', 'PETS', 'PEW', 'PHIL', 'PHYS', 'PORT', 'PPPM', 'PS', 'PSY', 'REES', 'REL', 'RL', 'RUSS', 
 'SAPP', 'SBUS', 'SCAN', 'SOC', 'SPAN', 'SPD', 'SPED', 'SPSY', 'SWAH', 'SWED', 'TA', 'TLC', 'WGS', 'WR']
-level_options = [None, 100, 200, 300, 400]
-# year_options = [None, 2013, 2014, 2015, 2016]
+
+# BA and LAW have 700 level courses
+level_options = [None, 100, 200, 300, 400, 500, 600, 700]
 
 
 entry = tk.Tk()
@@ -31,9 +32,8 @@ course = tk.StringVar()
 level = tk.StringVar()
 level.set(level_options[0])
 instructor = tk.IntVar(entry, 1)
-""" year = tk.StringVar()
-year.set(year_options[0]) """
-graph = tk.IntVar()
+easy_a = tk.IntVar(entry, 1)
+
 
 # function called upon "submit" button being pushed
 def submit():
@@ -41,8 +41,7 @@ def submit():
     global course_entry
     global level_entry
     global instruct_entry
-    # global year_entry
-    global graph_entry
+    global easy_a_entry
 
     subject_entry = subject.get()
     course_entry = course.get()
@@ -54,22 +53,19 @@ def submit():
         level_entry = int(level_entry)
 
     instruct_entry = instructor.get()
-    
-    # year_entry = year.get()
-    
-    graph_entry = bool(graph.get())
+    easy_a_entry = easy_a.get()
     
     print("subject: ", subject_entry)
     print("course: ", course_entry)
     print("level: ", level_entry)
-    # print("professor: ", year_entry)
-    # print("year: ", year_entry)
-    print("show graph: ", graph_entry)
+    print("all instructors?: ", instruct_entry)
+    print("easy_a?: ", easy_a_entry)
     
     subject.set(subject_options[0])
     course.set("")
     level.set(level_options[0])
     instructor.set(1)
+    easy_a.set(1)
     
     entry.destroy()
 
@@ -89,6 +85,7 @@ def window():
 
     course_label = tk.Label(entry, text = 'course', font = ('calibre', 14, 'bold'))
     enter_course = tk.Entry(entry, textvariable = course, font = ('calibre', 14, 'normal'), width = 10)
+    
     enter_course.insert(0, 'ex: 111')
     enter_course.bind("<Button-1>", lambda event: clear(event, enter_course))
     
@@ -96,15 +93,12 @@ def window():
     level_menu = tk.OptionMenu(entry, level, *level_options)
 
     instructor_label = tk.Label(entry, text = 'show: ', font = ('calibre', 14, 'bold'))
-    instructor_button = tk.Radiobutton(entry, text = 'All Instructors' , variable = instructor, value = 1)
-    faculty_button = tk.Radiobutton(entry, text = 'Regular Faculty' , variable = instructor, value = 0)
+    instructor_button = tk.Radiobutton(entry, text = 'All Instructors' , variable = instructor, value = 1, justify = 'left')
+    faculty_button = tk.Radiobutton(entry, text = 'Regular Faculty' , variable = instructor, value = 0, justify = 'left')
 
-    """ year_label = tk.Label(entry, text = 'year', font = ('calibre', 14, 'bold'))
-    year_menu = tk.OptionMenu(entry, year, *year_options) """
-
-    graph_label = tk.Label(entry, text = 'show graph', font = ('calibre', 14, 'bold'))
-    enter_graph = tk.Checkbutton(entry, variable = graph)
-    enter_graph.select()
+    easy_a_label = tk.Label(entry, text = 'show: ', font = ('calibre', 14, 'bold'))
+    easy_a_button = tk.Radiobutton(entry, text = 'Easy A' , variable = instructor, value = 1, justify = 'left')
+    just_pass_button = tk.Radiobutton(entry, text = 'Just Pass' , variable = instructor, value = 0, justify = 'left')
     
     submission = tk.Button(entry, text = 'submit', command = submit)
     entry.update()
@@ -112,6 +106,7 @@ def window():
     # set in grid
     label_col = 0
     entry_col = 1
+    pad_y = (10, 0)
 
     subject_label.grid(row = 0, column = label_col, pady = (10, 0))
     subject_menu.grid(row = 0, column = entry_col, pady = (10, 0))
@@ -119,23 +114,22 @@ def window():
     blank.grid(row = 1)
     args_label.grid(row = 2, column = entry_col)
 
-    course_label.grid(row = 3, column = label_col)
-    enter_course.grid(row = 3, column = entry_col)
+    course_label.grid(row = 3, column = label_col, pady = pad_y)
+    enter_course.grid(row = 3, column = entry_col, pady = pad_y)
 
-    level_label.grid(row = 4, column = label_col)
-    level_menu.grid(row = 4, column = entry_col)
+    level_label.grid(row = 4, column = label_col, pady = pad_y)
+    level_menu.grid(row = 4, column = entry_col, pady = pad_y)
 
-    instructor_label.grid(row = 5, column = label_col)
-    instructor_button.grid(row = 5, column = entry_col)
-    faculty_button.grid(row = 5, column = entry_col + 1)
+    instructor_label.grid(row = 5, column = label_col, pady = pad_y)
+    instructor_button.grid(row = 5, column = entry_col, sticky = 'W', pady = pad_y)
+    faculty_button.grid(row = 5, column = entry_col + 1, sticky = 'W', pady = pad_y)
 
-    """ year_label.grid(row = 5, column = 0)
-    year_menu.grid(row = 5, column = 1) """
+    easy_a_label.grid(row = 6, column = label_col, pady = pad_y)
+    easy_a_button.grid(row = 6, column = entry_col, sticky = 'W', pady = pad_y)
+    just_pass_button.grid(row = 6, column = entry_col + 1, sticky = 'W', pady = pad_y)
 
-    graph_label.grid(row = 6, column = label_col)
-    enter_graph.grid(row = 6, column = entry_col)
-
-    submission.grid(row = 8, column = label_col, pady = (20, 0))
+    submission.grid(row = 8, column = label_col, pady = (20, 0), padx = (10, 0))
 
     entry.mainloop()
-    return subject_entry, course_entry, level_entry, instruct_entry, graph_entry
+
+    return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry

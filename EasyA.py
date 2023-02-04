@@ -89,19 +89,21 @@ def updateData():
         print("system updated with new data")
 
 
-# Gets input parameters from user a graphical user interface (GUI)
-# Returns the strings: 'subject', 'course', level', and 'year'
 def getInput():
-    subject, course, level, all_instruct, graph = window()
+    """
+    gets input parameters from user via a graphical user interface
+    returns:
+        three strings: 'subject', 'course', and 'level'
+        two bools as ints: 'all_instruct' and 'easy_a'
+            if all_instruct is 1, the user wants to see all instructors
+            if all_instruct is 0, the user wants to only see regular faculty
+
+            if easy_a is 1, the user wants to see percent A's
+            if easy_a is 0, the user wants to see percent D's and F's
+    """
+    subject, course, level, all_instruct, easy_a = window()
     
-    year = "2014"
-    """ debugPrint("subject code: ", subject)
-    debugPrint("optional course argument: ", course)
-    debugPrint("optional level argument: ", level)
-    debugPrint("optional year argument: ", year)
-    debugPrint("all instructors: ", all_instruct) """
-    
-    return subject, course, level, year, graph
+    return subject, course, level, all_instruct, easy_a
 
 
 # Gets the value from the key/value pairs of the data file
@@ -186,8 +188,8 @@ def countInstructorCourses(instructor):
     return numCourses
 
 
-# Gets data from data file based on string parameters 'year', 'subject', and 'course'
-def getData(subject, course, year):
+# Gets data from data file based on string parameters 'year', 'subject', and 'level'
+def getData(subject, course, level):
     """
     Looks in global 'datafile' = "GradeData.txt", for data
     given a course, subject, and year. Returns a dictionary of that specfic class
@@ -215,6 +217,7 @@ def getData(subject, course, year):
             "numCourses": int
         }
     """
+    year = "2014"
     print("Subject Code:", subject, "   Course Number:", course, "   Year:", year)
 
     # Open dataset file
@@ -332,7 +335,7 @@ def getData(subject, course, year):
                     resultData["numCourses"] = countInstructorCourses(resultData["instructor"])
 
                     # Add data to list and increase count of courses found
-                    dataList.append(resultData);
+                    dataList.append(resultData)
                     count += 1
 
                     # Skip to next course description
@@ -408,10 +411,11 @@ def main():
         updateData()
         return
 
-    subject, course, level, year, showGraph = getInput()
+    subject, course, level, all_instruct, easy_a = getInput()
+    
 
     # Get data from data file based on input parameters
-    dataList = getData(subject, course, year)
+    dataList = getData(subject, course, level)
 
     # If requested data was found
     if dataList != None:
@@ -432,7 +436,7 @@ def main():
                 debugPrint("    numCourses:", data["numCourses"], "\n")
 
                 # Generate graph
-                drawGraph(data, showGraph)
+                drawGraph(data, 1)
             debugPrint("********\n")
 
     # The requested data was not found
