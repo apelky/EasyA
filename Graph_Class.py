@@ -123,12 +123,8 @@ class Graph():
         elif self.type == 1:
             self.title = f"All {self.data[0].dept} Classes"
 
-        elif self.type == 2:
-            self.title = "All " + self.data.dept + " " + self.data.courseLevel + "-level"
-
-        if self.type == 3:
-            self.title = "All " + self.data.dept + " " + self.data.courseLevel + "-level"
-
+        else:
+            self.title = "All " + self.data[0].dept + " " + self.data[0].level + "-level"
 
         ## Set X-axis title
         if self.type in [0, 1, 2]:
@@ -143,7 +139,7 @@ class Graph():
             else:
                 self.x_axis_label = "Class"
 
-        
+
 
 
         # Set Y-axis & Append to titles - EasyA or - Just Pass

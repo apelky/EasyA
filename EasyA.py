@@ -57,8 +57,6 @@ def main():
     print("Created by Group 1\n")
 
     subject, courseNum, level, allInstructors, easyA, showCount = getInput()
-    #print(subject, courseNum, level, allInstructors, easyA, showCount)
-    #print(subject is not None, courseNum is not None, level is not None, allInstructors is not None, easyA is not None, showCount is not None)
 
     # List of all graphs
     graphs = []
