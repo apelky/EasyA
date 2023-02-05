@@ -34,17 +34,6 @@ from Faculty_Parser import *
 from Fetch_Data import *
 from Draw_Graph import *
 
-"""
-This variable is for the file containing all of the grade data from the EGT.
-It's a global varialbe so that there is less overhead when reading data into this program.
-The data file is read on user request only because the data file is very large and only a small portion is needed at any given time.
-
-Commented out for now since I don't know if files can be global variables
-"""
-#f = None
-
-dataFile = "GradeData.txt"
-
 # --- Set to False before submit
 DEBUG = True
 
@@ -69,13 +58,16 @@ def main():
 
     subject, courseNum, level, allInstructors, easyA = getInput()
 
+    print(subject, courseNum, level, allInstructors, easyA)
+    print(subject is not None, courseNum is not None, level is not None, allInstructors is not None, easyA is not None)
+    return
+
     # List of all graphs
     graphs = []
 
     # Get all offers of specified course
     if courseNum is not None:
         offerList = get_course(subject, courseNum)
-        print("get_course")
         if len(offerList) > 0:
             graph = createGraph(offerList, 0, easyA, allInstructors, True)
             graphs.append(graph)
@@ -84,9 +76,8 @@ def main():
 
     # Get all offers of all courses in same x00 level
     elif level is not None:
-        courseDict = get_department_x00_level(subject, level)
+        if courseDict = get_department_x00_level(subject, level)
         courseList = list(courseDict.values())
-        print("get_department_x00_level")
         if len(courseList) > 0:
             for course in courseList:
                 graph = createGraph(course, 2, easyA, allInstructors, True)
@@ -97,7 +88,6 @@ def main():
     # Get all offers of all courses in the subject department
     else:
         courseList = get_department_courses(subject)
-        print("get_department_courses")
         if len(courseList) > 0:
             for course in courseList:
                 graph = createGraph(course, 1, easyA, allInstructors, True)
