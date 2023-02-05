@@ -10,30 +10,30 @@ Angela Pelky
 
 This is a part of the system that implements an update to the Emerald Grade Tracker (EGT).
 The original EGT can be found here: 'https://emeraldmediagroup.github.io/grade-data'
-The EGT displays the letter-grade distribuition across all professors in a particular department of the natural science at the University 
-of Oregon. This system builds upon the original EGT by directly comparing professors in the same department on the same graph, and is only 
+The EGT displays the letter-grade distribuition across all professors in a particular department of the natural science at the University
+of Oregon. This system builds upon the original EGT by directly comparing professors in the same department on the same graph, and is only
 concerned with the extreme ends of the letter-grade spectrum.
 
 ----------------------------------------
 
-Developer must provide a new url link in the main function if a different website to scrape is desired. 
+Developer must provide a new url link in the main function if a different website to scrape is desired.
 
 EasyA.py uses Python 3.10
 '''
 
 import requests as r
 from bs4 import BeautifulSoup as bs
-import time as t 
+import time as t
 
 def initalize_soup(url):
     '''
-    Helper function that takes the url and initalizes it for processing 
+    Helper function that takes the url and initalizes it for processing
 
     Parameters:
         url: string
 
     Returns:
-        soup: parse tree for site data  
+        soup: parse tree for site data
     '''
     site = r.get(url, timeout=20)
     soup = bs(site.content, 'html.parser')
@@ -66,16 +66,16 @@ def explore_catalog(url):
         url: string
 
     Returns:
-        school link: list of links (string) to specific school webpage 
+        school link: list of links (string) to specific school webpage
     '''
     soup = initalize_soup(url)
-    # list of schools 
+    # list of schools
     # ex: 'College of Arts and Sciences'
     school_link = []
     # optimize by looking through only the section we need
     div = soup.find('div', attrs={'id':'cl-menu'})
-    cut_down = div.select('li', attrs={'class':'separator'}) 
-    # find the schools, specifically 
+    cut_down = div.select('li', attrs={'class':'separator'})
+    # find the schools, specifically
     cut_down = cut_down[7:15]
     for school in cut_down:
         link = get_link(school)
@@ -90,7 +90,7 @@ def explore_school(url):
         url: string
 
     Returns:
-        course_links: a list of links (string) to specific major webpage 
+        course_links: a list of links (string) to specific major webpage
         faculty_list: a list of faculty (string)
     '''
     # first we want to scrape the school's homepage to find faculty
@@ -150,7 +150,7 @@ def main():
     '''
     faculty_list = []
 
-    # SYSTEM ADMINISTRATOR - COPY AND PASTE YOUR LINK IN BETWEEN ' ' WHERE 
+    # SYSTEM ADMINISTRATOR - COPY AND PASTE YOUR LINK IN BETWEEN ' ' WHERE
     # https://web.archive.org/web/20141124084353/http://catalog.uoregon.edu/ CURRENT SITS
     school_links = explore_catalog('https://web.archive.org/web/20141124084353/http://catalog.uoregon.edu/')
 
@@ -159,7 +159,7 @@ def main():
         if faculty != None:
             faculty_list.extend(faculty)
         for course in courses:
-            # we want to continue trying to access the site until it is is successful 
+            # we want to continue trying to access the site until it is is successful
             while True:
                 try:
                     more_faculty = scraper(course)
@@ -170,7 +170,7 @@ def main():
                     print("Timeout Occured")
                     continue
                 break
-    
+
     # write data to a .txt file so scraper doesn't have to run every time
     with open('Regular_Faculty.txt', 'w') as f:
         for line in faculty_list:

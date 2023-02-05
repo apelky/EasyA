@@ -22,17 +22,17 @@ EasyA.py uses Python 3.10
 Matplotlib is a visaul fucntion library for python: https://matplotlib.org/
 """
 import matplotlib.pyplot as plt
-
 import math
 import sys
+sys.path.insert(0, "Modules")
 
-from Modules.Course_Class import *
-from Modules.Graph_Class import *
+from Course_Class import *
+from Graph_Class import *
 
-from Modules.User_Input import *
-from Modules.Faculty_Parser import *
-from Modules.Fetch_Data import *
-from Modules.Draw_Graph import *
+from User_Input import *
+from Faculty_Parser import *
+from Fetch_Data import *
+from Draw_Graph import *
 
 # --- Set to False before submit
 DEBUG = True

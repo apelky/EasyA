@@ -10,9 +10,9 @@ sys is a module from the Python Standard Library which handles system - specific
 import argparse
 import os
 import sys
-
 import tkinter as tk
 
+from Draw_Graph import *
 
 # lists for option menus
 natural_science = ['BI', 'CH', 'CIS', 'CIT', 'HPHY', 'MATH', 'PHYS', 'PSY']
@@ -50,6 +50,7 @@ level_var.set(level_options[0])
 view_var = tk.IntVar(entry, 1)
 instructor_var = tk.IntVar(entry, 1)
 easy_a_var = tk.IntVar(entry, 1)
+count_var = tk.IntVar()
 
 # default values
 subject_entry = "AA"
@@ -57,6 +58,7 @@ course_entry = ""
 level_entry = []
 instruct_entry = 1
 easy_a_entry = 1
+count_entry = 0
 
 
 def level_view(event):
@@ -76,6 +78,7 @@ def submit():
     global level_entry
     global instruct_entry
     global easy_a_entry
+    global count_entry
 
     subject_entry = subject_var.get()
     course_entry = course_var.get()
@@ -86,13 +89,7 @@ def submit():
 
     instruct_entry = instructor_var.get()
     easy_a_entry = easy_a_var.get()
-
-    """ subject_var.set(subject_options[0])
-    course_var.set("")
-    level_var.set(level_options[0])
-    view_var.set(1)
-    instructor_var.set(1)
-    easy_a_var.set(1) """
+    count_entry = count_var.get()
 
     entry.destroy()
 
@@ -111,13 +108,13 @@ def window():
     blank = tk.Label(entry, text = ' ')
     args_label = tk.Label(entry, text = 'Optional Fields:', font = ('calibre', 14, 'bold'))
 
-    course_label = tk.Label(entry, text = 'Course Number', font = ('calibre', 14, 'bold'))
+    course_label = tk.Label(entry, text = 'Course Number:', font = ('calibre', 14, 'bold'))
     enter_course = tk.Entry(entry, textvariable = course_var, font = ('calibre', 14, 'normal'), width = 10)
 
     enter_course.insert(0, 'ex: 111')
     enter_course.bind("<Button-1>", lambda event: clear(event, enter_course))
 
-    level_label = tk.Label(entry, text = 'All Courses At Level', font = ('calibre', 14, 'bold'))
+    level_label = tk.Label(entry, text = 'All Courses At Level:', font = ('calibre', 14, 'bold'))
     level_menu = tk.OptionMenu(entry, level_var, *level_options, command = level_view)
 
     instructor_label = tk.Label(entry, text = 'Show Instructors: ', font = ('calibre', 14, 'bold'))
@@ -128,6 +125,9 @@ def window():
     easy_a_button = tk.Radiobutton(entry, text = 'Easy A' , variable = easy_a_var, value = 1, justify = 'left')
     just_pass_button = tk.Radiobutton(entry, text = 'Just Pass' , variable = easy_a_var, value = 0, justify = 'left')
 
+    count_label = tk.Label(entry, text = 'Show # of Classes:', font = ('calibre', 14, 'bold'), justify = 'left')
+    count_button = tk.Checkbutton(entry, variable = count_var, justify = 'left')
+
     submission = tk.Button(entry, text = 'submit', command = submit)
     entry.update()
 
@@ -136,8 +136,8 @@ def window():
     entry_col = 2
     pad_y = (10, 0)
 
-    subject_label.grid(row = 0, column = label_col, pady = (10, 0))
-    subject_menu.grid(row = 0, column = entry_col, pady = (10, 0))
+    subject_label.grid(row = 0, column = label_col, pady = pad_y)
+    subject_menu.grid(row = 0, column = entry_col, pady = pad_y)
 
     blank.grid(row = 1)
     args_label.grid(row = 2, column = entry_col)
@@ -156,12 +156,15 @@ def window():
     easy_a_button.grid(row = 6, column = entry_col, sticky = 'W', pady = pad_y)
     just_pass_button.grid(row = 6, column = entry_col + 1, sticky = 'W', pady = pad_y)
 
+    count_label.grid(row = 7, column = label_col, sticky = 'W', pady = pad_y)
+    count_button.grid(row = 7, column = entry_col, sticky = 'W', pady = pad_y)
+
     submission.grid(row = 8, column = label_col, pady = (20, 0), padx = (10, 0))
 
 
     entry.mainloop()
 
-    return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry, True
+    return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry, count_entry
 
 
 def updateData(file):
@@ -192,7 +195,8 @@ def command_line():
     parser.add_argument('-l', '--level', type = int, help = 'all courses of a particular x00 level, such as "100"')
     parser.add_argument('-r', action = argparse.BooleanOptionalAction, help = 'include to only show regular faculty')
     parser.add_argument('-j', action = argparse.BooleanOptionalAction, help = 'include to only show Just Pass')
-    parser.add_argument('-f', help = 'a JSON (.json) file containing grade data')
+    parser.add_argument('-n', action = argparse.BooleanOptionalAction, help = 'include to show number of classes')
+    parser.add_argument('-f', '--file', help = 'a JSON (.json) file containing grade data')
 
     args = parser.parse_args()
     print(args)
@@ -221,7 +225,7 @@ def command_line():
             print("ERROR: invalid level; levels are 100 - 700")
             exit()
 
-    return subject, course, level, all_instruct, easy_a, True
+    return subject, course, level, all_instruct, easy_a, count_entry
 
 
 # returns 'subject' (string), 'course' ([int, int] or None), 'level' (int or None), and 'all_instruct' (int)

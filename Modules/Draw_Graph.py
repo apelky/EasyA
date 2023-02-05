@@ -11,10 +11,8 @@ import matplotlib.pyplot as plt
 import math
 #from datetime import datetime
 
-from Fetch_Data import *
 from Course_Class import Course
 from Graph_Class import Graph
-
 
 ##### Helper functions #####
 # Feel free to add on your own functions you can think of if it helps you
@@ -333,7 +331,6 @@ def update_plotting_data(graph: Graph):
         graph.plotting_data = shown_count_points
 
 
-
     graph.plotting_data = sort_dict(graph.plotting_data, graph.isEasyA)
 
     graph.update_labels() # should be last thing in this function hopefuly
@@ -398,7 +395,7 @@ def plot_graphs(graphs : list, subject, courseNum, level):
         # Arrange graph layout
         W = math.ceil(math.sqrt(numDisplayGraphs))
         H = math.ceil(numDisplayGraphs / W)
-        figure, axis = plt.subplots(H, W, figsize=(16, 9))
+        figure, axis = plt.subplots(H, W, figsize=(12, 8))
 
         # Graph location in grid
         x = 0

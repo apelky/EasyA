@@ -22,7 +22,7 @@ EasyA.py uses Python 3.10
 
 # File containing regular faculty for all Natural Sciences
 # Data pulled from https://web.archive.org/web/20141107201343/http://catalog.uoregon.edu/arts_sciences/
-dataFile = "Regular_Faculty.txt"
+dataFile = "Modules/Regular_Faculty.txt"
 
 def removeMiddleInital(instructor):
     """

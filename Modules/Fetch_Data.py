@@ -12,9 +12,8 @@ import math
 
 from GradeData import groups
 from Course_Class import Course
-
-from EasyA import *
 from Faculty_Parser import *
+from Draw_Graph import *
 
 #############################
 
@@ -65,6 +64,32 @@ def combine_dept_and_level(dept: str, level:int):
 
 
 #################################
+
+
+def AA(courses: list):
+    """
+    Desc:
+        Counts the number of times all instructors taught a course in the given data list.
+        Returns a dictionary of {"Professor":teach_count} pairs
+
+        Useful for when parsing data in update_plotting_data()
+
+    Parameters:
+        courses    (List of Course objects) - Courses count instructor's teach counts
+
+    Returns:
+        Dictionary   - {"Instructor":teach_count, ...}
+
+    """
+    instr_count = dict()
+    for i in range(len(courses)):
+        instr_name = courses[i].instructor
+        if instr_name in instr_count:  # if already in dictionary
+            instr_count[instr_name] += 1
+        else:   # add to dictionary
+            instr_count[instr_name] = 1
+
+    return instr_count
 
 
 def get_course(dept: str, level: int):
