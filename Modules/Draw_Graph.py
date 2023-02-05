@@ -102,7 +102,6 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
 
     graph = Graph(graphType, easyA, allInstructors, showCount)
     graph.add_data(course)
-    update_plotting_data(graph)
 
     # first_offer = course[0]
     # if graphType == 0:
@@ -112,16 +111,7 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
     # else:
     #     graph.title = "All " + first_offer.dept + " " + first_offer.level + "-Level"
 
-    # default_offer = course[0]
-    # graph.title = default_offer.dept + " " + default_offer.level + " " + default_offer.term_desc
-    # graph.title += " - Easy A" if graph.isEasyA else " - Just Pass"
-
-    # graph.x_axis_label = "Instructors"
-    # if graph.isEasyA:
-    #     graph.y_axis_label = "% As"
-    # else:
-    #     graph.y_axis_label = "% D/Fs"
-
+    update_plotting_data(graph)
     return graph
 
 
@@ -304,18 +294,23 @@ def update_plotting_data(graph: Graph):
         new_data = calc_instr_avg(processing_data, graph.isEasyA)
         new_data = sort_dict(new_data)
 
-
     elif (graph.type == 3): # <Dept> x00 level Classes (by class)
         new_data = calc_class_avg(processing_data, graph.isEasyA)
         new_data = sort_dict(new_data)
 
     graph.plotting_data = new_data
 
-    if graph.show_count:
-        # edit x axis names to add instructor count
-            # do this by taking the keys
+    """
+    for j in range(len(names)):
+    name_parts = names[j].split(",")
+    names[j] = name_parts[0]
+    """
 
+	# Edit x axis names to add instructor count
+    print("graph.show_count", graph.show_count)
+    if graph.show_count:
         data_keys = list(new_data.keys())
+        print(data_keys)
         if (graph.type == 3):
             xaxis_count = find_class_count(processing_data) # get a dict of counts
 
@@ -325,9 +320,10 @@ def update_plotting_data(graph: Graph):
         xaxis_count = sort_dict(xaxis_count)    # sort the dict
         xaxis_count_items = list(xaxis_count.items())
         shown_count_points = dict()
-        # print(xaxis_count_items)
+
         for i in range(len(new_data)):
-            shown_count_points[xaxis_count_items[i][0] + " ("  + str(xaxis_count_items[i][1]) + ")"] = new_data[xaxis_count_items[i][0]]
+            name = xaxis_count_items[i][0]
+            shown_count_points[name.split(",")[0] + " ("  + str(xaxis_count_items[i][1]) + ")"] = new_data[xaxis_count_items[i][0]]
         graph.plotting_data = shown_count_points
 
 
@@ -407,9 +403,6 @@ def plot_graphs(graphs : list, subject, courseNum, level):
 
             # Graph data
             names = list(graph.plotting_data.keys())
-            for j in range(len(names)):
-                name_parts = names[j].split(",")
-                names[j] = name_parts[0]
             grades = graph.plotting_data.values()
 
             # Render graph
@@ -447,12 +440,12 @@ def plot_graphs(graphs : list, subject, courseNum, level):
             filename += "_" + subject
             if courseNum != None and courseNum != "None" and courseNum != "":
                 filename += "_" + courseNum
-            else:
-                filename += "_All"
                 if level != None and level != "None" and level != "":
                     filename += "_" + level
                 else:
                     filename += "_All"
+            else:
+                filename += "_All"
 
         # Save graph as a .pdf
         filename += setText + ".pdf"
