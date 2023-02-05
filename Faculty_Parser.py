@@ -24,6 +24,7 @@ EasyA.py uses Python 3.10
 # Data pulled from https://web.archive.org/web/20141107201343/http://catalog.uoregon.edu/arts_sciences/
 dataFile = "Regular_Faculty.txt"
 
+
 def remove_middle_inital(instructor):
     """
     Removes the middle inital from the instructor name to decrease mismatched data
@@ -36,6 +37,7 @@ def remove_middle_inital(instructor):
         index = instructor.rfind(" ")
         return instructor[:index]
     return instructor
+
 
 # Determine if an instructor is a permanent faculty hire at UofO
 def checkIfRegularFaculty(instructor):
@@ -133,3 +135,29 @@ def parseFacultyNames():
         new_names_list.append(l_comma_f)
 
     return new_names_list
+
+
+# Gets the value from the key/value pairs of the data file
+def parseDataValue(str):
+
+    # Error checking
+    if str.find(": \"") == -1:
+        return None
+
+    # Get part of string after ': "'
+    start = str.index(": \"") + 3
+    if str[-2] == ',':
+        end = len(str) - 3
+    else:
+        end = len(str) - 2
+    return str[start:end]
+
+
+# Intializes the program
+def main():
+    print(parseFacultyNames())
+
+
+# This calls the 'main' function when this script is executed
+if __name__ == "__main__":
+    main()

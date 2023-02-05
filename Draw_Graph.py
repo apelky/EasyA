@@ -34,13 +34,16 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
 
     # Go through all offers of the course
     for offer in course:
-        if offer.instructor not in instructor_grades:
-            instructor_grades[offer.instructor] = 0
-            instructor_count[offer.instructor] = 0
+        key = offer.instructor
+        if showCount:
+            key += " (" + str(offer.numCourses) + ")"
+        if key not in instructor_grades:
+            instructor_grades[key] = 0
+            instructor_count[key] = 0
 
         # Increment grade percentage
-        instructor_grades[offer.instructor] += offer.a_perc if easyA else offer.df_perc
-        instructor_count[offer.instructor] += 1
+        instructor_grades[key] += offer.a_perc if easyA else offer.df_perc
+        instructor_count[key] += 1
 
     # Second pass of instructors for average grade percentage
     for name in instructor_grades.keys():
@@ -49,8 +52,9 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
     # Get list of instructor names
     names = []
     grades = []
-    min_thresh = 2
+    min_thresh = 0 #2
     for name in instructor_grades.keys():
+        print(name)
         if instructor_count[name] > min_thresh:
             names.append(name)
             grades.append(instructor_grades[name])
@@ -59,9 +63,13 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
     graph.data = course
     graph.plotting_data = instructor_grades
 
-    default_offer = course[0]
-    graph.title = default_offer.dept + " " + default_offer.level + " " + default_offer.term_desc
-    graph.title += " - Easy A" if graph.isEasyA else " - Just Pass"
+    first_offer = course[0]
+    if graphType == 0:
+        graph.title = first_offer.dept + " " + str(first_offer.level)
+    elif graphType == 1:
+        graph.title = "All " + first_offer.dept + " Classes"
+    else:
+        graph.title = "All " + first_offer.dept + " " + first_offer.level + "-Level"
 
     graph.x_axis_label = "Instructors"
     if graph.isEasyA:
@@ -197,7 +205,7 @@ def plot_graphs(graphs : list):
     set = 1
 
     # Get time of graph creation
-    time = datetime.now().strftime("_%d:%m:%Y_%H-%M-%S")
+    time = "TIME" #datetime.now().strftime("_%d:%m:%Y_%H-%M-%S")
 
     # While there are still graphs to display
     while numTotalGraphs > 0:
@@ -212,9 +220,9 @@ def plot_graphs(graphs : list):
         # Arrange graph layout
         W = math.ceil(math.sqrt(numDisplayGraphs))
         H = math.ceil(numDisplayGraphs / W)
-        figure, axis = plt.subplots(W, H)
+        figure, axis = plt.subplots(H, W, figsize=(16, 9))
 
-        # Graph location
+        # Graph location in grid
         x = 0
         y = 0
 
@@ -229,20 +237,14 @@ def plot_graphs(graphs : list):
             grades = graph.plotting_data.values()
 
             # Render graph
-            barChart = None
-            if numDisplayGraphs >= 3:
-                barChart = axis[x, y]
-            elif numDisplayGraphs > 1:
-                barChart = axis[x]
-            else:
-                barChart = plt
-            barChart.bar(range(len(names)), grades, tick_label=names)
-            barChart.title(graph.title)
+            plt.subplot(W, H, i+1)
+            plt.bar(range(len(names)), grades, tick_label=names)
+            plt.title(graph.title)
 
             # Axis labels
             plt.tick_params(axis ='x', rotation = -90, direction = "in", pad = 3)
             plt.ylabel(graph.y_axis_label)
-            plt.rc('xtick', labelsize = 8)
+            plt.rc('xtick', labelsize = 10)
 
             # Max y value is 100%
             ax = plt.subplot(W, H, i+1)
@@ -263,10 +265,10 @@ def plot_graphs(graphs : list):
         setText = "" if (set == 1 and numTotalGraphs <= maxGraphs) else "_" + str(set)
 
         # Save graph .pdf in the EasyA pdf folder
-        filename = "./EasyA_pdfs/"
+        filename = "EasyA_pdfs/"
         filename += "EasyA_result" if graph.isEasyA else "JustPass_result"
         filename += time + setText + ".pdf"
-        plt.savefig(filename, format="pdf")
+        #plt.savefig(filename, format="pdf")
 
         # Show graphs
         plt.show()

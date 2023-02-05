@@ -151,19 +151,12 @@ def window():
 
     entry.mainloop()
 
-    return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry
+    return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry, True
 
 
 # Gets input parameters from user via a command line interface
 # Returns 'subject' (string), 'courseLvl' (int or None), 'level' (int or None), and 'year' (int or None)
 def getInput(): #def updateData():
-    """
-    debugPrint("Optional subject code argument: ", subject)
-    debugPrint("Optional course argument: ", courseLvl)
-    debugPrint("Optional level argument: ", level)
-    debugPrint("Optional year argument: ", year)
-    debugPrint("Optional graph argument: ", showGraph)
-    """
 
     # Optional arguments
     parser = argparse.ArgumentParser()
@@ -172,6 +165,7 @@ def getInput(): #def updateData():
     parser.add_argument('-l', type=int, help='All courses of a particular x00 level, such as "100"')
     parser.add_argument('-r', type=int, help='Whether to only show regular faculty')
     parser.add_argument('-a', type=int, help='Whether to show Easy A instead of Just Pass')
+    parser.add_argument('-n', type=int, help="Whether to show the instructor's course count")
     parser.add_argument('-f', help='A .json file containing grade data')
     args = parser.parse_args()
     file = args.f
@@ -196,10 +190,11 @@ def getInput(): #def updateData():
     level       = args.l
     allInstr    = not (args.r == None or (args.a != 0 and args.a != False))
     easyA       = args.a == None or (args.a != 0 and args.a != False)
+    showCount   = args.n == None or (args.n != 0 and args.n != False)
 
     # If no command line arguments, open user interface
     if args.s is None and args.c is None and args.l is None and args.r is None:
-        subject, courseNum, level, allInstr, easyA = window()
+        subject, courseNum, level, allInstr, easyA, showCount = window()
 
     # Make sure that all arguments are provided by line input if not through the command line
     else:
@@ -222,4 +217,4 @@ def getInput(): #def updateData():
         if args.r is None:
             allInstr = not (input("Do you want only view regular faculty? [y or n]: "))
 
-    return subject, courseNum, level, allInstr, easyA
+    return subject, courseNum, level, allInstr, easyA, showCount
