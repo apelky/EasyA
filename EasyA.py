@@ -60,7 +60,7 @@ def main():
 
     print(subject, courseNum, level, allInstructors, easyA)
     print(subject is not None, courseNum is not None, level is not None, allInstructors is not None, easyA is not None)
-    return
+    #return
 
     # List of all graphs
     graphs = []
@@ -76,7 +76,7 @@ def main():
 
     # Get all offers of all courses in same x00 level
     elif level is not None:
-        if courseDict = get_department_x00_level(subject, level)
+        courseDict = get_department_x00_level(subject, level)
         courseList = list(courseDict.values())
         if len(courseList) > 0:
             for course in courseList:
