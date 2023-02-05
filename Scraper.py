@@ -170,7 +170,7 @@ def main():
                 break
     
     # write data to a .txt file so scraper doesn't have to run every time
-    with open('regular_faculty.txt', 'w') as f:
+    with open('Regular_Faculty.txt', 'w') as f:
         for line in faculty_list:
             f.write(f"{line}\n")
 
