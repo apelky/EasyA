@@ -98,11 +98,9 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
     # Get list of instructor names
     names = []
     grades = []
-    min_thresh = 0 #2
     for name in instructor_grades.keys():
-        if instructor_count[name] > min_thresh:
-            names.append(name)
-            grades.append(instructor_grades[name])
+        names.append(name)
+        grades.append(instructor_grades[name])
 
     graph = Graph(graphType, easyA, allInstructors, showCount)
     graph.add_data(course)

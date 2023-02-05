@@ -56,13 +56,21 @@ def main():
     print("- EasyA Program -")
     print("Created by Group 1\n")
 
-    subject, courseNum, level, allInstructors, easyA, showCount = getInput()
+    subject, courseNum, levelParams, allInstructors, easyA, showCount = getInput()
+
+    # Handle level parameters
+    level = None
+    viewByInstr = False
+    if levelParams != None:
+        level = levelParams[0]
+        viewByInstr = [1]
 
     # List of all graphs
     graphs = []
 
     # Get all offers of specified course
-    if courseNum is not None:
+    if courseNum is not None and courseNum != "":
+        debugPrint("get_course")
         offerList = get_course(subject, courseNum)
         if len(offerList) > 0:
             graph = createGraph(offerList, 0, easyA, allInstructors, showCount)
@@ -71,22 +79,24 @@ def main():
             print("Data not found for subject", subject, "and course number", courseNum)
 
     # Get all offers of all courses in same x00 level
-    elif level is not None:
+    elif level is not None and level != "None":
+        debugPrint("get_department_x00_level", viewByInstr)
         courseDict = get_department_x00_level(subject, level)
         courseList = list(courseDict.values())
         if len(courseList) > 0:
             for course in courseList:
-                graph = createGraph(course, 2, easyA, allInstructors, showCount)
+                graph = createGraph(course, 3-viewByInstr, easyA, allInstructors, showCount)
                 graphs.append(graph)
         else:
             print("Data not found for subject", subject, "and x00 level", level)
 
     # Get all offers of all courses in the subject department
     else:
+        debugPrint("get_department_courses")
         courseList = get_department_courses(subject)
         if len(courseList) > 0:
             for course in courseList:
-                graph = createGraph(course, 1, easyA, allInstructors, showCount)
+                graph = createGraph(courseList[course], 1, easyA, allInstructors, showCount)
                 graphs.append(graph)
         else:
             print("Data not found for subject", subject)

@@ -54,7 +54,7 @@ easy_a_var = tk.IntVar(entry, 1)
 # default values
 subject_entry = "AA"
 course_entry = ""
-level_entry = None
+level_entry = []
 instruct_entry = 1
 easy_a_entry = 1
 
@@ -82,10 +82,7 @@ def submit():
     if course_entry == 'ex: 111':
         course_entry = ""
 
-    level_entry = level_var.get()
-    if level_entry != "None":
-        level_entry = [int(level_entry)]
-        level_entry.append(view_var.get())
+    level_entry = [level_var.get(), view_var.get()]
 
     instruct_entry = instructor_var.get()
     easy_a_entry = easy_a_var.get()
@@ -165,15 +162,6 @@ def window():
     entry.mainloop()
 
     return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry, True
-
-    """
-    global subject_entry
-    global course_entry
-    global level_entry
-    global instruct_entry
-    global easy_a_entry
-    """
-    return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry
 
 
 def updateData(file):

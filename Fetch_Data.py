@@ -186,7 +186,7 @@ def get_department_x00_level(dept: str, level: int):
 	for key in keysList:
 		lvl = key[len(key)-3:]
 		if dept == key[:-3]:
-			if int(lvl) >= level and int(lvl) < level + 100:
+			if int(lvl) >= int(level) and int(lvl) < int(level) + 100:
 				courseList = []
 				if key in groups:
 					rawData = groups[key]
@@ -194,7 +194,7 @@ def get_department_x00_level(dept: str, level: int):
 						offer = rawData[i]
 						instructor = offer["instructor"]
 
-						isInstr = True#checkIfRegularFaculty(instructor)
+						isInstr = checkIfRegularFaculty(instructor)
 
 						# Create new course object
 						course = Course(dept, lvl, offer["crn"], offer["TERM_DESC"],
