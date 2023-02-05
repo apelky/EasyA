@@ -104,12 +104,12 @@ class Graph():
         # for each type
 
         # Each graph.type will vary slightly. account for that
-          self.x_axis_label = "Instructor"
+        self.x_axis_label = "Instructor"
             
-            if self.isEasyA == True:
-                self.y_axis_label = "% As"
-            else:
-                self.y_axis_label = "% D/Fs"
+        if self.isEasyA == True:
+            self.y_axis_label = "% As"
+        else:
+            self.y_axis_label = "% D/Fs"
 
         if self.type == 2:
             # Title: All <dept> x00-level
