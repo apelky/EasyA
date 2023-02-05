@@ -237,7 +237,7 @@ def plot_graphs(graphs : list):
             else:
                 barChart = plt
             barChart.bar(range(len(names)), grades, tick_label=names)
-            barChart.set_title(graph.title)
+            barChart.title(graph.title)
 
             # Axis labels
             plt.tick_params(axis ='x', rotation = -90, direction = "in", pad = 3)

@@ -37,7 +37,7 @@ def getFacultyNames():
     """
 
     # Open dataset file
-    f = open(dataFile, "r")
+    f = open(dataFile, "r", encoding="utf-8")
     lines = f.readlines()
 
     # Initalized list for names to be appended to
