@@ -24,6 +24,45 @@ EasyA.py uses Python 3.10
 # Data pulled from https://web.archive.org/web/20141107201343/http://catalog.uoregon.edu/arts_sciences/
 dataFile = "Regular_Faculty.txt"
 
+def removeMiddleInital(instructor):
+    """
+    Removes the middle inital from the instructor name to decrease mismatched data
+    Parameters:
+        instructor (str) - Name of instructor/professor - Ex: "Leahy, John F."
+    Returns:
+        without_middle (str) - Name of instructor/ professor without middle inital - Ex: "Leahy, John"
+    """
+    if instructor.endswith('.'):
+        index = instructor.rfind(" ")
+        return instructor[:index]
+    return instructor
+
+# Determine if an instructor is a permanent faculty hire at UofO
+def checkIfRegularFaculty(instructor):
+    """
+    Compares list of Regular Faculty to list of data of all
+    instuctors
+    Parameters:
+        instructor (str) - Name of instructor/professor - Ex: "Hornof, Anthony"
+    Returns:
+        isRegularFaculty (bool) - Whether a given name is Regular Faculty
+    """
+
+    # Get list of Regular Faculty
+    regularFaculty = parseFacultyNames()
+    instructor = removeMiddleInital(instructor)
+
+    # If the instructor is faculty
+    isRegularFaculty = False
+
+    # Search list of Regular Faculty for given name
+    for name in regularFaculty:
+        name = removeMiddleInital(name)
+        if instructor == name:
+            isRegularFaculty = True
+
+    return isRegularFaculty
+
 
 def getFacultyNames():
     """
@@ -94,43 +133,3 @@ def parseFacultyNames():
         new_names_list.append(l_comma_f)
 
     return new_names_list
-
-
-# Determine if an instructor is a permanent faculty hire at UofO
-def checkIfRegularFaculty(instructor):
-    """
-    Compares list of Regular Faculty to list of data of all
-    instuctors
-
-    Parameters:
-        instructor (str) - Name of instructor/professor - Ex: "Hornof, Anthony"
-
-    Returns:
-        isRegularFaculty (bool) - Whether a given name is Regular Faculty
-    """
-
-    # Get list of Regular Faculty
-    regularFaculty = parseFacultyNames()
-
-    # If the instructor is faculty
-    isRegularFaculty = False
-
-    # Search list of Regular Faculty for given name
-    #debugPrint("Given name: ", instructor)
-    for name in regularFaculty:
-        if instructor == name:
-            '''TODO: this doesn't address the issue of middle inital'''
-            #debugPrint(instructor, " is regular faculty")
-            isRegularFaculty = True
-
-    return isRegularFaculty
-
-
-# Intializes the program
-def main():
-    x = parseFacultyNames()
-    print(x)
-
-# This calls the 'main' function when this script is executed
-if __name__ == "__main__":
-    main()
