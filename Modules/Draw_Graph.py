@@ -308,10 +308,8 @@ def update_plotting_data(graph: Graph):
     """
 
 	# Edit x axis names to add instructor count
-    print("graph.show_count", graph.show_count)
     if graph.show_count:
         data_keys = list(new_data.keys())
-        print(data_keys)
         if (graph.type == 3):
             xaxis_count = find_class_count(processing_data) # get a dict of counts
 

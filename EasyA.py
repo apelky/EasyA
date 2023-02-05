@@ -63,7 +63,7 @@ def main():
     viewByInstr = False
     if levelParams != None:
         level = levelParams[0]
-        viewByInstr = [1]
+        viewByInstr = levelParams[1]
 
     # List of all graphs
     graphs = []
@@ -85,7 +85,7 @@ def main():
         courseList = list(courseDict.values())
         if len(courseList) > 0:
             for course in courseList:
-                graph = createGraph(course, 2, easyA, allInstructors, showCount) #3-viewByInstr
+                graph = createGraph(course, 3 - viewByInstr, easyA, allInstructors, showCount)
                 graphs.append(graph)
         else:
             print("Data not found for subject", subject, "and x00 level", level)
@@ -100,6 +100,8 @@ def main():
                 graphs.append(graph)
         else:
             print("Data not found for subject", subject)
+
+    print("ready to graph")
 
     # Plot and display graphs
     plot_graphs(graphs, subject, courseNum, level)
