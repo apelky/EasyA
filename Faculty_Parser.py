@@ -24,7 +24,7 @@ EasyA.py uses Python 3.10
 # Data pulled from https://web.archive.org/web/20141107201343/http://catalog.uoregon.edu/arts_sciences/
 dataFile = "Regular_Faculty.txt"
 
-def remove_middle_inital(instructor):
+def removeMiddleInital(instructor):
     """
     Removes the middle inital from the instructor name to decrease mismatched data
     Parameters:
