@@ -11,7 +11,53 @@ import matplotlib.pyplot as plt
 import math
 from datetime import datetime
 
+from Fetch_Data import *
+from Course_Class import Course
 from Graph_Class import Graph
+
+
+##### Helper functions #####
+# Feel free to add on your own functions you can think of if it helps you
+# Just document it well
+def tuple_list_flip(alist):
+	retList = []
+	for i in range(len(alist)):
+		retList.append((alist[i][1], alist[i][0]))
+	return retList
+
+
+def sort_dict(d: dict, hi2lo: bool=True):
+    """
+    Desc:
+        Returns a sorted dicitonary of numbers from Hi to Lo by values
+        Or if hi2low is False, then will return lo to hi values
+        Ex:
+            {"X": 1, "Y": 2, "Z": 3} -> {"Z": 3, "Y": 2, "X": 1}
+
+
+        Useful for sorting Graph.plotting_data
+
+    Parameters:
+        d   (dict) - Dictionary to be sorted by values
+        hi2lo (bool) - Optional flag to have values count low to high
+
+    Return:
+        Dictionary - Sorted dictionary
+    """
+    # should probably check if values are all same type so it can
+    # genuinely distinguish which values are > and < others
+    items = list(d.items())
+    items = tuple_list_flip(items)
+    items.sort()    # sort low to high
+    if hi2lo:
+        items.reverse() # sort high to low
+    items = tuple_list_flip(items)
+
+    retDict = dict()
+    for i in range(len(items)):
+        retDict[items[i][0]] = items[i][1]
+    return retDict
+
 
 # Creat a graph object from a course object
 def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=False):
@@ -54,14 +100,14 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
     grades = []
     min_thresh = 0 #2
     for name in instructor_grades.keys():
-        print(name)
         if instructor_count[name] > min_thresh:
             names.append(name)
             grades.append(instructor_grades[name])
 
     graph = Graph(graphType, easyA, allInstructors, showCount)
     graph.data = course
-    graph.plotting_data = instructor_grades
+    # graph.plotting_data = instructor_grades
+    update_plotting_data(graph)
 
     first_offer = course[0]
     if graphType == 0:
@@ -71,13 +117,153 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
     else:
         graph.title = "All " + first_offer.dept + " " + first_offer.level + "-Level"
 
-    graph.x_axis_label = "Instructors"
-    if graph.isEasyA:
-        graph.y_axis_label = "% As"
-    else:
-        graph.y_axis_label = "% D/Fs"
+    # default_offer = course[0]
+    # graph.title = default_offer.dept + " " + default_offer.level + " " + default_offer.term_desc
+    # graph.title += " - Easy A" if graph.isEasyA else " - Just Pass"
+
+    # graph.x_axis_label = "Instructors"
+    # if graph.isEasyA:
+    #     graph.y_axis_label = "% As"
+    # else:
+    #     graph.y_axis_label = "% D/Fs"
 
     return graph
+
+
+def find_instr_count(courses: list):
+    """
+    Desc:
+        Counts the number of times all instructors taught a course in the given data list.
+        Returns a dictionary of {"Professor":teach_count} pairs
+
+        Useful for when parsing data in update_plotting_data()
+
+    Parameters:
+        courses    (List of Course objects) - Courses count instructor's teach counts
+
+    Returns:
+        Dictionary   - {"Instructor":teach_count, ...}
+
+    """
+    instr_count = dict()
+    for i in range(len(courses)):
+        instr_name = courses[i].instructor
+        if instr_name in instr_count:  # if already in dictionary
+            instr_count[instr_name] += 1
+        else:   # add to dictionary
+            instr_count[instr_name] = 1
+
+    return instr_count
+
+
+def find_class_count(courses: list):
+    """
+    Desc:
+        Counts the number of times all courses were offered in the given data list.
+        Returns a dictionary of {"course": times_offered} pairs
+
+        Useful for when parsing data in update_plotting_data()
+
+    Parameters:
+        courses    (List of Course objects) - Courses taught
+
+    Returns:
+        Dictionary   - {"course": times_offered, ...}
+
+    """
+    class_offerings = dict()
+    for i in range(len(courses)):
+        course_name = combine_dept_and_level(courses[i].dept, courses[i].level)
+        if course_name in class_offerings:  # if already in dictionary
+            class_offerings[course_name] += 1
+        else:   # add to dictionary
+            class_offerings[course_name] = 1
+
+    return class_offerings
+
+
+def calc_instr_avg(data: list, isEasyA: bool=True):
+    """
+    Desc:
+        Searches list of Course objects for instructor's a% avg (or df% if isEasyA is False)
+        Returns a dictionary of {"Instructor": _%avg} pairs of the data
+
+        Useful for updating plotting data
+
+    Parameters:
+        data    (List of Course objects) - Courses count instructor's teach counts
+        isEasyA (bool) - Search function option. A% if True, D/F% if False
+
+    Returns:
+        Dictionary - {"Instructor": _%avg}
+    """
+    sums_dict = dict()
+    count_dict = dict()
+    for i in range(len(data)):
+        instr_name = data[i].instructor
+        if isEasyA:
+            if instr_name in count_dict:
+                sums_dict[instr_name] += float(data[i].a_perc)
+                count_dict[instr_name] += 1
+            else:
+                sums_dict[instr_name] = float(data[i].a_perc)
+                count_dict[instr_name] = 1
+        else:
+            if instr_name in count_dict:
+                sums_dict[instr_name] += float(data[i].df_perc)
+                count_dict[instr_name] += 1
+            else:
+                sums_dict[instr_name] = float(data[i].df_perc)
+                count_dict[instr_name] = 1
+
+    instructors = list(sums_dict.keys())
+    instr_avg = dict()
+    for i in range(len(instructors)):
+        instr_avg[instructors[i]] = round((sums_dict[instructors[i]] / count_dict[instructors[i]]), 2)
+
+    return instr_avg
+
+
+def calc_class_avg(data: list, isEasyA: bool=True):
+    """
+    Desc:
+        Searches list of Course objects for class' a% avg (or df% if isEasyA is False)
+        Returns a dictionary of {"Class": _%avg} pairs of the data
+
+        Useful for updating plotting data
+
+    Parameters:
+        data    (List of Course objects) - Courses count class' teach counts
+        isEasyA (bool) - Search function option. A% if True, D/F% if False
+
+    Returns:
+        Dictionary - {"Class": _%avg}
+    """
+    sums_dict = dict()
+    count_dict = dict()
+    for i in range(len(data)):
+        course_name = combine_dept_and_level(data[i].dept, data[i].level)
+        if isEasyA:
+            if course_name in count_dict:
+                sums_dict[course_name] += float(data[i].a_perc)
+                count_dict[course_name] += 1
+            else:
+                sums_dict[course_name] = float(data[i].a_perc)
+                count_dict[course_name] = 1
+        else:
+            if course_name in count_dict:
+                sums_dict[course_name] += float(data[i].df_perc)
+                count_dict[course_name] += 1
+            else:
+                sums_dict[course_name] = float(data[i].df_perc)
+                count_dict[course_name] = 1
+
+    classes = list(sums_dict.keys())
+    class_avg = dict()
+    for i in range(len(classes)):
+        class_avg[classes[i]] = round((sums_dict[classes[i]] / count_dict[classes[i]]),2)
+
+    return class_avg
 
 
 def update_plotting_data(graph: Graph):
@@ -88,7 +274,6 @@ def update_plotting_data(graph: Graph):
         Recalculates plotting data
         (Useful if graph.data gets updated)
 
-
     Parameters:
         graph (Graph) - Graph to update plotting data in
 
@@ -96,13 +281,10 @@ def update_plotting_data(graph: Graph):
         True    - successful
         False   - unsuccessful
 
-
-
     NOTE: (delete me later)
         Doing this as a global function allows us to use other helper
         functions to do this as well instead of having the Graph.py
         class 1) import the main file? and 2) assume functional functions from another file
-
 
     """
 
@@ -113,7 +295,6 @@ def update_plotting_data(graph: Graph):
     for i in range(len(processing_data)):
         if type(processing_data[i]) != Course:
             return False    # Found an element that's not a Course object
-
 
     # Filter out all Non-faculty if needed
     if not graph.isAllInstructors: # If FacultyOnly
@@ -132,7 +313,6 @@ def update_plotting_data(graph: Graph):
     elif (graph.type == 3): # <Dept> x00 level Classes (by class)
         new_data = calc_class_avg(processing_data, graph.isEasyA)
         new_data = sort_dict(new_data)
-
 
     graph.plotting_data = new_data
 
@@ -265,10 +445,11 @@ def plot_graphs(graphs : list):
         setText = "" if (set == 1 and numTotalGraphs <= maxGraphs) else "_" + str(set)
 
         # Save graph .pdf in the EasyA pdf folder
-        filename = "EasyA_pdfs/"
-        filename += "EasyA_result" if graph.isEasyA else "JustPass_result"
-        filename += time + setText + ".pdf"
-        #plt.savefig(filename, format="pdf")
+        filename = "./EasyA_pdfs/"
+        filename = "EasyA_result" if graph.isEasyA else "JustPass_result"
+        filename += ".pdf"
+        # filename += time + setText + ".pdf"
+        plt.savefig(filename, format="pdf")
 
         # Show graphs
         plt.show()

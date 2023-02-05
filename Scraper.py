@@ -148,8 +148,10 @@ def main():
     Returns:
         None
     '''
-    # the only link you need to provide is the course catalog page
     faculty_list = []
+
+    # SYSTEM ADMINISTRATOR - COPY AND PASTE YOUR LINK IN BETWEEN ' ' WHERE 
+    # https://web.archive.org/web/20141124084353/http://catalog.uoregon.edu/ CURRENT SITS
     school_links = explore_catalog('https://web.archive.org/web/20141124084353/http://catalog.uoregon.edu/')
 
     for school in school_links:

@@ -1,13 +1,18 @@
 """
 UI model
 """
-import tkinter as tk
 
 """
 argparse is a module from the Python Standard Library which parses command line options
+os is a module from the Python Standard Library which contains miscellaneous operating system interfaces
 sys is a module from the Python Standard Library which handles system - specific parameters and functions
 """
 import argparse
+import os
+import sys
+
+import tkinter as tk
+
 
 # lists for option menus
 natural_science = ['BI', 'CH', 'CIS', 'CIT', 'HPHY', 'MATH', 'PHYS', 'PSY']
@@ -32,25 +37,36 @@ level_options = [None, 100, 200, 300, 400, 500, 600, 700]
 
 entry = tk.Tk()
 # setting the windows size
-entry.geometry("480x320")
+entry.geometry("600x400")
 entry.title('Easy A')
 
 # defining variables
-subject = tk.StringVar()
-subject.set(subject_options[0])
-course = tk.StringVar()
-course.set("")
-level = tk.StringVar()
-level.set(level_options[0])
-instructor = tk.IntVar(entry, 1)
-easy_a = tk.IntVar(entry, 1)
+subject_var = tk.StringVar()
+subject_var.set(subject_options[0])
+course_var = tk.StringVar()
+course_var.set("")
+level_var = tk.StringVar()
+level_var.set(level_options[0])
+view_var = tk.IntVar(entry, 1)
+instructor_var = tk.IntVar(entry, 1)
+easy_a_var = tk.IntVar(entry, 1)
 
-
+# default values
 subject_entry = "AA"
 course_entry = ""
 level_entry = None
 instruct_entry = 1
 easy_a_entry = 1
+
+
+def level_view(event):
+    view_label = tk.Label(entry, text = 'view by: ', font = ('calibre', 14, 'bold'))
+    view_instructor = tk.Radiobutton(entry, text = 'instructor' , variable = view_var, value = 1, justify = 'left')
+    view_class = tk.Radiobutton(entry, text = 'class' , variable = view_var, value = 0, justify = 'left')
+
+    view_label.grid(row = 4, column = 3, pady = (10, 0))
+    view_instructor.grid(row = 4, column = 4, sticky = 'W', pady = (10, 0))
+    view_class.grid(row = 4, column = 5, sticky = 'W', pady = (10, 0))
 
 
 # function called upon "submit" button being pushed
@@ -61,29 +77,25 @@ def submit():
     global instruct_entry
     global easy_a_entry
 
-    subject_entry = subject.get()
-    course_entry = course.get()
+    subject_entry = subject_var.get()
+    course_entry = course_var.get()
     if course_entry == 'ex: 111':
         course_entry = ""
 
-    level_entry = level.get()
+    level_entry = level_var.get()
     if level_entry != "None":
-        level_entry = int(level_entry)
+        level_entry = [int(level_entry)]
+        level_entry.append(view_var.get())
 
-    instruct_entry = instructor.get()
-    easy_a_entry = easy_a.get()
+    instruct_entry = instructor_var.get()
+    easy_a_entry = easy_a_var.get()
 
-    print("subject: ", subject_entry)
-    print("course: ", course_entry)
-    print("level: ", level_entry)
-    print("all instructors?: ", instruct_entry)
-    print("easy_a?: ", easy_a_entry)
-
-    subject.set(subject_options[0])
-    course.set("")
-    level.set(level_options[0])
-    instructor.set(1)
-    easy_a.set(1)
+    """ subject_var.set(subject_options[0])
+    course_var.set("")
+    level_var.set(level_options[0])
+    view_var.set(1)
+    instructor_var.set(1)
+    easy_a_var.set(1) """
 
     entry.destroy()
 
@@ -97,27 +109,27 @@ def window():
 
     # define labels
     subject_label = tk.Label(entry, text = 'Subject Code:', font = ('calibre', 14, 'bold'))
-    subject_menu = tk.OptionMenu(entry , subject , *subject_options )
+    subject_menu = tk.OptionMenu(entry , subject_var , *subject_options )
 
     blank = tk.Label(entry, text = ' ')
-    args_label = tk.Label(entry, text = 'optional fields:', font = ('calibre', 14, 'bold'))
+    args_label = tk.Label(entry, text = 'Optional Fields:', font = ('calibre', 14, 'bold'))
 
     course_label = tk.Label(entry, text = 'Course Number', font = ('calibre', 14, 'bold'))
-    enter_course = tk.Entry(entry, textvariable = course, font = ('calibre', 14, 'normal'), width = 10)
+    enter_course = tk.Entry(entry, textvariable = course_var, font = ('calibre', 14, 'normal'), width = 10)
 
     enter_course.insert(0, 'ex: 111')
     enter_course.bind("<Button-1>", lambda event: clear(event, enter_course))
 
     level_label = tk.Label(entry, text = 'All Courses At Level', font = ('calibre', 14, 'bold'))
-    level_menu = tk.OptionMenu(entry, level, *level_options)
+    level_menu = tk.OptionMenu(entry, level_var, *level_options, command = level_view)
 
     instructor_label = tk.Label(entry, text = 'Show Instructors: ', font = ('calibre', 14, 'bold'))
-    instructor_button = tk.Radiobutton(entry, text = 'All Instructors' , variable = instructor, value = 1, justify = 'left')
-    faculty_button = tk.Radiobutton(entry, text = 'Regular Faculty' , variable = instructor, value = 0, justify = 'left')
+    instructor_button = tk.Radiobutton(entry, text = 'All Instructors' , variable = instructor_var, value = 1, justify = 'left')
+    faculty_button = tk.Radiobutton(entry, text = 'Regular Faculty' , variable = instructor_var, value = 0, justify = 'left')
 
     easy_a_label = tk.Label(entry, text = 'Grade Type: ', font = ('calibre', 14, 'bold'))
-    easy_a_button = tk.Radiobutton(entry, text = 'Easy A' , variable = easy_a, value = 1, justify = 'left')
-    just_pass_button = tk.Radiobutton(entry, text = 'Just Pass' , variable = easy_a, value = 0, justify = 'left')
+    easy_a_button = tk.Radiobutton(entry, text = 'Easy A' , variable = easy_a_var, value = 1, justify = 'left')
+    just_pass_button = tk.Radiobutton(entry, text = 'Just Pass' , variable = easy_a_var, value = 0, justify = 'left')
 
     submission = tk.Button(entry, text = 'submit', command = submit)
     entry.update()
@@ -149,72 +161,95 @@ def window():
 
     submission.grid(row = 8, column = label_col, pady = (20, 0), padx = (10, 0))
 
+
     entry.mainloop()
 
     return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry, True
 
+    """
+    global subject_entry
+    global course_entry
+    global level_entry
+    global instruct_entry
+    global easy_a_entry
+    """
+    return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry
 
-# Gets input parameters from user via a command line interface
-# Returns 'subject' (string), 'courseLvl' (int or None), 'level' (int or None), and 'year' (int or None)
-def getInput(): #def updateData():
 
-    # Optional arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-s', help='A single subject code, such as "MATH"')
-    parser.add_argument('-c', type=int, help='A single course level, such as "111"')
-    parser.add_argument('-l', type=int, help='All courses of a particular x00 level, such as "100"')
-    parser.add_argument('-r', type=int, help='Whether to only show regular faculty')
-    parser.add_argument('-a', type=int, help='Whether to show Easy A instead of Just Pass')
-    parser.add_argument('-n', type=int, help="Whether to show the instructor's course count")
-    parser.add_argument('-f', help='A .json file containing grade data')
-    args = parser.parse_args()
-    file = args.f
-
-    if file is not None:
-        if not file.lower().endswith('.json'):
-            print("ERROR: file must be a JSON file (.json)")
-            return
-        try:
-            fstream = open(file)
-        except:
-            print("ERROR: cannot open file", file)
-        else:
-            for line in fstream:
-                continue
-            print("system updated with new data")
-
-    # Argument variables
-    args        = parser.parse_args()
-    subject     = args.s
-    courseNum   = args.c
-    level       = args.l
-    allInstr    = not (args.r == None or (args.a != 0 and args.a != False))
-    easyA       = args.a == None or (args.a != 0 and args.a != False)
-    showCount   = args.n == None or (args.n != 0 and args.n != False)
-
-    # If no command line arguments, open user interface
-    if args.s is None and args.c is None and args.l is None and args.r is None:
-        subject, courseNum, level, allInstr, easyA, showCount = window()
-
-    # Make sure that all arguments are provided by line input if not through the command line
+def updateData(file):
+    if not file.lower().endswith('.json'):
+        print("ERROR: file must be a JSON file (.json)")
+        exit()
+    try:
+        fstream = open(file)
+    except:
+        print("ERROR: cannot open file", file)
+        exit()
     else:
+        global dataFile
+        dataFile = "empty.json"
+        os.replace(file, dataFile)
+        # data = json.load(f)
+        fstream.close()
+        print("SUCCESS: system updated with new data")
+        exit()
 
-        # Subject code (mandatory)
-        if args.s is None:
-            subject = input("Enter subject code: ")
 
-        # Course number or level (optional)
-        if args.c is None and args.l is None:
-            view_course = input("Do you want view a specific course number? [y or n]: ")
-            if view_course:
-                courseNum = int(input("Enter course number: "))
-            else:
-                view_level = input("Do you want view a specific course level (x00)? [y or n]: ")
-                if view_level:
-                    level = (int((input("Enter level (x00) for all courses you want to view: ")) / 100) * 100)
+def command_line():
+    parser = argparse.ArgumentParser()
 
-        # All instructors or regular faculty (mandatory)
-        if args.r is None:
-            allInstr = not (input("Do you want only view regular faculty? [y or n]: "))
+    # optional arguments
+    parser.add_argument('-s', '--subject', help = 'a single subject such as "Math"')
+    parser.add_argument('-c', '--course', type = int, help = 'a single course level, such as "111"')
+    parser.add_argument('-l', '--level', type = int, help = 'all courses of a particular x00 level, such as "100"')
+    parser.add_argument('-r', action = argparse.BooleanOptionalAction, help = 'include to only show regular faculty')
+    parser.add_argument('-j', action = argparse.BooleanOptionalAction, help = 'include to only show Just Pass')
+    parser.add_argument('-f', help = 'a JSON (.json) file containing grade data')
 
-    return subject, courseNum, level, allInstr, easyA, showCount
+    args = parser.parse_args()
+    print(args)
+
+    subject         = args.subject
+    course          = args.course
+    level           = args.level
+    all_instruct    = int(not args.r)
+    easy_a          = int(not args.j)
+    file            = args.f
+
+    if file:
+        updateData(file)
+
+    if subject is None:
+        print("ERROR: subject code is mandatory")
+        subject = input("Enter subject code: ")
+
+    if subject.upper() not in subject_options:
+        print("ERROR: invalid subject code")
+        exit()
+
+    if level is not None:
+        level = (level // 100) * 100
+        if level not in level_options:
+            print("ERROR: invalid level; levels are 100 - 700")
+            exit()
+
+    return subject, course, level, all_instruct, easy_a
+
+
+# returns 'subject' (string), 'course' ([int, int] or None), 'level' (int or None), and 'all_instruct' (int)
+def getInput():
+    """
+    gets input parameters from user via a command line or graphical user interface
+    returns:
+        one strings: 'subject', 'course', and 'level'
+        two bools as ints: 'all_instruct' and 'easy_a'
+            if all_instruct is 1, the user wants to see all instructors
+            if all_instruct is 0, the user wants to only see regular faculty
+
+            if easy_a is 1, the user wants to see percent A's
+            if easy_a is 0, the user wants to see percent D's and F's
+    """
+
+    subject, course, level, all_instruct, easy_a = window() if len(sys.argv) == 1 else command_line()
+
+    return subject, course, level, all_instruct, easy_a, True
