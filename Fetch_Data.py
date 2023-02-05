@@ -4,14 +4,18 @@ List of functions to be done
 Created 1/22/23
 """
 
-from Graph_Class import Graph
-from Course_Class import Course
+"""
+Matplotlib is a visaul fucntion library for python: https://matplotlib.org/
+"""
+import matplotlib.pyplot as plt
+import math
 
 from GradeData import groups
+from Course_Class import Course
 
+from Faculty_Parser import *
 
 #############################
-
 
 
 ##### Helper functions #####
@@ -47,7 +51,7 @@ def sort_dict(d: dict, hi2lo: bool=True):
     items = list(d.items())
     items = tuple_list_flip(items)
     items.sort()    # sort low to high
-    if hi2lo:  
+    if hi2lo:
         items.reverse() # sort high to low
     items = tuple_list_flip(items)
 
@@ -55,8 +59,6 @@ def sort_dict(d: dict, hi2lo: bool=True):
     for i in range(len(items)):
         retDict[items[i][0]] = items[i][1]
     return retDict
-
-
 
 
 def split_dept_and_level(courseKey: str):
@@ -126,23 +128,23 @@ def find_instr_count(courses: list):
             instr_count[instr_name] += 1
         else:   # add to dictionary
             instr_count[instr_name] = 1
-    
+
     return instr_count
 
 
 def find_class_count(courses: list):
     """
     Desc:
-        Counts the number of times all classes were offered in the given data list.
-        Returns a dictionary of {"Class": times_offered} pairs
+        Counts the number of times all courses were offered in the given data list.
+        Returns a dictionary of {"course": times_offered} pairs
 
         Useful for when parsing data in update_plotting_data()
 
     Parameters:
-        courses    (List of Course objects) - Courses of classes taught
+        courses    (List of Course objects) - Courses taught
 
     Returns:
-        Dictionary   - {"Class":times_offered, ...}
+        Dictionary   - {"course": times_offered, ...}
 
     """
     class_offerings = dict()
@@ -152,9 +154,8 @@ def find_class_count(courses: list):
             class_offerings[course_name] += 1
         else:   # add to dictionary
             class_offerings[course_name] = 1
-    
-    return class_offerings
 
+    return class_offerings
 
 
 def calc_instr_avg(data: list, isEasyA: bool=True):
@@ -181,7 +182,7 @@ def calc_instr_avg(data: list, isEasyA: bool=True):
                 sums_dict[instr_name] += float(data[i].a_perc)
                 count_dict[instr_name] += 1
             else:
-                sums_dict[instr_name] = float(data[i].a_perc) 
+                sums_dict[instr_name] = float(data[i].a_perc)
                 count_dict[instr_name] = 1
         else:
             if instr_name in count_dict:
@@ -241,15 +242,14 @@ def calc_class_avg(data: list, isEasyA: bool=True):
     return class_avg
 
 
-
-
 #################################
+
 
 def get_course(dept: str, level: int):
     """
     Desc:
         Searches the database for a course given the course's department and level
-        Returns with a dictionary of a list consisting of course offering dictionaries
+        Returns with a dictionary of a list consisting of course offerings
           that match the given criteria
 
     Parameters:
@@ -270,12 +270,14 @@ def get_course(dept: str, level: int):
         # Create new course object
         course = Course(dept, level, offer["crn"], offer["TERM_DESC"],
                         offer["aprec"], offer["bprec"], offer["cprec"], offer["dprec"], offer["fprec"],
-                        instructor, False, 1)
-        #checkIfRegularFaculty(instructor)
-        #countInstructorCourses(instructor)
+                        instructor, checkIfRegularFaculty(instructor), 0)
 
         # Add course to list
         courseList.append(course);
+
+    # Count times each instructor taught a course in this list
+    for course in courseList:
+        course.numCourses = find_instr_count(courseList)
 
     return courseList
 
@@ -370,22 +372,25 @@ def get_department_x00_level(dept: str, level: int):
                     # Create new course object
                     course = Course(dept, lvl, offer["crn"], offer["TERM_DESC"],
                                     offer["aprec"], offer["bprec"], offer["cprec"], offer["dprec"], offer["fprec"],
-                                    instructor, False, 1)
+                                    instructor, checkIfRegularFaculty(instructor), 0)
                     #checkIfRegularFaculty(instructor)
-                    #countInstructorCourses(instructor)
 
                     # Add course to list
                     courseList.append(course);
+
+                # Count times each instructor taught a course in this list
+                for course in courseList:
+                    course.numCourses = find_instr_count(courseList)
                 courseDict[key] = courseList
 
     return courseDict
 
 
 def convert_to_Courses(classes_dict: dict):
-    """ 
+    """
     Desc:
         Takes a class dictionary and converts all the offerings
-        of courses into Course objects in a list 
+        of courses into Course objects in a list
         Then returns that list of Courses
 
         (Useful for getting list of dictionaries prepped
@@ -394,20 +399,20 @@ def convert_to_Courses(classes_dict: dict):
     Parameters:
         classes_dict (dict) - Classes to be converted
             Ex: {"MTH111": [
-                            {offering 1}, 
-                            {offering 2}, 
+                            {offering 1},
+                            {offering 2},
                             {offering 3}
                             ]
                 ,
                 "MTH115":  [
-                            {offering 1}, 
-                            {offering 2}, 
+                            {offering 1},
+                            {offering 2},
                             {offering 3}
                             ]
                 ,
                     ...
                 }
-    
+
     Returns:
         List (of Course objects)
     """
@@ -422,240 +427,3 @@ def convert_to_Courses(classes_dict: dict):
         for j in range(len(classes_dict[keys[i]])): # For every item in list of value
             courseList.append(classes_dict[keys[i]][j]) # append to courseList
     return courseList
-
-
-def update_plotting_data(graph: Graph):
-    """
-    MUST BE CALLED AFTER ADDING DATA TO GRAPH FOR NEW DATA TO APPEAR
-
-    Desc:
-        Recalculates plotting data
-        (Useful if graph.data gets updated)
-
-
-    Parameters:
-        graph (Graph) - Graph to update plotting data in
-
-    Returns:
-        True    - successful
-        False   - unsuccessful
-
-
-
-    NOTE: (delete me later)
-        Doing this as a global function allows us to use other helper
-        functions to do this as well instead of having the Graph.py
-        class 1) import the main file? and 2) assume functional functions from another file
-
-
-    """
-
-    # Filter out Faculty
-    processing_data = graph.data
-
-    # Check that processing data is all Course objects
-    for i in range(len(processing_data)):
-        if type(processing_data[i]) != Course:
-            return False    # Found an element that's not a Course object 
-    
-
-    # Filter out all Non-faculty if needed
-    if not graph.isAllInstructors: # If FacultyOnly
-        #remove all instructors from processing_data
-        for i in reversed(range(len(graph.data))):
-            if processing_data[i].isProfessor:  # we remove the professors, right?
-                processing_data.pop(i)
-
-    new_data = dict()
-    if (graph.type in [0, 1, 2]): # Single Class
-        # This type will assume self.data is a List of Course objects
-        new_data = calc_instr_avg(processing_data, graph.isEasyA)
-        new_data = sort_dict(new_data)
-
-
-    elif (graph.type == 3): # <Dept> x00 level Classes (by class)
-        new_data = calc_class_avg(processing_data, graph.isEasyA)
-        new_data = sort_dict(new_data)
-
-
-    graph.plotting_data = new_data
-
-    if graph.show_count:
-        # edit x axis names to add instructor count
-            # do this by taking the keys
-        
-        data_keys = list(new_data.keys())
-        if (graph.type == 3):
-            xaxis_count = find_class_count(processing_data) # get a dict of counts 
-
-        else: # The other types of graph that's now by class
-            xaxis_count = find_instr_count(processing_data) # get a dict of counts
-
-        xaxis_count = sort_dict(xaxis_count)    # sort the dict
-        xaxis_count_items = list(xaxis_count.items())
-        shown_count_points = dict()
-        # print(xaxis_count_items)
-        for i in range(len(new_data)):
-            shown_count_points[xaxis_count_items[i][0] + " ("  + str(xaxis_count_items[i][1]) + ")"] = new_data[xaxis_count_items[i][0]]
-        graph.plotting_data = shown_count_points
-
-        
-    
-    graph.plotting_data = sort_dict(graph.plotting_data, graph.isEasyA)
-
-    graph.update_labels() # should be last thing in this function hopefuly
-
-
-
-
-def plot_graphs(graphs : list):
-    """
-    Desc:
-        Plots list of graph objects. Using matplotlib library
-           If more than 1, put them on same plot side-by-side (using subplots)
-
-    Parameters:
-        List (of Graph objects) - Graphs to be plotted
-
-    Returns:
-        None
-
-    Documentation/Demo for graphing w/ subplots
-    https://matplotlib.org/stable/gallery/subplots_axes_and_figures/subplots_demo.html
-    """
-    # *Hopefully* this can be done in a loop since every graph should have
-    # the data it needs for it to have a title, label, etc
-
-    # also double check to make sure every element in the list is a Graph type
-    """
-    g = Graph(0, True, True, True)
-    for graph in graphs:
-        print(graph.graphType)
-
-    self.type = 0
-    self.isAllInstructors = is_AllInstructors   # JustFaculty if false
-    self.data = []                              # list of Course objects
-    self.plotting_data = {}                     # Dict of data w/ plot points
-    self.title = ""
-    self.x_axis_label = ""
-    self.y_axis_label = ""
-    """
-
-    # Arrange graph layout
-    num_graphs = len(graphs)
-    W = math.ceil(math.sqrt(num_graphs))
-    H = math.ceil(num_graphs / W)
-    figure, axis = plt.subplots(W, H)
-
-    # Plot each graph
-    x = 0
-    y = 0
-    for i in range(num_graphs):
-
-        # For Sine Function
-        axis[x, y].plot(X, Y)
-        axis[x, y].set_title(num_graphs[i].title)
-
-        # Logicstics
-        x += 1
-        if x >= W:
-            y += 1
-
-        """
-        # Graph title
-        default_offer = courseList[0][0]
-        plt.title(default_offer.dept + " " + default_offer.level + " " + default_offer.term_desc)
-
-        # Plot graph
-        plt.bar(range(len(names)), grades, tick_label=names)
-        plt.tick_params(axis ='x', rotation = -90)
-
-        # Axis labels
-        plt.xlabel(graph.x_axis_label)
-        plt.ylabel(graph.y_axis_label)
-
-        # Save graph as .pdf file
-        filename = "EasyA_result" if EasyA else "JustPass_result"
-        plt.savefig("./pdfs/" + + ".pdf")
-
-        # Show graph
-        if showGraph:
-            plt.show()
-        """
-
-
-def save_as_pdf(filename: str, graphs: list):
-    """
-    Desc:
-        Save Graphs to .PDF file of <filename>.pdf
-
-    Parameters:
-        filename (str) - Name of file to save as
-        graphs (list of Graphs) - Graphs to plot and save onto .PDF
-
-    Returns:
-        None (but also technically <filename>.pdf ;D )
-
-
-    NOTE:
-        As of right now, idk if plot_graphs may just do this,
-        or what. But graphs gotta be put it in some sort of plot.
-        @Ethan, if you're looking at this, feel free to adjust
-        this function or plot_graphs() to fit this requirement.
-        Only thing need to keep is graphs (list of Graph objects)
-        parameter.
-    """
-    pass
-
-
-
-
-
-########### TESTING / DEBUGGING ##########
-def main():
-    """Main function to run
-    FOR TESTING PURPOSES ONLY
-    """
-
-    # test_case = get_course("MATH", 111) # listo f course objects
-    # test_graph = Graph(0, True, True)
-
-    # test_case1 = get_department_courses("MATH")
-    # print(test_case1)
-    # test_case1 = convert_to_Courses(test_case1)
-    # # print(test_case1)
-    # test_graph1 = Graph(1, False, True, True)
-    # test_graph1.add_data(test_case1)
-    # update_plotting_data(test_graph1)
-
-    # test_case2 = get_department_x00_level("MATH", 100)
-    # # print(test_case2)
-    # test_case2 = convert_to_Courses(test_case2)
-    # # print(test_case2)
-    # test_graph2 = Graph(1, True, True, False)
-    # test_graph2.add_data(test_case2)
-    # update_plotting_data(test_graph2)
-    # # print(test_case)
-    # # print(test_graph.data)
-    # # print(test_graph2.plotting_data)
-    # isEasyA = 1
-    # allInstructors = 1
-    # showCount = 1
-
-
-    # # get user input
-    # test_case3 = get_department_x00_level("MATH", 100)
-    # test_case3 = convert_to_Courses(test_case3)
-    # test_graph3 = Graph(3, isEasyA, allInstructors, showCount)
-    # test_graph3.add_data(test_case3)
-    # update_plotting_data(test_graph3)
-    # #plot graph
-    # #save to pdf
-
-
-    # print(test_graph3.plotting_data)
-
-
-
-if __name__ == "__main__":
-    main()

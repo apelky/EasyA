@@ -55,6 +55,19 @@ class Graph():
         # self.h = 0
 
 
+    def __str__(self):
+        #result =     f'    Dep: {self.dept}\n'
+        result =  "    Title:     {0}\n".format(self.title)
+        result += "    Type:      {0}\n".format(self.type)
+        result += "    X axis:    {0}\n".format(self.x_axis_label)
+        result += "    Y axis:    {0}\n".format(self.y_axis_label)
+        result += "    EasyA:     {0}\n".format(self.isEasyA)
+        result += "    AllInstr:  {0}\n".format(self.isAllInstructors)
+        result += "    DataLen:   {0}\n".format(len(self.self.data))
+
+        return result
+
+
     def add_data(self, new_data: list):
         """
         Desc:
@@ -104,12 +117,12 @@ class Graph():
         # for each type
 
         # Each graph.type will vary slightly. account for that
-          self.x_axis_label = "Instructor"
+        self.x_axis_label = "Instructor"
 
-            if self.isEasyA == True:
-                self.y_axis_label = "% As"
-            else:
-                self.y_axis_label = "% D/Fs"
+        if self.isEasyA == True:
+            self.y_axis_label = "% As"
+        else:
+            self.y_axis_label = "% D/Fs"
 
         if self.type == 2:
             # Title: All <dept> x00-level
