@@ -58,8 +58,7 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
             grades.append(instructor_grades[name])
 
     graph = Graph(graphType, easyA, allInstructors, showCount)
-    graph.data = course
-    # graph.plotting_data = instructor_grades
+    graph.add_data(course)
     update_plotting_data(graph)
 
 
