@@ -92,6 +92,36 @@ def parseFacultyNames():
     return new_names_list
 
 
+# Determine if an instructor is a permanent faculty hire at UofO
+def checkIfRegularFaculty(instructor):
+    """
+    Compares list of Regular Faculty to list of data of all
+    instuctors
+
+    Parameters:
+        instructor (str) - Name of instructor/professor - Ex: "Hornof, Anthony"
+
+    Returns:
+        isRegularFaculty (bool) - Whether a given name is Regular Faculty
+    """
+
+    # Get list of Regular Faculty
+    regularFaculty = parseFacultyNames()
+
+    # If the instructor is faculty
+    isRegularFaculty = False
+
+    # Search list of Regular Faculty for given name
+    #debugPrint("Given name: ", instructor)
+    for name in regularFaculty:
+        if instructor == name:
+            '''TODO: this doesn't address the issue of middle inital'''
+            #debugPrint(instructor, " is regular faculty")
+            isRegularFaculty = True
+
+    return isRegularFaculty
+
+
 # Intializes the program
 def main():
     parseFacultyNames()

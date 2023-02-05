@@ -1,5 +1,5 @@
 """
-EasyA.py created by Ethan Aasheim on Fri Jan 13, 2023.
+EasyA.py created on Fri Jan 13, 2023.
 
 Group 1:
 Ethan Aasheim
@@ -15,11 +15,6 @@ This system builds upon the original EGT by directly comparing professors in the
 
 ----------------------------------------
 
-User input:
-    Enter <year>    only has data from 2013 to 2016
-    Enter <subject code>
-    Enter <course number>
-
 EasyA.py uses Python 3.10
 """
 
@@ -28,16 +23,16 @@ Matplotlib is a visaul fucntion library for python: https://matplotlib.org/
 """
 import matplotlib.pyplot as plt
 
-"""
-argparse is a module from the Python Standard Library which parses command line options
-sys is a module from the Python Standard Library which handles system - specific parameters and functions
-"""
-import argparse
+import math
 import sys
 
-from Faculty_Parser import *
-from User_Input import *
+from Course_Class import *
+from Graph_Class import *
 
+from User_Input import *
+from Faculty_Parser import *
+from Fetch_Data import *
+from Draw_Graph import *
 
 """
 This variable is for the file containing all of the grade data from the EGT.
@@ -48,19 +43,10 @@ Commented out for now since I don't know if files can be global variables
 """
 #f = None
 
-dataFile = "GradeData_SmallTest.txt" # "GradeData.txt"
-
-
-# List of all subject code, but there are just so many that I think checking probably is not would be worthy it right now
-subjectCodes = ["AA", "AAA", "AAAP", "AAD", "ACTG", "AEIS", "AFR", "AIM", "ANTH", "ARB", "ARCH", "ARH", "ART", "ARTC", "ARTD",
-                "ARTF", "ARTM", "ARTO", "ARTP", "ARTR", "ARTS", "ASIA", "ASL", "ASTR", "BA", "BE", "BI", "CAS", "CDS", "CFT", "CH",
-                "CHN", "CINE", "CIS", "CIT", "CLAS", 'COLT', "CPSY", "CRES", "CRWR", 'DAN', "DANC", "DSC", "EALL", "EC", "EDLD", "EDST",
-                ]
-
+dataFile = "GradeData.txt"
 
 # --- Set to False before submit
 DEBUG = True
-
 
 # Only prints if DEBUG == true
 def debugPrint(*args):
@@ -68,6 +54,7 @@ def debugPrint(*args):
         print(*args)
 
 
+<<<<<<< HEAD
 def updateData():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', help='a json file containing grade data')
@@ -398,6 +385,8 @@ def drawGraph(data, showGraph):
         plt.show()
 
 
+=======
+>>>>>>> 977c74090b00f756e2969a932deee51122aed6ea
 # This function is called when the program starts and manages the other functions
 def main():
     """
@@ -411,40 +400,47 @@ def main():
     print("- EasyA Program -")
     print("Created by Group 1\n")
 
-    if len(sys.argv) == 3:
-        updateData()
-        return
+    subject, courseNum, level, allInstructors, easyA = getInput()
 
-    subject, course, level, year, showGraph = getInput()
+    # List of all graphs
+    graphs = []
 
-    # Get data from data file based on input parameters
-    dataList = getData(subject, course, year)
+    # Get all offers of specified course
+    if courseNum is not None:
+        offerList = get_course(subject, courseNum)
+        print("get_course")
+        if len(offerList) > 0:
+            graph = createGraph(offerList, 0, easyA, allInstructors, True)
+            graphs.append(graph)
+        else:
+            print("Data not found for subject", subject, "and course number", courseNum)
 
-    # If requested data was found
-    if dataList != None:
-        if len(dataList) > 0:
-            debugPrint("********\n")
-            for i in range(len(dataList)):
-                data = dataList[i]
-                debugPrint("- Course", i+1, "of", len(dataList), "-")
-                debugPrint("    TERM_DESC:", data["TERM_DESC"])
-                debugPrint("    CRN:", data["crn"])
-                debugPrint("    aprec:", data["aprec"])
-                #debugPrint("    bprec:", data["bprec"])
-                #debugPrint("    cprec:", data["cprec"])
-                debugPrint("    dprec:", data["dprec"])
-                debugPrint("    fprec:", data["fprec"])
-                debugPrint("    instructor:", data["instructor"])
-                debugPrint("    isProfessor:", data["isProfessor"])
-                debugPrint("    numCourses:", data["numCourses"], "\n")
+    # Get all offers of all courses in same x00 level
+    elif level is not None:
+        courseDict = get_department_x00_level(subject, level)
+        courseList = list(courseDict.values())
+        print("get_department_x00_level")
+        if len(courseList) > 0:
+            for course in courseList:
+                graph = createGraph(course, 2, easyA, allInstructors, True)
+                graphs.append(graph)
+        else:
+            print("Data not found for subject", subject, "and x00 level", level)
 
-                # Generate graph
-                drawGraph(data, showGraph)
-            debugPrint("********\n")
-
-    # The requested data was not found
+    # Get all offers of all courses in the subject department
     else:
-        debugPrint("- Data not found -")
+        courseList = get_department_courses(subject)
+        print("get_department_courses")
+        if len(courseList) > 0:
+            for course in courseList:
+                graph = createGraph(course, 1, easyA, allInstructors, True)
+                graphs.append(graph)
+        else:
+            print("Data not found for subject", subject)
+
+    # Plot and display graphs
+    plot_graphs(graphs)
+
     return
 
 
