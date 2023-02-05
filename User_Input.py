@@ -233,7 +233,7 @@ def command_line():
             print("ERROR: invalid level; levels are 100 - 700")
             exit()
 
-    return subject, course, level, all_instruct, easy_a
+    return subject, course, level, all_instruct, easy_a, True
 
 
 # returns 'subject' (string), 'course' ([int, int] or None), 'level' (int or None), and 'all_instruct' (int)
@@ -250,6 +250,6 @@ def getInput():
             if easy_a is 0, the user wants to see percent D's and F's
     """
 
-    subject, course, level, all_instruct, easy_a = window() if len(sys.argv) == 1 else command_line()
+    subject, course, level, all_instruct, easy_a, show_count = window() if len(sys.argv) == 1 else command_line()
 
-    return subject, course, level, all_instruct, easy_a, True
+    return subject, course, level, all_instruct, easy_a, show_count
