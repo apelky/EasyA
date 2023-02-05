@@ -114,49 +114,46 @@ class Graph():
         #     X-axis label
         #     Y-Axis label
 
-        # for each type
 
-        # Each graph.type will vary slightly. account for that
-        self.x_axis_label = "Instructor"
 
-        if self.isEasyA == True:
-            self.y_axis_label = "% As"
-        else:
-            self.y_axis_label = "% D/Fs"
+        ## Set title
+        if self.type == 0:
+            self.title = f"{self.data[0].dept} {self.data[0].level}"
 
-        if self.type == 2:
-            # Title: All <dept> x00-level
-            # X axs: Instructor  (if showcount, Instructor (and number of classes taught))
-            # Y axs: % As        (if isEasyA, % D/Fs otherwise)
+        elif self.type == 1:
+            self.title = f"All {self.data[0].dept} Classes"
 
+        elif self.type == 2:
             self.title = "All " + self.data.dept + " " + self.data.courseLevel + "-level"
+
+        if self.type == 3:
+            self.title = "All " + self.data.dept + " " + self.data.courseLevel + "-level"
+
+
+        ## Set X-axis title
+        if self.type in [0, 1, 2]:
 
             if self.show_count == True:
                 self.x_axis_label = "Instructor (and number of classes taught)"
             else:
                 self.x_axis_label = "Instructor"
-
-            if self.isEasyA == True:
-                self.y_axis_label = "% As"
-            else:
-                self.y_axis_label = "% D/Fs"
-
-        if self.type == 3:
-            # Title: All <dept> x00-level
-            # X axs: Class       (if showcount, Class (and number of classes taught))
-            # Y axs: % As        (if isEasyA, % D/Fs otherwise)
-
-            self.title = "All " + self.data.dept + " " + self.data.courseLevel + "-level"
-
+        else:
             if self.show_count == True:
                 self.x_axis_label = "Class (and number of classes taught)"
             else:
                 self.x_axis_label = "Class"
 
-            if self.isEasyA == True:
-                self.y_axis_label = "% As"
-            else:
-                self.y_axis_label = "% D/Fs"
+        
+
+
+        # Set Y-axis & Append to titles - EasyA or - Just Pass
+        if self.isEasyA:
+            self.title += " - EasyA"
+            self.y_axis_label = "% As"
+        else:
+            self.title += " - Just Pass"
+            self.y_axis_label = "% D/Fs"
+
 
 
 ##### Old, brainstorming stuff. Can discuss why this is commented out #####

@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 import math
 from datetime import datetime
 
+from Fetch_Data import *
+from Course_Class import Course
 from Graph_Class import Graph
 
 # Creat a graph object from a course object
@@ -57,17 +59,20 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
 
     graph = Graph(graphType, easyA, allInstructors, showCount)
     graph.data = course
-    graph.plotting_data = instructor_grades
+    # graph.plotting_data = instructor_grades
+    update_plotting_data(graph)
 
-    default_offer = course[0]
-    graph.title = default_offer.dept + " " + default_offer.level + " " + default_offer.term_desc
-    graph.title += " - Easy A" if graph.isEasyA else " - Just Pass"
 
-    graph.x_axis_label = "Instructors"
-    if graph.isEasyA:
-        graph.y_axis_label = "% As"
-    else:
-        graph.y_axis_label = "% D/Fs"
+
+    # default_offer = course[0]
+    # graph.title = default_offer.dept + " " + default_offer.level + " " + default_offer.term_desc
+    # graph.title += " - Easy A" if graph.isEasyA else " - Just Pass"
+
+    # graph.x_axis_label = "Instructors"
+    # if graph.isEasyA:
+    #     graph.y_axis_label = "% As"
+    # else:
+    #     graph.y_axis_label = "% D/Fs"
 
     return graph
 
@@ -264,8 +269,9 @@ def plot_graphs(graphs : list):
 
         # Save graph .pdf in the EasyA pdf folder
         filename = "./EasyA_pdfs/"
-        filename += "EasyA_result" if graph.isEasyA else "JustPass_result"
-        filename += time + setText + ".pdf"
+        filename = "EasyA_result" if graph.isEasyA else "JustPass_result"
+        filename += ".pdf"
+        # filename += time + setText + ".pdf"
         plt.savefig(filename, format="pdf")
 
         # Show graphs
