@@ -30,9 +30,11 @@ import matplotlib.pyplot as plt
 
 """
 argparse is a module from the Python Standard Library which parses command line options
+os is a module from the Python Standard Library which contains miscellaneous operating system interfaces
 sys is a module from the Python Standard Library which handles system - specific parameters and functions
 """
 import argparse
+import os
 import sys
 
 from Faculty_Parser import *
@@ -83,10 +85,11 @@ def updateData():
     except:
         print("ERROR: cannot open file", file)
     else:
-        for line in fstream:
-            continue
+        dataFile = "empty.json"
+        os.replace(file, dataFile)
+        fstream.close()
 
-        print("system updated with new data")
+    print("system updated with new data")
 
 
 def getInput():

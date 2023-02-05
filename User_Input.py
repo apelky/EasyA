@@ -29,10 +29,18 @@ entry.geometry("600x400")
 subject = tk.StringVar()
 subject.set(subject_options[0])
 course = tk.StringVar()
+course.set("")
 level = tk.StringVar()
 level.set(level_options[0])
 instructor = tk.IntVar(entry, 1)
 easy_a = tk.IntVar(entry, 1)
+
+
+subject_entry = "AA"
+course_entry = ""
+level_entry = None
+instruct_entry = 1
+easy_a_entry = 1
 
 
 # function called upon "submit" button being pushed
@@ -76,6 +84,7 @@ def clear(event, box):
 
 # main function
 def window():
+
     # define labels
     subject_label = tk.Label(entry, text = 'subject', font = ('calibre', 14, 'bold'))
     subject_menu = tk.OptionMenu(entry , subject , *subject_options )
@@ -132,4 +141,11 @@ def window():
 
     entry.mainloop()
 
+    global subject_entry
+    global course_entry
+    global level_entry
+    global instruct_entry
+    global easy_a_entry
+
     return subject_entry, course_entry, level_entry, instruct_entry, easy_a_entry
+    # return subject.get(), course.get(), level.get(), instructor.get(), easy_a.get()
