@@ -22,7 +22,7 @@ EasyA.py uses Python 3.10
 
 # File containing regular faculty for all Natural Sciences
 # Data pulled from https://web.archive.org/web/20141107201343/http://catalog.uoregon.edu/arts_sciences/
-dataFile = "Reg Faculty.txt"
+dataFile = "Regular_Faculty.txt"
 
 
 def getFacultyNames():
@@ -78,6 +78,10 @@ def parseFacultyNames():
     new_names_list = []
 
     for name in names_list:
+        # Used to remove html code
+        if name.startswith("<"):
+            first_i = name.find(">")
+            name = name[first_i+1:]
         # Find the last instance of a space
         last_index = name.rfind(" ")
         # Grab everything after that space
@@ -124,8 +128,8 @@ def checkIfRegularFaculty(instructor):
 
 # Intializes the program
 def main():
-    parseFacultyNames()
-
+    x = parseFacultyNames()
+    print(x)
 
 # This calls the 'main' function when this script is executed
 if __name__ == "__main__":
