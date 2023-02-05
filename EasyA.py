@@ -85,7 +85,7 @@ def main():
         courseList = list(courseDict.values())
         if len(courseList) > 0:
             for course in courseList:
-                graph = createGraph(course, 3-viewByInstr, easyA, allInstructors, showCount)
+                graph = createGraph(course, 2, easyA, allInstructors, showCount) #3-viewByInstr
                 graphs.append(graph)
         else:
             print("Data not found for subject", subject, "and x00 level", level)
