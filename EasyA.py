@@ -119,6 +119,12 @@ def parseDataValue(str):
         end = len(str) - 2
     return str[start:end]
 
+def remove_middle_inital(name):
+    # Find the last instance of a space
+    last_space = name.rfind(" ")
+    # Grab everything before that space
+    name = name[:last_space]
+    return name
 
 # Determine if an instructor is a permanent faculty hire at UofO
 def checkIfRegularFaculty(instructor):
@@ -135,6 +141,7 @@ def checkIfRegularFaculty(instructor):
 
     # Get list of Regular Faculty
     regularFaculty = parseFacultyNames()
+    instructor = remove_middle_inital(instructor)
 
     # If the instructor is faculty
     isRegularFaculty = False
@@ -142,9 +149,9 @@ def checkIfRegularFaculty(instructor):
     # Search list of Regular Faculty for given name
     #debugPrint("Given name: ", instructor)
     for name in regularFaculty:
+        name = remove_middle_inital(name)
         if instructor == name:
-            '''TODO: this doesn't address the issue of middle inital'''
-            #debugPrint(instructor, " is regular faculty")
+            debugPrint(instructor, " is regular faculty")
             isRegularFaculty = True
 
     return isRegularFaculty
