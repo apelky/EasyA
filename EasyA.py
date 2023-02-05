@@ -102,7 +102,7 @@ def main():
             print("Data not found for subject", subject)
 
     # Plot and display graphs
-    plot_graphs(graphs)
+    plot_graphs(graphs, subject, courseNum, level)
 
     return
 

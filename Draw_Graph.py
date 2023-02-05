@@ -9,7 +9,7 @@ Matplotlib is a visaul fucntion library for python: https://matplotlib.org/
 """
 import matplotlib.pyplot as plt
 import math
-from datetime import datetime
+#from datetime import datetime
 
 from Fetch_Data import *
 from Course_Class import Course
@@ -339,14 +339,15 @@ def update_plotting_data(graph: Graph):
     graph.update_labels() # should be last thing in this function hopefuly
 
 
-def plot_graphs(graphs : list):
+def plot_graphs(graphs : list, subject, courseNum, level):
     """
     Desc:
         Plots list of graph objects. Using matplotlib library
            If more than 1, put them on same plot side-by-side (using subplots)
 
     Parameters:
-        List (of Graph objects) - Graphs to be plotted
+        graphs (list of Graph objects) - Graphs to be plotted
+        subject, courseNum, level - for the .pdf file name
 
     Returns:
         None
@@ -373,7 +374,7 @@ def plot_graphs(graphs : list):
     """
 
     # Get number of graphs
-    numTotalGraphs = len(graphs)
+    graphsRemaining = len(graphs)
 
     # Maximum number of graphs that can be displayed at a time (3x3 grid)
     maxGraphs = 9
@@ -382,16 +383,16 @@ def plot_graphs(graphs : list):
     set = 1
 
     # Get time of graph creation
-    time = "TIME" #datetime.now().strftime("_%d:%m:%Y_%H-%M-%S")
+    #time = "TIME" #datetime.now().strftime("_%d:%m:%Y_%H-%M-%S")
 
     # While there are still graphs to display
-    while numTotalGraphs > 0:
+    while graphsRemaining > 0:
 
         # Get the number of graphs to display in the current set
-        numDisplayGraphs = numTotalGraphs
-        if numTotalGraphs > maxGraphs:
+        numDisplayGraphs = graphsRemaining
+        if graphsRemaining > maxGraphs:
             numDisplayGraphs = maxGraphs
-        if numTotalGraphs == 10:
+        if graphsRemaining == maxGraphs + 1:
             numDisplayGraphs -= 1
 
         # Arrange graph layout
@@ -403,8 +404,9 @@ def plot_graphs(graphs : list):
         x = 0
         y = 0
 
+        offset = len(graphs) - graphsRemaining
         for i in range(numDisplayGraphs):
-            graph = graphs[i]
+            graph = graphs[offset + i]
 
             # Graph data
             names = list(graph.plotting_data.keys())
@@ -436,21 +438,32 @@ def plot_graphs(graphs : list):
         # Graph styling
         plt.subplots_adjust(left = 0.1, right = 0.95, bottom = 0.1, top = 0.95, wspace = 0.25, hspace = 0.5)
 
-        # Save graph as a .pdf
-
         # Append set number to end of graph
-        setText = "" if (set == 1 and numTotalGraphs <= maxGraphs) else "_" + str(set)
+        setText = "" if (set == 1 and graphsRemaining <= maxGraphs) else "_" + str(set)
 
         # Save graph .pdf in the EasyA pdf folder
         filename = "./EasyA_pdfs/"
-        filename = "EasyA_result" if graph.isEasyA else "JustPass_result"
-        filename += ".pdf"
-        # filename += time + setText + ".pdf"
+        filename += "EasyA_result" if graph.isEasyA else "JustPass_result"
+
+        # Add query description to filename
+        if subject != None and subject != "None" and subject != "":
+            filename += "_" + subject
+            if courseNum != None and courseNum != "None" and courseNum != "":
+                filename += "_" + courseNum
+            else:
+                filename += "_All"
+                if level != None and level != "None" and level != "":
+                    filename += "_" + level
+                else:
+                    filename += "_All"
+
+        # Save graph as a .pdf
+        filename += setText + ".pdf"
         plt.savefig(filename, format="pdf")
 
         # Show graphs
         plt.show()
 
         # Decrement by graphs shown and move to next set
-        numTotalGraphs -= numDisplayGraphs
+        graphsRemaining -= numDisplayGraphs
         set += 1
