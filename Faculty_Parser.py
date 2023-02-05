@@ -50,14 +50,14 @@ def checkIfRegularFaculty(instructor):
 
     # Get list of Regular Faculty
     regularFaculty = parseFacultyNames()
-    instructor = remove_middle_inital(instructor)
+    instructor = removeMiddleInital(instructor)
 
     # If the instructor is faculty
     isRegularFaculty = False
 
     # Search list of Regular Faculty for given name
     for name in regularFaculty:
-        name = remove_middle_inital(name)
+        name = removeMiddleInital(name)
         if instructor == name:
             isRegularFaculty = True
 
