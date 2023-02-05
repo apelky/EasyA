@@ -103,14 +103,13 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
     graph = Graph(graphType, easyA, allInstructors, showCount)
     graph.add_data(course)
 
-    first_offer = course[0]
-    if graphType == 0:
-        graph.title = first_offer.dept + " " + str(first_offer.level)
-    elif graphType == 1:
-        graph.title = "All " + first_offer.dept + " Classes"
-    else:
-        graph.title = "All " + first_offer.dept + " " + first_offer.level + "-Level"
-    graph.show_count = showCount
+    # first_offer = course[0]
+    # if graphType == 0:
+    #     graph.title = first_offer.dept + " " + str(first_offer.level)
+    # elif graphType == 1:
+    #     graph.title = "All " + first_offer.dept + " Classes"
+    # else:
+    #     graph.title = "All " + first_offer.dept + " " + first_offer.level + "-Level"
 
     update_plotting_data(graph)
     return graph
