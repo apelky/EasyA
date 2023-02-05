@@ -1,5 +1,5 @@
 '''
-Faculty_parser_scraper.py created by Angela Pelky on Thursday Feb 3, 2023.
+Scraper.py created by Angela Pelky on Thursday Feb 3, 2023.
 
 Group 1:
 Ethan Aasheim
@@ -150,30 +150,27 @@ def main():
     '''
     # the only link you need to provide is the course catalog page
     faculty_list = []
-    # timed_out = []
     school_links = explore_catalog('https://web.archive.org/web/20141124084353/http://catalog.uoregon.edu/')
 
     for school in school_links:
-    #print(school_links[0])
         courses, faculty = explore_school(school)
-        print(courses)
-        # if faculty was found, extend the list
         if faculty != None:
             faculty_list.extend(faculty)
         for course in courses:
+            # we want to continue trying to access the site until it is is successful 
             while True:
                 try:
-                    print(course)
                     more_faculty = scraper(course)
                     if more_faculty != None:
                         faculty_list.extend(more_faculty)
+                # list of potential exceptions that could be crashing the program
                 except (r.exceptions.ConnectTimeout, r.exceptions.Timeout, r.exceptions.ConnectionError):
                     print("Timeout Occured")
                     continue
                 break
     
     # write data to a .txt file so scraper doesn't have to run every time
-    with open('Regular Fac.txt', 'w') as f:
+    with open('regular_faculty.txt', 'w') as f:
         for line in faculty_list:
             f.write(f"{line}\n")
 
