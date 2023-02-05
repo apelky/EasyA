@@ -10,6 +10,13 @@ Here in the `README.md` file, you'll find information on the repository, and ins
 ## Description
 EasyA is a program that allows college students to search which classes and instructors give the most As and/or Ds & Fs. This tool is designed to give the user more information about the statistics of the class.
 
+There are two ways to use EasyA<br>
+
+ - Student view *(Viewing data)*
+ - Administrator view *(Inputting data)*
+
+Data from: https://emeraldmediagroup.github.io/grade-data
+
 
 
 
@@ -25,7 +32,13 @@ This program uses Python3 & a python library matplotlib.<br>
 
 1) Download the [latest version of Python](https://www.python.org/downloads/) for your device<br>
 2) Open the command prompt (or terminal on Mac), and type in this command:
-			`pip3 install matplotlib`
+			`pip3 install matplotlib`<br>
+
+For Administators only:
+
+1) A couple more libraries are needed to use the scraper: `requests` & `bs4`:<br>
+           `pip3 install requests`<br>
+           `pip3 install bs4`<br>
 
 *(If you aren't using python 3 and have an older version of python, try typing the same command using `pip` instead of `pip3`)*<br>
 
@@ -77,7 +90,10 @@ button2 -- placeholder<br>
 
 
 ### Administrator Use<br>
-What flags do we need here? #FIXME<br>
+To input data, use the `-f` flag while running the file.<br>
+              `python3 EasyA.py -f`<br>
+This will run the program ready to input data, and not prompt the user to select any department or course levels
+Now this scraper works for all schools, and not just a certain department. # FIXME<br>
 
 
 
@@ -89,18 +105,19 @@ What flags do we need here? #FIXME<br>
 `Course_Class.py` -- Declaration of python class, "Course"<br>
 `Graph_class.py` &nbsp;-- Declaration of python class, "Graph"<br>
 `User_Input.py` &nbsp;&nbsp;&nbsp;-- Functions for getting input from user<br>
-`functions.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various functions to process data into a plottable format<br>
+`Fetch_Data.py`	&nbsp;&nbsp;&nbsp;-- Various functions to process data<br>
+`Draw_Graph.py`&nbsp;&nbsp;&nbsp;&nbsp;	-- Contains functions to create and initalize the graph so it's ready for plotting<br>
 
 **Parsing & Data Files**<br>
 `GradeData.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- All data<br>
-`GradeData.py`   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse `GradeData.txt` and convert into a list<br>
+`GradeData.py`   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- `GradeData.txt` but in a python dictionary<br>
 `Regular_Faculty.txt` -- List of Faculty members<br>
 `Faculty_Parser.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse<br>
-`Regular_Faculty.txt` and convert into a list<br>
+`Scrapper.py`	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- #FIXME
 
 
 **Testing Files**<br>
-`APTest.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Test file for editing<br>
+
 `GradeData_SmallTest.py` &nbsp;&nbsp;-- Test file for testing <br>
 `GradeData_SmallTest.txt` -- Small version of GradeData for testing<br>
 `TestCases.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various Test cases for functions<br>
@@ -108,7 +125,7 @@ What flags do we need here? #FIXME<br>
 
 **Folders**<br>
 `images`&nbsp;&nbsp;&nbsp;-- Folder for holding image assets for README file<br>
-`pdfs`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Folder for holding saved .PDF files onces downloaded onto a local machine<br>
+`EasyA_pdfs`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Folder for holding saved .PDF files onces downloaded onto a local machine<br>
 
 
 
@@ -116,3 +133,5 @@ What flags do we need here? #FIXME<br>
 ## Contributors
 **Authors:** Ethan Aasheim, Melodie Collins, Linnea Gilius, Timothy Nadeau, Angela Pelky<br>
 **Created:** 1/16/23 by Angela Pelky<br>
+
+
