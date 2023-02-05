@@ -3,16 +3,19 @@ UI model
 """
 
 """
-argparse is a module from the Python Standard Library which parses command line options
-os is a module from the Python Standard Library which contains miscellaneous operating system interfaces
-sys is a module from the Python Standard Library which handles system - specific parameters and functions
+modules from the Python Standard Library:
+argparse: parses command line options
+fileinput: iterate over lines from multiple input streams
+os: contains miscellaneous operating system interfaces
+sys: handles system - specific parameters and functions
 """
 import argparse
+import fileinput
 import os
 import sys
 import tkinter as tk
 
-from Draw_Graph import *
+# from Draw_Graph import *
 
 # lists for option menus
 natural_science = ['BI', 'CH', 'CIS', 'CIT', 'HPHY', 'MATH', 'PHYS', 'PSY']
@@ -55,7 +58,7 @@ count_var = tk.IntVar()
 # default values
 subject_entry = "AA"
 course_entry = ""
-level_entry = []
+level_entry = [None]
 instruct_entry = 1
 easy_a_entry = 1
 count_entry = 0
@@ -124,6 +127,7 @@ def window():
     easy_a_label = tk.Label(entry, text = 'Grade Type: ', font = ('calibre', 14, 'bold'))
     easy_a_button = tk.Radiobutton(entry, text = 'Easy A' , variable = easy_a_var, value = 1, justify = 'left')
     just_pass_button = tk.Radiobutton(entry, text = 'Just Pass' , variable = easy_a_var, value = 0, justify = 'left')
+    both_button = tk.Radiobutton(entry, text = 'Both' , variable = easy_a_var, value = 2, justify = 'left')
 
     count_label = tk.Label(entry, text = 'Show # of Classes:', font = ('calibre', 14, 'bold'), justify = 'left')
     count_button = tk.Checkbutton(entry, variable = count_var, justify = 'left')
@@ -155,6 +159,7 @@ def window():
     easy_a_label.grid(row = 6, column = label_col, pady = pad_y)
     easy_a_button.grid(row = 6, column = entry_col, sticky = 'W', pady = pad_y)
     just_pass_button.grid(row = 6, column = entry_col + 1, sticky = 'W', pady = pad_y)
+    both_button.grid(row = 6, column = entry_col + 2, sticky = 'W', pady = pad_y)
 
     count_label.grid(row = 7, column = label_col, sticky = 'W', pady = pad_y)
     count_button.grid(row = 7, column = entry_col, sticky = 'W', pady = pad_y)
@@ -172,16 +177,18 @@ def updateData(file):
         print("ERROR: file must be a JSON file (.json)")
         exit()
     try:
-        fstream = open(file)
+        fstream = open(file, "r+")
     except:
         print("ERROR: cannot open file", file)
         exit()
     else:
-        global dataFile
-        dataFile = "empty.json"
-        os.replace(file, dataFile)
-        # data = json.load(f)
-        fstream.close()
+        first_line, remainder = fstream.readline(), fstream.read()
+        with open("temp.py", 'w') as new_file:
+            new_file.write('groups = { \n')
+            new_file.write(remainder)
+        
+        os.replace("temp.py", "Modules/GradeData.py")
+        
         print("SUCCESS: system updated with new data")
         exit()
 
@@ -194,19 +201,20 @@ def command_line():
     parser.add_argument('-c', '--course', type = int, help = 'a single course level, such as "111"')
     parser.add_argument('-l', '--level', type = int, help = 'all courses of a particular x00 level, such as "100"')
     parser.add_argument('-r', action = argparse.BooleanOptionalAction, help = 'include to only show regular faculty')
-    parser.add_argument('-j', action = argparse.BooleanOptionalAction, help = 'include to only show Just Pass')
+    parser.add_argument('-j', type = int, help = 'specify 1 to only show EasyAs, 0 to only show Just Pass, 2 to show both')
     parser.add_argument('-n', action = argparse.BooleanOptionalAction, help = 'include to show number of classes')
     parser.add_argument('-f', '--file', help = 'a JSON (.json) file containing grade data')
 
     args = parser.parse_args()
-    print(args)
 
     subject         = args.subject
     course          = args.course
     level           = args.level
     all_instruct    = int(not args.r)
-    easy_a          = int(not args.j)
-    file            = args.f
+    easy_a          = args.j
+    show_count      = int(not args.n)
+    file            = args.file
+
 
     if file:
         updateData(file)
@@ -225,7 +233,7 @@ def command_line():
             print("ERROR: invalid level; levels are 100 - 700")
             exit()
 
-    return subject, course, level, all_instruct, easy_a, count_entry
+    return subject.upper(), course, level, all_instruct, easy_a, show_count
 
 
 # returns 'subject' (string), 'course' ([int, int] or None), 'level' (int or None), and 'all_instruct' (int)
@@ -243,5 +251,6 @@ def getInput():
     """
 
     subject, course, level, all_instruct, easy_a, show_count = window() if len(sys.argv) == 1 else command_line()
+    print(subject, course, level, all_instruct, easy_a, show_count)
 
     return subject, course, level, all_instruct, easy_a, show_count
