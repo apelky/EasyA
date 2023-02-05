@@ -39,10 +39,18 @@ entry.title('Easy A')
 subject = tk.StringVar()
 subject.set(subject_options[0])
 course = tk.StringVar()
+course.set("")
 level = tk.StringVar()
 level.set(level_options[0])
 instructor = tk.IntVar(entry, 1)
 easy_a = tk.IntVar(entry, 1)
+
+
+subject_entry = "AA"
+course_entry = ""
+level_entry = None
+instruct_entry = 1
+easy_a_entry = 1
 
 
 # function called upon "submit" button being pushed
@@ -86,6 +94,7 @@ def clear(event, box):
 
 # main function
 def window():
+
     # define labels
     subject_label = tk.Label(entry, text = 'Subject Code:', font = ('calibre', 14, 'bold'))
     subject_menu = tk.OptionMenu(entry , subject , *subject_options )
