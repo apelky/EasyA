@@ -51,7 +51,7 @@ class Course():
         self.d_perc      = float(d)
         self.f_perc      = float(d)
         self.df_perc     = float(d) + float(f)
-        self.instructor  = instr
+        self.instructor  = instr.split(",")[0]
         self.isProfessor = isProf
         self.numCourses  = n
 

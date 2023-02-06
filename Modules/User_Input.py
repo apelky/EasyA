@@ -46,7 +46,7 @@ level_options = [None, 100, 200, 300, 400, 500, 600, 700]
 
 entry = tk.Tk()
 # setting the windows size
-entry.geometry("600x200")
+entry.geometry("600x400")
 entry.title('Easy A')
 
 # defining variables

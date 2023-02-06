@@ -54,7 +54,7 @@ def main():
     """
 
     print("- EasyA Program -")
-    print("Created by Group 1\n")
+    print("Created by Group 1")
 
     subject, courseNum, levelParams, allInstructors, easyA, showCount = getInput()
 
@@ -89,7 +89,7 @@ def main():
             graph = createGraph(new_courses, 3 - viewByInstr, easyA, allInstructors, showCount)
             graphs.append(graph)
         else:
-            print("Data not found for subject", subject, "and x00 level", level)
+            print("No data for subject", subject, "and x00 level", level)
 
     # Get all offers of all courses in the subject department
     courseDict = get_department_courses(subject) # dict of list
@@ -102,9 +102,10 @@ def main():
         graph = createGraph(new_courses, 1, easyA, allInstructors, showCount)
         graphs.append(graph)
     else:
-        print("Data not found for subject", subject)
+        print("No data for subject", subject)
+        return
 
-    print("ready to graph")
+    print("Begin graphing")
 
     # Plot and display graphs
     plot_graphs(graphs, subject, courseNum, level)

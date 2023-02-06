@@ -242,7 +242,7 @@ def update_plotting_data(graph: Graph):
     if not graph.isAllInstructors: # If FacultyOnly
         #remove all instructors from processing_data
         for i in reversed(range(len(graph.data))):
-            if processing_data[i].isProfessor:  # we remove the professors, right?
+            if processing_data[i].isProfessor == False:  # we remove the professors, right?
                 processing_data.pop(i)
 
     new_data = dict()
@@ -257,14 +257,8 @@ def update_plotting_data(graph: Graph):
 
     graph.plotting_data = new_data
 
-    """
-    for j in range(len(names)):
-    name_parts = names[j].split(",")
-    names[j] = name_parts[0]
-    """
-
-	# Edit x axis names to add instructor count
-    if graph.show_count:
+	# Edit x axis names to only have last name (add instructor count for type 3)
+    if graph.show_count and graph.type != 3:
         data_keys = list(new_data.keys())
         if (graph.type == 3):
             xaxis_count = find_class_count(processing_data) # get a dict of counts
@@ -277,8 +271,7 @@ def update_plotting_data(graph: Graph):
         shown_count_points = dict()
 
         for i in range(len(new_data)):
-            name = xaxis_count_items[i][0]
-            shown_count_points[name.split(",")[0] + " ("  + str(xaxis_count_items[i][1]) + ")"] = new_data[xaxis_count_items[i][0]]
+            shown_count_points[xaxis_count_items[i][0] + " ("  + str(xaxis_count_items[i][1]) + ")"] = new_data[xaxis_count_items[i][0]]
         graph.plotting_data = shown_count_points
 
 
@@ -343,12 +336,18 @@ def plot_graphs(graphs : list, subject, courseNum, level):
         if graphsRemaining == maxGraphs + 1:
             numDisplayGraphs -= 1
 
-        # Arrange graph layout
+        # Arrange graph layout (old for grid)
+        N = numDisplayGraphs
         W = math.ceil(math.sqrt(numDisplayGraphs))
         H = math.ceil(numDisplayGraphs / W)
-        figure, axis = plt.subplots(H, W, figsize=(12, 8))
 
-        # Graph location in grid
+        # Arrange graph layout (updated for 1 - 3 graphs ontop of eachother)
+        #W = N
+        #H = 1
+
+        figure, axis = plt.subplots(H, W, figsize=(14, 6))
+
+        # Graph location in grid - Unused now this was for grids of graphs
         x = 0
         y = 0
 
@@ -381,7 +380,7 @@ def plot_graphs(graphs : list, subject, courseNum, level):
                 y += 1
 
         # Graph styling
-        plt.subplots_adjust(left = 0.1, right = 0.95, bottom = 0.2, top = 0.95, wspace = 0.25, hspace = 0.5)
+        plt.subplots_adjust(left = 0.1, right = 0.95, bottom = 0.25, top = 0.95, wspace = 0.25, hspace = 0.5)
 
         # Append set number to end of graph
         setText = "" if (set == 1 and graphsRemaining <= maxGraphs) else "_" + str(set)
