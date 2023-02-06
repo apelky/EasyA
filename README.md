@@ -1,6 +1,6 @@
 ﻿
 # EasyA 2.0
-Here in the `README.md` file, you'll find information on the repository, and instructions on how to setup and use EasyA.<br>
+Here in the `README` file, you'll find information on the repository, and instructions on how to setup and use EasyA.<br>
 **Table of Contents**
  - Description
  - How to Install
