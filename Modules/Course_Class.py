@@ -1,8 +1,16 @@
 """
 Course_Class.py created on Jan 22, 2023.
 
-Created: 1/22/23
+All functions related to graphing the data
 
+Course_Class.py last modified on Sun Feb 5 2023.
+
+Group 1:
+Ethan Aasheim
+Melodie Collins
+Linnea Gilius
+Timothy Nadeau
+Angela Pelky
 
 A Class representation of This:
         {

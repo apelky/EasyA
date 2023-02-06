@@ -1,7 +1,14 @@
 """
-List of functions to be done
+All functions related to graphing the data
 
-Created 1/22/23
+Last modified on Sun Feb 5 2023.
+
+Group 1:
+Ethan Aasheim
+Melodie Collins
+Linnea Gilius
+Timothy Nadeau
+Angela Pelky
 """
 
 """
@@ -9,7 +16,6 @@ Matplotlib is a visaul fucntion library for python: https://matplotlib.org/
 """
 import matplotlib.pyplot as plt
 import math
-#from datetime import datetime
 
 from Course_Class import Course
 from Graph_Class import Graph
@@ -377,81 +383,118 @@ def plot_graphs(graphs : list, subject, courseNum, level):
     #time = "TIME" #datetime.now().strftime("_%d:%m:%Y_%H-%M-%S")
 
     # While there are still graphs to display
-    while graphsRemaining > 0:
+    #while graphsRemaining > 0:
 
-        # Get the number of graphs to display in the current set
-        numDisplayGraphs = graphsRemaining
-        if graphsRemaining > maxGraphs:
-            numDisplayGraphs = maxGraphs
-        if graphsRemaining == maxGraphs + 1:
-            numDisplayGraphs -= 1
+    # Get the number of graphs to display in the current set
+    """
+    numDisplayGraphs = graphsRemaining
+    if graphsRemaining > maxGraphs:
+        numDisplayGraphs = maxGraphs
+    if graphsRemaining == maxGraphs + 1:
+        numDisplayGraphs -= 1
 
-        # Arrange graph layout
-        W = math.ceil(math.sqrt(numDisplayGraphs))
-        H = math.ceil(numDisplayGraphs / W)
-        figure, axis = plt.subplots(H, W, figsize=(12, 8))
+    # Arrange graph layout
+    W = math.ceil(math.sqrt(numDisplayGraphs))
+    H = math.ceil(numDisplayGraphs / W)
+    figure, axis = plt.subplots(H, W, figsize=(12, 8))
 
-        # Graph location in grid
-        x = 0
-        y = 0
+    # Graph location in grid
+    x = 0
+    y = 0
 
-        offset = len(graphs) - graphsRemaining
-        for i in range(numDisplayGraphs):
-            graph = graphs[offset + i]
+    offset = len(graphs) - graphsRemaining
+    for i in range(numDisplayGraphs):
+    	graph = graphs[offset + i]
+    """
 
-            # Graph data
-            names = list(graph.plotting_data.keys())
-            grades = graph.plotting_data.values()
+	figure, axis = plt.subplots(1, 2, figsize=(12, 8))
 
-            # Render graph
-            plt.subplot(W, H, i+1)
-            plt.bar(range(len(names)), grades, tick_label=names)
-            plt.title(graph.title)
+    allKeys = []
+    allAs	= []
+    allDFs 	= []
 
-            # Axis labels
-            plt.tick_params(axis ='x', rotation = -90, direction = "in", pad = 3)
-            plt.ylabel(graph.y_axis_label)
-            plt.rc('xtick', labelsize = 10)
+    for graph in graphs:
 
-            # Max y value is 100%
-            ax = plt.subplot(W, H, i+1)
-            ax.set_ylim(0, 100)
+        # Get data from all individual graphs
+        keys = list(graph.plotting_data.keys())
+        grades = graph.plotting_data.values()
 
-            # Where the graph should be displayed in the grid of graphs
-            x += 1
-            if x >= W:
-                x = 0
-                y += 1
+		# Combine into collective graph
+        for key in keys:
+        	allKeys.append(key)
+        for grade in grades:
+        	allAs.append(grade)
+        for grade in grades:
+        	allDFs.append(grade)
 
-        # Graph styling
-        plt.subplots_adjust(left = 0.1, right = 0.95, bottom = 0.1, top = 0.95, wspace = 0.25, hspace = 0.5)
+        # Where the graph should be displayed in the grid of graphs
+        """
+		x += 1
+        if x >= W:
+            x = 0
+            y += 1
+		"""
 
-        # Append set number to end of graph
-        setText = "" if (set == 1 and graphsRemaining <= maxGraphs) else "_" + str(set)
+    #print(allKeys)
+    #print(allAs)
 
-        # Save graph .pdf in the EasyA pdf folder
-        filename = "./EasyA_pdfs/"
-        filename += "EasyA_result" if graph.isEasyA else "JustPass_result"
+    # Render EasyA graph
+    plt.subplot(1, 2, 1)
+    plt.bar(range(len(allKeys)), allAs, tick_label=allKeys)
+    plt.title(graph.title)
 
-        # Add query description to filename
-        if subject != None and subject != "None" and subject != "":
-            filename += "_" + subject
-            if courseNum != None and courseNum != "None" and courseNum != "":
-                filename += "_" + courseNum
-                if level != None and level != "None" and level != "":
-                    filename += "_" + level
-                else:
-                    filename += "_All"
+    # EasyA vertical axis labels
+    plt.tick_params(axis ='x', rotation = -90, direction = "in", pad = 3)
+    plt.ylabel(graph.x_axis_label)
+	plt.ylabel(graph.y_axis_label)
+    plt.rc('xtick', labelsize = 10)
+
+	# Render JustPass graph
+    plt.subplot(1, 2, 2)
+    plt.bar(range(len(allKeys)), allDFs, tick_label=allKeys)
+    plt.title(graph.title)
+
+    # JustPass vertical axis labels
+    plt.tick_params(axis ='x', rotation = -90, direction = "in", pad = 3)
+    plt.ylabel(graph.x_axis_label)
+	plt.ylabel(graph.y_axis_label)
+    plt.rc('xtick', labelsize = 10)
+
+    # Max y value is 100%
+    ax = plt.subplot(1, 2, 1)
+    ax.set_ylim(0, 100)
+    ax = plt.subplot(1, 2, 2)
+    ax.set_ylim(0, 100)
+
+    # Graph styling
+    plt.subplots_adjust(left = 0.1, right = 0.95, bottom = 0.2, top = 0.95, wspace = 0.25, hspace = 0.5)
+
+    # Append set number to end of graph
+    setText = "" if (set == 1 and graphsRemaining <= maxGraphs) else "_" + str(set)
+
+    # Save graph .pdf in the EasyA pdf folder
+    filename = "./EasyA_pdfs/"
+    filename += "EasyA_result" if graph.isEasyA else "JustPass_result"
+
+    # Add query description to filename
+    if subject != None and subject != "None" and subject != "":
+        filename += "_" + subject
+        if courseNum != None and courseNum != "None" and courseNum != "":
+            filename += "_" + courseNum
+            if level != None and level != "None" and level != "":
+                filename += "_" + level
             else:
                 filename += "_All"
+        else:
+            filename += "_All"
 
-        # Save graph as a .pdf
-        filename += setText + ".pdf"
-        plt.savefig(filename, format="pdf")
+    # Save graph as a .pdf
+    filename += setText + ".pdf"
+    plt.savefig(filename, format="pdf")
 
-        # Show graphs
-        plt.show()
+    # Show graphs
+    plt.show()
 
-        # Decrement by graphs shown and move to next set
-        graphsRemaining -= numDisplayGraphs
-        set += 1
+    # Decrement by graphs shown and move to next set
+    #graphsRemaining -= numDisplayGraphs
+    #set += 1

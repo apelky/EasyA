@@ -1,5 +1,5 @@
 """
-EasyA.py created on Fri Jan 13, 2023.
+EasyA.py past modified on Sun Feb 5 2023.
 
 Group 1:
 Ethan Aasheim
