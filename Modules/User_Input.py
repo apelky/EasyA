@@ -196,6 +196,8 @@ def update_data(file):
     """
     handles a system administrator updating the system with new data
     input file must be a JSON (.json) file
+
+    parameter: file name (string)
     """
 
     if not file.lower().endswith('.json'):

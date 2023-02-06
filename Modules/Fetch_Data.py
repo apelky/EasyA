@@ -14,8 +14,6 @@ from GradeData import groups
 from Course_Class import Course
 from Faculty_Parser import *
 
-#############################
-
 
 def split_dept_and_level(courseKey: str):
     """
@@ -114,46 +112,43 @@ def find_class_count(courses: list):
     return class_offerings
 
 
-#################################
-
-
 def get_course(dept: str, level: int):
-	"""
-	Desc:
-	    Searches the database for a course given the course's department and level
-	    Returns with a dictionary of a list consisting of course offerings
-	      that match the given criteria
+    """
+    Desc:
+        Searches the database for a course given the course's department and level
+        Returns with a dictionary of a list consisting of course offerings
+            that match the given criteria
 
-	Parameters:
-	    dept (str)  -  Department of class   Ex: "MTH"
-	    level (int) -  Course Level          Ex: 111
+    Parameters:
+        dept (str)  -  Department of class   Ex: "MTH"
+        level (int) -  Course Level          Ex: 111
 
-	Returns:
-	    A list of Course objects
-	"""
+    Returns:
+        A list of Course objects
+    """
 
-	courseList = []
-	key = dept + str(level)
+    courseList = []
+    key = dept + str(level)
 
-	if key in groups:
-		rawData = groups[key]
-		for i in range(len(rawData)):
-			offer = rawData[i]
-			instructor = offer["instructor"]
+    if key in groups:
+        rawData = groups[key]
+        for i in range(len(rawData)):
+            offer = rawData[i]
+            instructor = offer["instructor"]
 
-			# Create new course object
-			course = Course(dept, level, offer["crn"], offer["TERM_DESC"],
-			                offer["aprec"], offer["bprec"], offer["cprec"], offer["dprec"], offer["fprec"],
-			                instructor, checkIfRegularFaculty(instructor), 0)
+            # Create new course object
+            course = Course(dept, level, offer["crn"], offer["TERM_DESC"],
+                            offer["aprec"], offer["bprec"], offer["cprec"], offer["dprec"], offer["fprec"],
+                            instructor, checkIfRegularFaculty(instructor), 0)
 
-			# Add course to list
-			courseList.append(course);
+            # Add course to list
+            courseList.append(course);
 
-		# Count times each instructor taught a course in this list
-		for course in courseList:
-		    course.numCourses = find_instr_count(courseList)
+        # Count times each instructor taught a course in this list
+        for course in courseList:
+            course.numCourses = find_instr_count(courseList)
 
-	return courseList
+    return courseList
 
 
 def get_department_courses(dept: str):
@@ -199,67 +194,67 @@ def get_department_courses(dept: str):
 
 
 def get_department_x00_level(dept: str, level: int):
-	"""
-	Desc:
-	    Searches the database for courses at x00 level in a department
-	    Returns a dictionary consisting of a list of course
-	        offering dictionaries of x00 level within the department
-	    Any level will be rounded down to nearest hundred (422 -> 400)
+    """
+    Desc:
+        Searches the database for courses at x00 level in a department
+        Returns a dictionary consisting of a list of course
+            offering dictionaries of x00 level within the department
+        Any level will be rounded down to nearest hundred (422 -> 400)
 
-	Parameters:
-	    dept (str)  -  Department of class   Ex: "MTH"
-	    level (int) -  Course Level          Ex: 111    (this'll be rounded down to 100)
+    Parameters:
+        dept (str)  -  Department of class   Ex: "MTH"
+        level (int) -  Course Level          Ex: 111    (this'll be rounded down to 100)
 
-	Returns:
-	    Dictionary  - With multiple courses within
-	    retVal = {"MTH111": [
-	                        {offering 1},
-	                        {offering 2},
-	                        {offering 3}
-	                        ]
-	            ,
-	            "MTH115":   [
-	                        {offering 1},
-	                        {offering 2},
-	                        {offering 3}
-	                        ]
-	            ,
-	                ...
-	            }
-	"""
+    Returns:
+        Dictionary  - With multiple courses within
+        retVal = {"MTH111": [
+                            {offering 1},
+                            {offering 2},
+                            {offering 3}
+                            ]
+                ,
+                "MTH115":   [
+                            {offering 1},
+                            {offering 2},
+                            {offering 3}
+                            ]
+                ,
+                    ...
+                }
+    """
 
-	# Get all course keys
-	keysList = list(groups.keys())
-	courseDict = {}
+    # Get all course keys
+    keysList = list(groups.keys())
+    courseDict = {}
 
-	# Find matching department
-	for key in keysList:
-		lvl = key[len(key)-3:]
-		if dept == key[:-3]:
-			if int(lvl) >= int(level) and int(lvl) < int(level) + 100:
-				courseList = []
-				if key in groups:
-					rawData = groups[key]
-					for i in range(len(rawData)):
-						offer = rawData[i]
-						instructor = offer["instructor"]
+    # Find matching department
+    for key in keysList:
+        lvl = key[len(key)-3:]
+        if dept == key[:-3]:
+            if int(lvl) >= int(level) and int(lvl) < int(level) + 100:
+                courseList = []
+                if key in groups:
+                    rawData = groups[key]
+                    for i in range(len(rawData)):
+                        offer = rawData[i]
+                        instructor = offer["instructor"]
 
-						isInstr = checkIfRegularFaculty(instructor)
+                        isInstr = checkIfRegularFaculty(instructor)
 
-						# Create new course object
-						course = Course(dept, lvl, offer["crn"], offer["TERM_DESC"],
-						                offer["aprec"], offer["bprec"], offer["cprec"], offer["dprec"], offer["fprec"],
-						                instructor, isInstr, 0)
+                        # Create new course object
+                        course = Course(dept, lvl, offer["crn"], offer["TERM_DESC"],
+                                        offer["aprec"], offer["bprec"], offer["cprec"], offer["dprec"], offer["fprec"],
+                                        instructor, isInstr, 0)
 
-						# Add course to list
-						courseList.append(course);
+                        # Add course to list
+                        courseList.append(course);
 
-					# Count times each instructor taught a course in this list
-					for course in courseList:
-					    course.numCourses = find_instr_count(courseList)
-					courseDict[key] = courseList
+                    # Count times each instructor taught a course in this list
+                    for course in courseList:
+                        course.numCourses = find_instr_count(courseList)
+                    courseDict[key] = courseList
 
-	return courseDict
+    return courseDict
 
 
 def convert_to_Courses(classes_dict: dict):

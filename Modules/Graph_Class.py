@@ -51,12 +51,9 @@ class Graph():
         self.title = ""
         self.x_axis_label = ""
         self.y_axis_label = ""
-        # self.w = 0
-        # self.h = 0
 
 
     def __str__(self):
-        #result =     f'    Dep: {self.dept}\n'
         result =  "    Title:     {0}\n".format(self.title)
         result += "    Type:      {0}\n".format(self.type)
         result += "    X axis:    {0}\n".format(self.x_axis_label)
@@ -114,8 +111,6 @@ class Graph():
         #     X-axis label
         #     Y-Axis label
 
-
-
         ## Set title
         if self.type == 0:
             self.title = f"{self.data[0].dept} {self.data[0].level}"
@@ -140,9 +135,6 @@ class Graph():
             else:
                 self.x_axis_label = "Class"
 
-
-
-
         # Set Y-axis & Append to titles - EasyA or - Just Pass
         if self.isEasyA:
             self.title += " - EasyA"
@@ -151,56 +143,3 @@ class Graph():
             self.title += " - Just Pass"
             self.y_axis_label = "% D/Fs"
 
-
-
-##### Old, brainstorming stuff. Can discuss why this is commented out #####
-    # def update_plotting_data(self):
-    #     """
-    #     Desc:
-    #         Recalculates plotting data
-    #         (Useful if self.data gets updated)
-
-    #     Don't change graph.data
-    #     Use the copy (processing_data) to parse through and update the
-
-    #     Parameters:
-    #         none
-
-    #     Returns:
-    #         none
-    #     """
-    #     # Filter out Faculty
-    #     processing_data = self.data
-    #     if not self.isAllInstructors: # If FacultyOnly
-    #         #remove all instructors from processing_data
-    #         pass
-
-
-    #     if (self.type == 0): # Single Class
-    #         # This type will assume self.data is a List of Course objects
-    #         pass
-
-    #     elif (self.type == 1): # Single Department
-    #         # This type will assume self.data is a List of Course objects
-    #         pass
-
-    #     elif (self.type == 2): # <Dept> x00 level Classes (by instructor)
-    #         # This type will assume self.data is a List of Course objects
-    #         pass
-
-    #     elif (self.type == 3): # <Dept> x00 level Classes (by class)
-    #         pass
-
-    #     if self.show_count:
-    #         # edit x axis names to add instructor count
-    #             # do this by taking the keys
-    #         pass
-
-
-
-    # def drawGraph():
-    #     """
-    #     draws the graph using self.plotting_data to
-    #     draw a graph
-    #     """
-    #     pass

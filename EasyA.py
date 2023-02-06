@@ -19,7 +19,7 @@ EasyA.py uses Python 3.10
 """
 
 """
-Matplotlib is a visaul fucntion library for python: https://matplotlib.org/
+Matplotlib is a visaul function library for python: https://matplotlib.org/
 """
 import matplotlib.pyplot as plt
 import math
@@ -34,23 +34,15 @@ from Faculty_Parser import *
 from Fetch_Data import *
 from Draw_Graph import *
 
-# --- Set to False before submit
-DEBUG = True
-
-# Only prints if DEBUG == true
-def debugPrint(*args):
-    if DEBUG:
-        print(*args)
-
 
 # This function is called when the program starts and manages the other functions
 def main():
     """
     Main funciton for Easy A Program.
 
-    Prompt users for input, then spits out a graph based on user input
+    Prompt users for input, then produces a graph based on user input
 
-    Returns none
+    Returns None
     """
 
     print("- EasyA Program -")

@@ -16,16 +16,13 @@ Matplotlib is a visaul fucntion library for python: https://matplotlib.org/
 """
 import matplotlib.pyplot as plt
 import math
-#from datetime import datetime
 
 from Course_Class import Course
 from Graph_Class import Graph
 
 from Fetch_Data import *
 
-##### Helper functions #####
-# Feel free to add on your own functions you can think of if it helps you
-# Just document it well
+
 def tuple_list_flip(alist):
 	retList = []
 	for i in range(len(alist)):
@@ -51,8 +48,7 @@ def sort_dict(d: dict, hi2lo: bool=True):
     Return:
         Dictionary - Sorted dictionary
     """
-    # should probably check if values are all same type so it can
-    # genuinely distinguish which values are > and < others
+    
     items = list(d.items())
     items = tuple_list_flip(items)
     items.sort()    # sort low to high
@@ -66,7 +62,7 @@ def sort_dict(d: dict, hi2lo: bool=True):
     return retDict
 
 
-# Creat a graph object from a course object
+# Create a graph object from a course object
 def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=False):
     """
     Draw a graph given a list of course offers
@@ -111,14 +107,6 @@ def createGraph(course, graphType, easyA=True, allInstructors=True, showCount=Fa
 
     graph = Graph(graphType, easyA, allInstructors, showCount)
     graph.add_data(course)
-
-    # first_offer = course[0]
-    # if graphType == 0:
-    #     graph.title = first_offer.dept + " " + str(first_offer.level)
-    # elif graphType == 1:
-    #     graph.title = "All " + first_offer.dept + " Classes"
-    # else:
-    #     graph.title = "All " + first_offer.dept + " " + first_offer.level + "-Level"
 
     update_plotting_data(graph)
     return graph
@@ -223,11 +211,6 @@ def update_plotting_data(graph: Graph):
         True    - successful
         False   - unsuccessful
 
-    NOTE: (delete me later)
-        Doing this as a global function allows us to use other helper
-        functions to do this as well instead of having the Graph.py
-        class 1) import the main file? and 2) assume functional functions from another file
-
     """
 
     # Filter out Faculty
@@ -296,23 +279,6 @@ def plot_graphs(graphs : list, subject, courseNum, level):
     Documentation/Demo for graphing w/ subplots
     https://matplotlib.org/stable/gallery/subplots_axes_and_figures/subplots_demo.html
     """
-    # *Hopefully* this can be done in a loop since every graph should have
-    # the data it needs for it to have a title, label, etc
-
-    # also double check to make sure every element in the list is a Graph type
-    """
-    g = Graph(0, True, True, True)
-    for graph in graphs:
-        print(graph.graphType)
-
-    self.type = 0
-    self.isAllInstructors = is_AllInstructors   # JustFaculty if false
-    self.data = []                              # list of Course objects
-    self.plotting_data = {}                     # Dict of data w/ plot points
-    self.title = ""
-    self.x_axis_label = ""
-    self.y_axis_label = ""
-    """
 
     # Get number of graphs
     graphsRemaining = len(graphs)
@@ -322,9 +288,6 @@ def plot_graphs(graphs : list, subject, courseNum, level):
 
     # Current set of graphs to be shown
     set = 1
-
-    # Get time of graph creation
-    #time = "TIME" #datetime.now().strftime("_%d:%m:%Y_%H-%M-%S")
 
     # While there are still graphs to display
     while graphsRemaining > 0:
@@ -342,8 +305,6 @@ def plot_graphs(graphs : list, subject, courseNum, level):
         H = math.ceil(numDisplayGraphs / W)
 
         # Arrange graph layout (updated for 1 - 3 graphs ontop of eachother)
-        #W = N
-        #H = 1
 
         figure, axis = plt.subplots(H, W, figsize=(14, 6))
 
@@ -395,9 +356,9 @@ def plot_graphs(graphs : list, subject, courseNum, level):
             if courseNum != None and courseNum != "None" and courseNum != "":
                 filename += "_" + courseNum
                 if level != None and level != "None" and level != "":
-                	filename += "_and_" + level[0] + "xx"
+                    filename += "_and_" + level[0] + "xx"
             elif level != None and level != "None" and level != "":
-            	filename += "_" + level[0] + "xx"
+                filename += "_" + level[0] + "xx"
 
         # Save graph as a .pdf
         filename += setText + ".pdf"
