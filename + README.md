@@ -147,7 +147,7 @@ Now this scraper works for all schools, and not just a certain department. # FIX
 `GradeData.py`   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- `GradeData.txt` but in a python dictionary<br>
 `Regular_Faculty.txt` -- List of Faculty members<br>
 `Faculty_Parser.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse<br>
-`Scrapper.py`	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Web scrapper to parse through specfified url<br>
+`Scrapper.py`	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Web scraper to parse through a specified url<br>
 
 
 **Testing Files**<br>
