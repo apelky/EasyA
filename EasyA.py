@@ -84,16 +84,19 @@ def main():
         courseDict = get_department_x00_level(subject, level)
         courseList = list(courseDict.values())
         if len(courseList) > 0:
-            for course in courseList:
-                graph = createGraph(course, 3 - viewByInstr, easyA, allInstructors, showCount)
-                graphs.append(graph)
+            new_courses = []
+            for course in courseDict:
+                for element in courseDict[course]:
+                    new_courses.append(element)
+            graph = createGraph(new_courses, 3 - viewByInstr, easyA, allInstructors, showCount)
+            graphs.append(graph)
         else:
             print("Data not found for subject", subject, "and x00 level", level)
 
     # Get all offers of all courses in the subject department
     else:
         debugPrint("get_department_courses")
-        courseList = get_department_courses(subject)
+        courseList = get_department_courses(subject) # dict of list
         if len(courseList) > 0:
             for course in courseList:
                 graph = createGraph(courseList[course], 1, easyA, allInstructors, showCount)
