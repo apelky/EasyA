@@ -407,7 +407,7 @@ def plot_graphs(graphs : list, subject, courseNum, level):
     	graph = graphs[offset + i]
     """
 
-	figure, axis = plt.subplots(1, 2, figsize=(12, 8))
+    figure, axis = plt.subplots(1, 2, figsize=(12, 6))
 
     allKeys = []
     allAs	= []
@@ -445,8 +445,8 @@ def plot_graphs(graphs : list, subject, courseNum, level):
 
     # EasyA vertical axis labels
     plt.tick_params(axis ='x', rotation = -90, direction = "in", pad = 3)
-    plt.ylabel(graph.x_axis_label)
-	plt.ylabel(graph.y_axis_label)
+    plt.xlabel(graph.x_axis_label)
+    plt.ylabel(graph.y_axis_label)
     plt.rc('xtick', labelsize = 10)
 
 	# Render JustPass graph
@@ -456,8 +456,8 @@ def plot_graphs(graphs : list, subject, courseNum, level):
 
     # JustPass vertical axis labels
     plt.tick_params(axis ='x', rotation = -90, direction = "in", pad = 3)
-    plt.ylabel(graph.x_axis_label)
-	plt.ylabel(graph.y_axis_label)
+    plt.xlabel(graph.x_axis_label)
+    plt.ylabel(graph.y_axis_label)
     plt.rc('xtick', labelsize = 10)
 
     # Max y value is 100%
@@ -467,7 +467,7 @@ def plot_graphs(graphs : list, subject, courseNum, level):
     ax.set_ylim(0, 100)
 
     # Graph styling
-    plt.subplots_adjust(left = 0.1, right = 0.95, bottom = 0.2, top = 0.95, wspace = 0.25, hspace = 0.5)
+    plt.subplots_adjust(left = 0.1, right = 0.95, bottom = 0.25, top = 0.95, wspace = 0.2, hspace = 0.25)
 
     # Append set number to end of graph
     setText = "" if (set == 1 and graphsRemaining <= maxGraphs) else "_" + str(set)
