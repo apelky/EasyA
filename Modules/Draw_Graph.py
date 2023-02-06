@@ -158,7 +158,7 @@ def find_class_count(courses: list):
     """
     class_offerings = dict()
     for i in range(len(courses)):
-        course_name = combine_dept_and_level(courses[i].dept, courses[i].level)
+        course_name = courses[i].dept + str(courses[i].level)
         if course_name in class_offerings:  # if already in dictionary
             class_offerings[course_name] += 1
         else:   # add to dictionary
@@ -227,7 +227,7 @@ def calc_class_avg(data: list, isEasyA: bool=True):
     sums_dict = dict()
     count_dict = dict()
     for i in range(len(data)):
-        course_name = combine_dept_and_level(data[i].dept, data[i].level)
+        course_name = data[i].dept + str(data[i].level)
         if isEasyA:
             if course_name in count_dict:
                 sums_dict[course_name] += float(data[i].a_perc)

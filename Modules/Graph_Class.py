@@ -124,7 +124,8 @@ class Graph():
             self.title = f"All {self.data[0].dept} Classes"
 
         else:
-            self.title = "All " + self.data[0].dept + " " + self.data[0].level + "-level"
+            x00_level = int(self.data[0].level) - (int(self.data[0].level) % 100)
+            self.title = f"All {self.data[0].dept} {x00_level}-level"
 
         ## Set X-axis title
         if self.type in [0, 1, 2]:
