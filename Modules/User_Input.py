@@ -63,7 +63,7 @@ count_var = tk.IntVar()
 
 # default values for subject, course, level, all_instruct, easy_a, show_count
 # defined as globals for easy modification
-subject_entry = "CIT"
+subject_entry = "AA"
 course_entry = ""
 level_entry = None
 instruct_entry = 1
@@ -197,7 +197,7 @@ def update_data(file):
     handles a system administrator updating the system with new data
     input file must be a JSON (.json) file
     """
-    
+
     if not file.lower().endswith('.json'):
         print("ERROR: file must be a JSON file (.json)")
         exit()
