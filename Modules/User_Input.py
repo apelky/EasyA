@@ -1,13 +1,13 @@
 """
 User Input module, last modified on Sun Feb 5, 2023.
 
+
 Group 1:
 Ethan Aasheim
 Melodie Collins
 Linnea Gilius
 Timothy Nadeau
 Angela Pelky
-
 """
 
 """
@@ -46,7 +46,7 @@ level_options = [None, 100, 200, 300, 400, 500, 600, 700]
 
 entry = tk.Tk()
 # setting the windows size
-entry.geometry("600x200")
+entry.geometry("500x400")
 entry.title('Easy A')
 
 # defining variables
@@ -62,7 +62,7 @@ easy_a_var = tk.IntVar(entry, 1)
 count_var = tk.IntVar()
 
 # default values
-subject_entry = "AA"
+subject_entry = "CIT"
 course_entry = ""
 level_entry = None
 instruct_entry = 1
@@ -260,7 +260,6 @@ def command_line():
     return subject.upper(), course, level, all_instruct, easy_a, show_count
 
 
-# returns 'subject' (string), 'course' ([int, int] or None), 'level' (int or None), and 'all_instruct' (int)
 def getInput():
     """
     gets input parameters from user via a command line or graphical user interface
@@ -268,7 +267,8 @@ def getInput():
         two strings: 'subject' and 'course'
         one list of type [int, int] or NoneType: 'level'
             if the user specifies a level, [level (rounded down to the nearest 100), view] is returned.
-                where view 
+                if view is 1, the user wants to view by instructor
+                if view is 0, the user wants to view by class
             if the user does not specify a level, None is returned
         three integers: 'all_instruct', 'easy_a', 'show_count'
             if all_instruct is 1, the user wants to see all instructors
@@ -276,6 +276,8 @@ def getInput():
 
             if easy_a is 1, the user wants to see percent A's
             if easy_a is 0, the user wants to see percent D's and F's
+
+            if show_count is 1, the user wants to see the class count
     """
 
     subject, course, level, all_instruct, easy_a, show_count = window() if len(sys.argv) == 1 else command_line()
