@@ -46,10 +46,10 @@ For Administators only:
 
 ### EasyA Installation
 1)  **Download.** Click on the green "<> Code" button above the repo, then select the "Download ZIP" option. This will download the contents of the repo onto your local machine <br>
-<img src="Instruction_Images/Step1_Download_Zip.pdf" width="300" align="center" ><br><br>
+<img src="Instruction_Images/step1.png" width="300" align="center" ><br><br>
 
 2)  **Unzip.** Open up to your Downloads in File Explorer/Finder and right-click on the zip folder you just downloaded. Then select the "Extract All" option, then press confirm by pressing "Extract". <br>
-<img src="Instruction_Images/Step2_Extract_Zip.pdf" width="600"><br><br>
+<img src="Instruction_Images/step2.png" width="600"><br><br>
 This will decompress the contents of the file, and allow you to now view and execute the files.<br><br>
 
 At this point, EasyA is installed and ready to be run!
@@ -77,7 +77,7 @@ This will use python to execute the EasyA program. <br><br>
 
 2) **Provide Input.** Now that the program is running, a window will pop up with a few options. Here's what each option does:<br>
 
-<img src="Instruction_Images/Step3_User_Interface.pdf" width=600><br>
+<img src="Instruction_Images/step3.png" width=600><br>
 
 #### UI Buttons<br>
 Subject Code &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Select the department of class<br>
@@ -88,46 +88,46 @@ Grade Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 Show # of Classes &nbsp;&nbsp;&nbsp;-- Show number of classes that instructor has taught<br>
 
 #### Selecting Your Graph
-1.  Select the subject code (department)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Press the Drop down menu to open the list of subject codes. Then scroll to & click your desire subject code.
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(If the desired subject is AA, you may skip this step and go to Task 2.)*
+1.  Select the subject code (department)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Press the Drop down menu to open the list of subject codes. Then scroll to & click your desire subject code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(If the desired subject is AA, you may skip this step and go to Task 2.)*<br>
 
-2. Select course number
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see a graph on a certain class, input a number for the course. Example: "110"
-Not inputting a course level will not show a graph for a specific course within the department)
+2. Select course number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see a graph on a certain class, input a number for the course. Example: "110"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Not inputting a course level will not show a graph for a specific course within the department)<br>
 
-3. Select course level
-&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see a graph for all classes at a certain x00 level range, press the drop down menu and select a x00 level.
-*Not selecting a course level will not display all the classes at the x00 level by class*
+3. Select course level<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see a graph for all classes at a certain x00 level range, press the drop down menu and select a x00 level.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Not selecting a course level will not display all the classes at the x00 level by class*<br>
 
-4. Select Faculty Filter
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see classes from all instructors (including GEs), select `All Instructors` &nbsp;&nbsp;&nbsp;&nbsp;*(default)*
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see classes from only faculty/professors, select `Faculty Only`
+4. Select Faculty Filter<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see classes from all instructors (including GEs), select `All Instructors` &nbsp;&nbsp;&nbsp;&nbsp;*(default)*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see classes from only faculty/professors, select `Faculty Only`<br>
 
-5. Select Graph Type
-If you would like to see an EasyA graph (%As given), select `EasyA` &nbsp;&nbsp;&nbsp;*(default)*
-If you would like to see a JustPass graph (%D/Fs given), select `JustPass`
+5. Select Graph Type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see an EasyA graph (%As given), select `EasyA` &nbsp;&nbsp;&nbsp;*(default)*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see a JustPass graph (%D/Fs given), select `JustPass`<br>
 
-6. Show class count
-If you would like to see how many times a class was taught, or instructor taught, check the `Show # of classes`
-If this is unchecked, it will not display the number of times a class was taught &nbsp;&nbsp;&nbsp;*(default)*
+6. Show class count<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you would like to see how many times a class was taught, or instructor taught, check the `Show # of classes`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If this is unchecked, it will not display the number of times a class was taught &nbsp;&nbsp;&nbsp;*(default)*<br><br>
 
 
-3) **View Graph.** After you have inputted the specifics of what you would like to see, the EasyA program has saved the graph as a .PDF in the "pdfs" folder. Find the EasyA folder on your local device via file explorer/finder, and open the desired<br>
+**3) View Graph.** After you have inputted the specifics of what you would like to see, the EasyA program has saved the graph as a .PDF in the "pdfs" folder. Find the EasyA folder on your local device via file explorer/finder, and open the desired<br>
 
-Here is an example of a finished EasyA graph
+Here is an example of a finished EasyA graph:<br>
 
-<img src="Instruction_Images/Step4_Graph_Example.pdf" width=600><br>
+<img src="Instruction_Images/step4.png" width=600><br>
 
 
 
 
 ### Administrator Use<br>
 To input data, use the `-f` flag while running the file.<br>
-              `python3 EasyA.py -f <filename>`<br>
-            **The inputted file *must* be a .json file**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`python3 EasyA.py -f <filename>`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**The inputted file *must* be a .json file**
 This will run the program ready to input data, and not prompt the user to select any department or course levels.
-Now this scraper works for all schools, and not just a certain department. # FIXME<br>
+Now this scraper works for all schools, and not just a certain department.<br>
 
 
 
@@ -135,31 +135,21 @@ Now this scraper works for all schools, and not just a certain department. # FIX
 
 ## Files
 **Main Files**<br>
-`EasyA.py`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Main executable to run the program<br>
-`Course_Class.py` -- Declaration of python class, "Course"<br>
-`Graph_class.py` &nbsp;-- Declaration of python class, "Graph"<br>
-`User_Input.py` &nbsp;&nbsp;&nbsp;-- Functions for getting input from user<br>
-`Fetch_Data.py`	&nbsp;&nbsp;&nbsp;-- Various functions to process data<br>
-`Draw_Graph.py`&nbsp;&nbsp;&nbsp;&nbsp;	-- Contains functions to create and initialize the graph so it's ready for plotting<br>
+`EasyA.py`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Main executable to run the program<br>
+`User_Input.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Functions for getting input from user<br>
+`Modules/Course_Class.py` -- Declaration of python class, "Course"<br>
+`Modules/Graph_class.py` &nbsp;-- Declaration of python class, "Graph"<br>
+`Modules/Fetch_Data.py`	&nbsp;&nbsp;&nbsp;-- Various functions to process data<br>
+`Modules/Draw_Graph.py`&nbsp;&nbsp;&nbsp;&nbsp;	-- Contains functions to create and initialize the graph so it's ready for plotting<br>
 
 **Parsing & Data Files**<br>
-`GradeData.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- All data<br>
 `GradeData.py`   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- `GradeData.txt` but in a python dictionary<br>
-`Regular_Faculty.txt` -- List of Faculty members<br>
 `Faculty_Parser.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse<br>
 `Scrapper.py`	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Web scraper to parse through a specified url<br>
 
-
-**Testing Files**<br>
-
-`GradeData_SmallTest.py` &nbsp;&nbsp;-- Test file for testing <br>
-`GradeData_SmallTest.txt` -- Small version of GradeData for testing<br>
-`TestCases.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Various Test cases for functions<br>
-`tkinter_test.py` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- File for testing Tkinter<br>
-
 **Folders**<br>
-`images`&nbsp;&nbsp;&nbsp;-- Folder for holding image assets for README file<br>
-`EasyA_pdfs`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Folder for holding saved .PDF files onces downloaded onto a local machine<br>
+`EasyA_pdfs`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Folder for holding saved .PDF files onces downloaded onto a local machine<br>
+`Modules`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- Folder where our modules are stored<br>
 
 
 
