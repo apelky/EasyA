@@ -185,9 +185,9 @@ def updateData(file):
         with open("temp.py", 'w') as new_file:
             new_file.write('groups = { \n')
             new_file.write(remainder)
-        
+
         os.replace("temp.py", "Modules/GradeData.py")
-        
+
         print("SUCCESS: system updated with new data")
         exit()
 
@@ -250,6 +250,5 @@ def getInput():
     """
 
     subject, course, level, all_instruct, easy_a, show_count = window() if len(sys.argv) == 1 else command_line()
-    print(subject, course, level, all_instruct, easy_a, show_count)
 
     return subject, course, level, all_instruct, easy_a, show_count
