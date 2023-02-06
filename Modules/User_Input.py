@@ -73,7 +73,7 @@ count_entry = 0
 def level_view(event):
     """
     function called upon clicking the level option meu
-    handles if the user wants to view by instructor or by course number 
+    handles if the user wants to view by instructor or by course number
     """
     view_label = tk.Label(entry, text = 'view by: ', font = ('calibre', 14, 'bold'))
     view_instructor = tk.Radiobutton(entry, text = 'instructor' , variable = view_var, value = 1, justify = 'left')
@@ -112,7 +112,7 @@ def submit():
 
 def clear(event, box):
     """
-    function called upon clicking the 
+    function called upon clicking the
     """
     box.delete(0, tk.END)
 
@@ -192,7 +192,7 @@ def window():
 def updateData(file):
     """
 
-    
+
     """
     if not file.lower().endswith('.json'):
         print("ERROR: file must be a JSON file (.json)")
@@ -207,9 +207,9 @@ def updateData(file):
         with open("temp.py", 'w') as new_file:
             new_file.write('groups = {\n')
             new_file.write(remainder)
-        
+
         os.replace("temp.py", "Modules/GradeData.py")
-        
+
         print("SUCCESS: system updated with new data")
         exit()
 
@@ -269,6 +269,7 @@ def getInput():
             if the user specifies a level, [level (rounded down to the nearest 100), view] is returned.
                 if view is 1, the user wants to view by instructor
                 if view is 0, the user wants to view by class
+            
             if the user does not specify a level, None is returned
         three integers: 'all_instruct', 'easy_a', 'show_count'
             if all_instruct is 1, the user wants to see all instructors
@@ -281,6 +282,5 @@ def getInput():
     """
 
     subject, course, level, all_instruct, easy_a, show_count = window() if len(sys.argv) == 1 else command_line()
-
 
     return subject, course, level, all_instruct, easy_a, show_count

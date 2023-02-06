@@ -13,7 +13,6 @@ import math
 from GradeData import groups
 from Course_Class import Course
 from Faculty_Parser import *
-from Draw_Graph import *
 
 #############################
 
@@ -61,6 +60,58 @@ def combine_dept_and_level(dept: str, level:int):
         String
     """
     return dept + str(level)
+
+
+def find_instr_count(courses: list):
+    """
+    Desc:
+        Counts the number of times all instructors taught a course in the given data list.
+        Returns a dictionary of {"Professor":teach_count} pairs
+
+        Useful for when parsing data in update_plotting_data()
+
+    Parameters:
+        courses    (List of Course objects) - Courses count instructor's teach counts
+
+    Returns:
+        Dictionary   - {"Instructor":teach_count, ...}
+
+    """
+    instr_count = dict()
+    for i in range(len(courses)):
+        instr_name = courses[i].instructor
+        if instr_name in instr_count:  # if already in dictionary
+            instr_count[instr_name] += 1
+        else:   # add to dictionary
+            instr_count[instr_name] = 1
+
+    return instr_count
+
+
+def find_class_count(courses: list):
+    """
+    Desc:
+        Counts the number of times all courses were offered in the given data list.
+        Returns a dictionary of {"course": times_offered} pairs
+
+        Useful for when parsing data in update_plotting_data()
+
+    Parameters:
+        courses    (List of Course objects) - Courses taught
+
+    Returns:
+        Dictionary   - {"course": times_offered, ...}
+
+    """
+    class_offerings = dict()
+    for i in range(len(courses)):
+        course_name = combine_dept_and_level(courses[i].dept, courses[i].level)
+        if course_name in class_offerings:  # if already in dictionary
+            class_offerings[course_name] += 1
+        else:   # add to dictionary
+            class_offerings[course_name] = 1
+
+    return class_offerings
 
 
 #################################
@@ -135,16 +186,16 @@ def get_department_courses(dept: str):
 
     # Get all course keys
     keysList = list(groups.keys())
-    courseList = {}
+    courseDict = {}
 
     # Find matching department
     for key in keysList:
         lvl = key[len(key)-3:]
         if (dept == key[:-3]):
             # Add all courses in that particular level
-            courseList[key] = get_course(dept, lvl)
+            courseDict[key] = get_course(dept, lvl)
 
-    return courseList
+    return courseDict
 
 
 def get_department_x00_level(dept: str, level: int):

@@ -69,8 +69,7 @@ def main():
     graphs = []
 
     # Get all offers of specified course
-    if courseNum is not None and courseNum != "":
-        debugPrint("get_course")
+    if courseNum is not None and courseNum != "None" and courseNum != "":
         offerList = get_course(subject, courseNum)
         if len(offerList) > 0:
             graph = createGraph(offerList, 0, easyA, allInstructors, showCount)
@@ -79,8 +78,7 @@ def main():
             print("Data not found for subject", subject, "and course number", courseNum)
 
     # Get all offers of all courses in same x00 level
-    elif level is not None and level != "None":
-        debugPrint("get_department_x00_level", viewByInstr)
+    if level is not None and level != "None" and level != "":
         courseDict = get_department_x00_level(subject, level)
         courseList = list(courseDict.values())
         if len(courseList) > 0:
@@ -94,15 +92,17 @@ def main():
             print("Data not found for subject", subject, "and x00 level", level)
 
     # Get all offers of all courses in the subject department
+    courseDict = get_department_courses(subject) # dict of list
+    courseList = list(courseDict.values())
+    if len(courseList) > 0:
+        new_courses = []
+        for course in courseDict:
+            for element in courseDict[course]:
+                new_courses.append(element)
+        graph = createGraph(new_courses, 1, easyA, allInstructors, showCount)
+        graphs.append(graph)
     else:
-        debugPrint("get_department_courses")
-        courseList = get_department_courses(subject) # dict of list
-        if len(courseList) > 0:
-            for course in courseList:
-                graph = createGraph(courseList[course], 1, easyA, allInstructors, showCount)
-                graphs.append(graph)
-        else:
-            print("Data not found for subject", subject)
+        print("Data not found for subject", subject)
 
     print("ready to graph")
 
