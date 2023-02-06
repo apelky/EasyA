@@ -32,9 +32,12 @@ def removeMiddleInital(instructor):
     Returns:
         without_middle (str) - Name of instructor/ professor without middle inital - Ex: "Leahy, John"
     """
-    if instructor.endswith('.'):
+    """ if instructor.endswith('.'):
         index = instructor.rfind(" ")
-        return instructor[:index]
+        return instructor[:index] """
+    name = instructor.split()
+    if len(name) > 2:
+        instructor = name[0] + " " + name[1]
     return instructor
 
 
