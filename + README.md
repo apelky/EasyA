@@ -140,14 +140,14 @@ Now this scraper works for all schools, and not just a certain department. # FIX
 `Graph_class.py` &nbsp;-- Declaration of python class, "Graph"<br>
 `User_Input.py` &nbsp;&nbsp;&nbsp;-- Functions for getting input from user<br>
 `Fetch_Data.py`	&nbsp;&nbsp;&nbsp;-- Various functions to process data<br>
-`Draw_Graph.py`&nbsp;&nbsp;&nbsp;&nbsp;	-- Contains functions to create and initalize the graph so it's ready for plotting<br>
+`Draw_Graph.py`&nbsp;&nbsp;&nbsp;&nbsp;	-- Contains functions to create and initialize the graph so it's ready for plotting<br>
 
 **Parsing & Data Files**<br>
 `GradeData.txt` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- All data<br>
 `GradeData.py`   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- `GradeData.txt` but in a python dictionary<br>
 `Regular_Faculty.txt` -- List of Faculty members<br>
 `Faculty_Parser.py` &nbsp;&nbsp;&nbsp;&nbsp;-- Functions to parse<br>
-`Scrapper.py`	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- #FIXME
+`Scrapper.py`	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- Web scraper to parse through a specified url<br>
 
 
 **Testing Files**<br>
